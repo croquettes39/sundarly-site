@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Administration – Sundarly</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#D81B60">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="page-admin">
+
+<header class="entete-publier">
+  <a class="logo-seul" href="/" aria-label="Sundarly, accueil">
+    <svg width="38" height="38" viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="15" r="6" stroke="currentColor" stroke-width="2.5"/><path d="M17 3v3M5 15h3M26 15h3M8.5 6.5l2 2M25.5 6.5l-2 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M4 27c3-3 6-3 9 0s6 3 9 0 6-3 9 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+  </a>
+  <strong class="titre-admin">Administration</strong>
+  <div class="entete-actions">
+    <button type="button" class="pilule" id="btn-actualiser">Actualiser</button>
+    <button type="button" class="pilule" id="btn-deconnexion">Se déconnecter</button>
+  </div>
+</header>
+
+<main class="admin">
+  <p class="chargement" id="chargement">Chargement…</p>
+  <div class="carte-espace" id="refus" hidden>
+    <h2>Accès réservé</h2>
+    <p class="gris">Cette page est réservée à l'équipe Sundarly.</p>
+    <a class="btn" href="espace-hote.html">Aller à mon espace hôte</a>
+  </div>
+
+  <div id="contenu" hidden>
+    <nav class="onglets onglets-admin" role="tablist" aria-label="Rubriques">
+      <button type="button" role="tab" aria-selected="true" data-vue="bord">Tableau de bord</button>
+      <button type="button" role="tab" aria-selected="false" data-vue="identites">Identités <span class="pastille" id="p-identites" hidden></span></button>
+      <button type="button" role="tab" aria-selected="false" data-vue="annonces">Annonces <span class="pastille" id="p-annonces" hidden></span></button>
+      <button type="button" role="tab" aria-selected="false" data-vue="proprietaires">Propriétaires</button>
+      <button type="button" role="tab" aria-selected="false" data-vue="voyageurs">Voyageurs</button>
+    </nav>
+
+    <!-- Tableau de bord -->
+    <section data-panneau="bord">
+      <div class="tuiles-stats" id="tuiles"></div>
+      <div class="graphes">
+        <figure class="carte-espace graphe" id="g-comptes"></figure>
+        <figure class="carte-espace graphe" id="g-voyageurs"></figure>
+      </div>
+    </section>
+
+    <!-- Identités -->
+    <section data-panneau="identites" hidden>
+      <div class="barre-outils"><h2>Vérification des identités</h2>
+        <label class="champ-inline">Afficher <select id="f-identites"><option value="en_cours">À vérifier</option><option value="tous">Tous les comptes</option><option value="verifie">Vérifiés</option><option value="refuse">Refusés</option><option value="non_verifie">Pas encore envoyé</option></select></label>
+      </div>
+      <div id="liste-identites" class="liste-admin"></div>
+    </section>
+
+    <!-- Annonces -->
+    <section data-panneau="annonces" hidden>
+      <div class="barre-outils"><h2>Annonces</h2>
+        <label class="champ-inline">Afficher <select id="f-annonces"><option value="en_attente">À valider</option><option value="tous">Toutes</option><option value="validee">Validées</option><option value="en_ligne">En ligne</option><option value="refusee">Refusées</option><option value="archivee">Masquées</option></select></label>
+      </div>
+      <div id="liste-annonces" class="liste-admin"></div>
+    </section>
+
+    <!-- Propriétaires -->
+    <section data-panneau="proprietaires" hidden>
+      <div class="barre-outils"><h2>Comptes propriétaires</h2><button type="button" class="btn btn-contour btn-petit" data-export="comptes">Télécharger (Excel)</button></div>
+      <div class="tableau-defile"><table class="tableau-admin" id="t-comptes"></table></div>
+      <div class="barre-outils"><h2>Ancien formulaire « Devenir hôte »</h2><button type="button" class="btn btn-contour btn-petit" data-export="hotes">Télécharger (Excel)</button></div>
+      <div class="tableau-defile"><table class="tableau-admin" id="t-hotes"></table></div>
+    </section>
+
+    <!-- Voyageurs -->
+    <section data-panneau="voyageurs" hidden>
+      <div class="barre-outils"><h2>Liste d'attente des voyageurs</h2><button type="button" class="btn btn-contour btn-petit" data-export="voyageurs">Télécharger (Excel)</button></div>
+      <div class="tableau-defile"><table class="tableau-admin" id="t-voyageurs"></table></div>
+    </section>
+  </div>
+</main>
+
+<!-- Documents d'identité -->
+<div class="panneau" id="docs" hidden role="dialog" aria-modal="true" aria-labelledby="docs-titre">
+  <div class="panneau-boite large">
+    <div class="panneau-haut"><button type="button" class="rond-retour" data-fermer-docs aria-label="Fermer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="docs-corps">
+      <h2 id="docs-titre"></h2>
+      <p class="gris" id="docs-infos"></p>
+      <div class="docs-grille" id="docs-grille"></div>
+    </div>
+    <div class="panneau-bas">
+      <button type="button" class="btn btn-contour" id="btn-refuser-id">Refuser</button>
+      <button type="button" class="btn btn-sombre" id="btn-valider-id">Valider l'identité</button>
+    </div>
+  </div>
+</div>
+
+<div class="infobulle" id="infobulle" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/auth.js"></script>
+<script src="assets/admin.js"></script>
+</body>
+</html>
