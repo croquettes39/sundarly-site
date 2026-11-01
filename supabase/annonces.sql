@@ -13,6 +13,7 @@ create table if not exists public.annonces (
   pays            text not null check (char_length(pays) <= 60),
   ville           text not null check (char_length(ville) between 1 and 120),
   adresse         text not null check (char_length(adresse) between 3 and 250),
+  code_postal     text check (char_length(code_postal) <= 12),
   latitude        double precision not null check (latitude between -90 and 90),
   longitude       double precision not null check (longitude between -180 and 180),
   voyageurs       integer not null check (voyageurs between 1 and 50),

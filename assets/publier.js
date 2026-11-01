@@ -87,6 +87,7 @@
     if (nom === "Adresse") {
       if (!val("pays")) return "Choisissez le pays.";
       if (!val("ville")) return "Indiquez la ville.";
+      if (!/^[A-Za-z0-9 -]{3,12}$/.test(val("code_postal"))) return "Indiquez le code postal.";
       if (val("adresse").length < 3) return "Indiquez l'adresse du logement.";
       if (!val("latitude")) return "Placez l'épingle sur la carte (bouton « Trouver l'adresse sur la carte » ou clic sur la carte).";
     }
@@ -157,7 +158,12 @@
   function placer(lat, lng, zoom) {
     if (!carte) return;
     if (!epingle) {
-      epingle = L.marker([lat, lng], { draggable: true }).addTo(carte);
+      var icone = L.divIcon({
+        className: "epingle-sundarly",
+        html: '<svg width="40" height="52" viewBox="0 0 40 52" aria-hidden="true"><path d="M20 51s17-17.5 17-30A17 17 0 0 0 3 21c0 12.5 17 30 17 30z" fill="#D81B60" stroke="#fff" stroke-width="3"/><circle cx="20" cy="21" r="6.5" fill="#fff"/></svg>',
+        iconSize: [40, 52], iconAnchor: [20, 50]
+      });
+      epingle = L.marker([lat, lng], { draggable: true, icon: icone }).addTo(carte);
       epingle.on("dragend", function () { var p = epingle.getLatLng(); enregistrerPos(p.lat, p.lng); });
     } else { epingle.setLatLng([lat, lng]); }
     carte.setView([lat, lng], zoom || Math.max(carte.getZoom(), 16));
@@ -187,14 +193,38 @@
     var c = CENTRES[val("pays")];
     if (carte && c && !epingle) carte.setView([c[0], c[1]], c[2]);
   });
+  var VILLES = {
+    "marrakech": [31.6295, -7.9811], "agadir": [30.4278, -9.5981], "taghazout": [30.5450, -9.7090], "tamraght": [30.5160, -9.6810],
+    "essaouira": [31.5085, -9.7595], "casablanca": [33.5731, -7.5898], "rabat": [34.0209, -6.8416], "fes": [34.0331, -5.0003],
+    "tanger": [35.7595, -5.8340], "ourika": [31.3600, -7.7700], "ouarzazate": [30.9189, -6.8934], "dakhla": [23.6848, -15.9570],
+    "djerba": [33.8076, 10.8451], "tunis": [36.8065, 10.1815], "hammamet": [36.4000, 10.6167], "sousse": [35.8256, 10.6360],
+    "paris": [48.8566, 2.3522], "nice": [43.7102, 7.2620], "marseille": [43.2965, 5.3698], "lyon": [45.7640, 4.8357],
+    "geneve": [46.2044, 6.1432], "lausanne": [46.5197, 6.6323], "zurich": [47.3769, 8.5417], "bruxelles": [50.8503, 4.3517],
+    "lisbonne": [38.7223, -9.1393], "porto": [41.1579, -8.6291], "barcelone": [41.3874, 2.1686], "madrid": [40.4168, -3.7038],
+    "rome": [41.9028, 12.4964], "milan": [45.4642, 9.1900], "athenes": [37.9838, 23.7275]
+  };
+  function villeConnue(nom) {
+    var k = (nom || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    return VILLES[k] || null;
+  }
   function chercher(q) {
     return fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=fr&q=" + encodeURIComponent(q))
-      .then(function (r) { return r.json(); })
-      .then(function (res) { return res && res[0] ? res[0] : null; });
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (res) { return res && res[0] ? res[0] : null; })
+      .catch(function () {
+        return fetch("https://photon.komoot.io/api/?limit=1&q=" + encodeURIComponent(q))
+          .then(function (r) { return r.json(); })
+          .then(function (g) {
+            var f = g && g.features && g.features[0];
+            return f ? { lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0] } : null;
+          });
+      });
   }
   // Centre la carte sur la ville dès qu'elle est saisie
   form.elements.ville.addEventListener("change", function () {
     if (!val("ville") || epingle || !carte) return;
+    var c = villeConnue(val("ville"));
+    if (c) { carte.setView(c, 13); return; }
     chercher(val("ville") + ", " + val("pays")).then(function (r) {
       if (r && !epingle) carte.setView([parseFloat(r.lat), parseFloat(r.lon)], 13);
     }).catch(function () {});
@@ -202,7 +232,7 @@
   $("btn-localiser").addEventListener("click", function () {
     if (!val("ville")) { erreur("Indiquez au moins la ville avant de chercher sur la carte."); return; }
     var b = this; b.disabled = true; b.textContent = "Recherche…"; erreur("");
-    var complete = [val("adresse"), val("ville"), val("pays")].filter(Boolean).join(", ");
+    var complete = [val("adresse"), val("code_postal") + " " + val("ville"), val("pays")].filter(Boolean).join(", ");
     chercher(complete)
       .then(function (r) {
         if (r) {
@@ -211,17 +241,38 @@
           return;
         }
         // Adresse précise inconnue de la carte : on se place sur la ville
-        return chercher(val("ville") + ", " + val("pays")).then(function (v) {
+        var c = villeConnue(val("ville"));
+        return (c ? Promise.resolve({ lat: c[0], lon: c[1] }) : chercher(val("ville") + ", " + val("pays"))).then(function (v) {
           if (v) {
-            carte.setView([parseFloat(v.lat), parseFloat(v.lon)], 13);
+            carte.setView([parseFloat(v.lat), parseFloat(v.lon)], 14);
             $("carte-etat").textContent = "Nous avons centré la carte sur " + val("ville") + ". Zoomez avec + puis cliquez à l'emplacement exact de votre logement pour placer l'épingle.";
           } else {
             erreur("Adresse introuvable. Zoomez sur la carte et cliquez directement à l'emplacement du logement.");
           }
         });
       })
-      .catch(function () { erreur("La recherche n'a pas fonctionné. Zoomez sur la carte et cliquez directement à l'emplacement du logement."); })
+      .catch(function () {
+        var c = villeConnue(val("ville"));
+        if (c) {
+          carte.setView(c, 14);
+          $("carte-etat").textContent = "Nous avons centré la carte sur " + val("ville") + ". Zoomez avec + puis cliquez à l'emplacement exact de votre logement.";
+        } else erreur("La recherche n'a pas fonctionné. Zoomez sur la carte et cliquez directement à l'emplacement du logement.");
+      })
       .finally(function () { b.disabled = false; b.textContent = "Trouver l'adresse sur la carte"; });
+  });
+
+  var btnPos = $("btn-position");
+  if (btnPos) btnPos.addEventListener("click", function () {
+    if (!navigator.geolocation) { erreur("Votre appareil ne permet pas la localisation. Cliquez sur la carte."); return; }
+    btnPos.disabled = true; btnPos.textContent = "Localisation…";
+    navigator.geolocation.getCurrentPosition(function (p) {
+      placer(p.coords.latitude, p.coords.longitude, 17);
+      $("carte-etat").textContent = "Position trouvée. Vérifiez-la et déplacez l'épingle si besoin.";
+      btnPos.disabled = false; btnPos.textContent = "Je suis dans le logement";
+    }, function () {
+      erreur("Localisation refusée ou impossible. Cliquez directement sur la carte.");
+      btnPos.disabled = false; btnPos.textContent = "Je suis dans le logement";
+    }, { enableHighAccuracy: true, timeout: 10000 });
   });
 
   // ---------- Photos ----------
@@ -349,7 +400,7 @@
     var masque = function (n) { return n.length > 8 ? n.slice(0, 4) + " •••• " + n.slice(-4) : n; };
     var lignes = [
       ["Logement", choisi("type_logement") + " · " + libelleEspace(choisi("type_espace")), indexDe("Votre logement")],
-      ["Adresse", val("adresse") + ", " + val("ville") + ", " + val("pays"), indexDe("Adresse")],
+      ["Adresse", val("adresse") + ", " + val("code_postal") + " " + val("ville") + ", " + val("pays"), indexDe("Adresse")],
       ["Capacité", compteurs.voyageurs[0] + " voyageurs · " + compteurs.chambres[0] + " chambres · " + compteurs.lits[0] + " lits · " + compteurs.salles_de_bain[0] + " sdb", indexDe("Capacité")],
       ["Équipements", equipements().join(", ") || "Aucun sélectionné", indexDe("Équipements")],
       ["Photos", photos.length + " photos", indexDe("Photos")],
@@ -418,7 +469,7 @@
           id: id,
           type_logement: choisi("type_logement"),
           type_espace: choisi("type_espace"),
-          pays: val("pays"), ville: val("ville"), adresse: val("adresse"),
+          pays: val("pays"), ville: val("ville"), code_postal: val("code_postal"), adresse: val("adresse"),
           latitude: parseFloat(val("latitude")), longitude: parseFloat(val("longitude")),
           voyageurs: compteurs.voyageurs[0], chambres: compteurs.chambres[0],
           lits: compteurs.lits[0], salles_de_bain: compteurs.salles_de_bain[0],

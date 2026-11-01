@@ -94,13 +94,16 @@
         <label class="champ">Ville
           <input type="text" name="ville" required maxlength="120" autocomplete="address-level2" placeholder="Ex. : Nice, Marrakech…">
         </label>
+        <label class="champ">Code postal
+          <input type="text" name="code_postal" id="code_postal" required maxlength="12" autocomplete="postal-code" inputmode="text" placeholder="Ex. : 40000">
+        </label>
         <label class="champ large">Adresse
           <input type="text" name="adresse" id="adresse" required minlength="3" maxlength="250" autocomplete="street-address" placeholder="Numéro, rue, quartier">
         </label>
       </div>
       <div class="carte-entete">
         <h2>Placez l'épingle sur votre logement</h2>
-        <button type="button" class="btn btn-contour" id="btn-localiser">Trouver l'adresse sur la carte</button>
+        <div class="boutons-carte"><button type="button" class="btn btn-contour" id="btn-localiser">Trouver l'adresse sur la carte</button><button type="button" class="btn btn-contour" id="btn-position">Je suis dans le logement</button></div>
       </div>
       <p class="aide" style="margin-bottom:14px">Déplacez l'épingle ou cliquez sur la carte pour indiquer l'emplacement exact. Les voyageurs ne verront qu'une zone approximative avant de réserver.</p>
       <div id="carte" class="carte" role="application" aria-label="Carte pour placer le logement"></div>
