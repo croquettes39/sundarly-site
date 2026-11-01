@@ -261,6 +261,21 @@
       .finally(function () { b.disabled = false; b.textContent = "Trouver l'adresse sur la carte"; });
   });
 
+  // La carte suit automatiquement ce que l'hôte tape dans l'adresse
+  var minuterieCarte = null, derniereRecherche = "";
+  function rechercheAuto() {
+    clearTimeout(minuterieCarte);
+    minuterieCarte = setTimeout(function () {
+      if (!carte || !val("ville")) return;
+      var cle = [val("adresse"), val("code_postal"), val("ville"), val("pays")].join("|");
+      if (cle === derniereRecherche) return;
+      derniereRecherche = cle;
+      $("btn-localiser").click();
+    }, 900);
+  }
+  ["adresse", "code_postal", "ville"].forEach(function (n) { form.elements[n].addEventListener("input", rechercheAuto); });
+  $("pays").addEventListener("change", rechercheAuto);
+
   var btnPos = $("btn-position");
   if (btnPos) btnPos.addEventListener("click", function () {
     if (!navigator.geolocation) { erreur("Votre appareil ne permet pas la localisation. Cliquez sur la carte."); return; }
