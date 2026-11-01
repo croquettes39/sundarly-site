@@ -271,3 +271,4 @@ tbody tr:last-child td{border-bottom:0}
 .bloc-editeur{display:inline-block;border:1.5px solid var(--ligne);border-radius:14px;padding:14px 20px;font-variant-numeric:tabular-nums;line-height:1.7;color:var(--encre)}
 .editeur-petit{margin-top:56px;padding-top:16px;border-top:1px solid var(--ligne);font-size:12px !important;line-height:1.6;color:var(--gris) !important}
 .editeur-petit a{color:var(--gris)}
+.choix-devise select{min-height:40px;border:1px solid var(--bord);border-radius:999px;padding:0 12px;font:inherit;font-size:14px;font-weight:700;color:var(--encre);background:#fff;cursor:pointer}

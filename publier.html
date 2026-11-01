@@ -23,6 +23,7 @@
       <span>sundarly</span>
     </a>
     <nav class="nav" aria-label="Navigation principale">
+      <label class="choix-devise"><span class="sr">Devise</span><select data-choix-devise aria-label="Devise d'affichage"><option value="EUR">€ EUR</option><option value="MAD">DH MAD</option><option value="CHF">CHF</option></select></label>
       <a href="hotes.html">Aide aux hôtes</a>
     </nav>
   </div>
@@ -178,7 +179,7 @@
     <!-- 7. Prix -->
     <section class="etape-form" data-etape="Prix" hidden>
       <h1>Fixez votre prix</h1>
-      <p class="aide">Les prix sont affichés en euros par défaut. Vous pouvez aussi choisir le dirham ou le franc suisse.</p>
+      <p class="aide">La devise est choisie selon votre pays (euro par défaut, dirham au Maroc, franc suisse en Suisse). Vous pouvez la changer ici.</p>
       <div class="devises" role="radiogroup" aria-label="Devise">
         <label><input type="radio" name="devise" value="EUR" checked><span>€ Euro</span></label>
         <label><input type="radio" name="devise" value="MAD"><span>DH Dirham</span></label>
@@ -297,6 +298,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="assets/devise.js"></script>
 <script src="assets/config.js"></script>
 <script src="assets/publier.js"></script>
 </body>

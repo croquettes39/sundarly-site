@@ -243,6 +243,15 @@
   }
   ["prix_nuit", "frais_menage"].forEach(function (n) { form.elements[n].addEventListener("input", majPrix); });
   form.querySelectorAll('input[name="devise"]').forEach(function (r) { r.addEventListener("change", majPrix); });
+  (function () {
+    var d = window.SUNDARLY_DEVISE ? window.SUNDARLY_DEVISE() : "EUR";
+    var r = form.querySelector('input[name="devise"][value="' + d + '"]');
+    if (r) r.checked = true;
+    document.addEventListener("sundarly:devise", function (e) {
+      var x = form.querySelector('input[name="devise"][value="' + e.detail + '"]');
+      if (x) { x.checked = true; majPrix(); }
+    });
+  })();
   majPrix();
 
   // ---------- Banque ----------

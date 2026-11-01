@@ -24,6 +24,7 @@
       <span>sundarly</span>
     </a>
     <nav class="nav" aria-label="Navigation principale">
+      <label class="choix-devise"><span class="sr">Devise</span><select data-choix-devise aria-label="Devise d'affichage"><option value="EUR">€ EUR</option><option value="MAD">DH MAD</option><option value="CHF">CHF</option></select></label>
       <a href="/" aria-current="page">Voyageurs</a>
       <a href="#faq">Questions</a>
       <a class="btn" href="hotes.html">Devenir hôte</a>
@@ -75,7 +76,7 @@
       <div class="grille-3">
         <article class="carte">
           <div class="icone"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12V7H6a2 2 0 010-4h12v4"/><path d="M4 5v14a2 2 0 002 2h14v-5"/><path d="M18 12a2 2 0 000 4h4v-4z"/></svg></div>
-          <h3>0 € de frais de service</h3>
+          <h3><span data-mad="0" data-dec="0">0 €</span> de frais de service</h3>
           <p>Aucun frais ajouté au moment de payer. Pas de mauvaise surprise sur le total.</p>
         </article>
         <article class="carte">
@@ -169,6 +170,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/devise.js"></script>
 <script src="assets/config.js"></script>
 <script src="assets/app.js"></script>
 </body>
