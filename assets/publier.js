@@ -30,27 +30,54 @@
   }
 
   // ---------- Navigation ----------
+  function indexDe(nom) {
+    for (var k = 0; k < etapes.length; k++) if (etapes[k].getAttribute("data-etape") === nom) return k;
+    return 0;
+  }
+  function majSegments(i) {
+    var phaseCourante = +etapes[i].getAttribute("data-phase") || 0;
+    var segs = document.querySelectorAll("#segments i");
+    [1, 2, 3].forEach(function (ph) {
+      var dans = etapes.filter(function (s) { return +s.getAttribute("data-phase") === ph; });
+      var fait = 0;
+      if (ph < phaseCourante) fait = dans.length;
+      else if (ph === phaseCourante) fait = dans.indexOf(etapes[i]) + 1;
+      segs[ph - 1].style.width = (dans.length ? Math.round(fait / dans.length * 100) : 0) + "%";
+    });
+  }
   function afficher(i) {
     courante = i;
     etapes.forEach(function (s, k) { s.hidden = k !== i; });
-    $("etape-nom").textContent = etapes[i].getAttribute("data-etape");
-    $("etape-num").textContent = "Étape " + (i + 1) + " sur " + etapes.length;
-    $("barre").style.width = Math.round(((i + 1) / etapes.length) * 100) + "%";
+    var nom = etapes[i].getAttribute("data-etape");
+    majSegments(i);
     btnRetour.hidden = i === 0;
-    btnSuivant.textContent = i === etapes.length - 1 ? "Envoyer mon annonce" : "Suivant";
+    btnSuivant.textContent = i === 0 ? "Commencer" : (i === etapes.length - 1 ? "Publier mon annonce" : "Suivant");
+    btnSuivant.classList.toggle("btn-rose", i === 0 || i === etapes.length - 1);
     erreur("");
-    if (i === 1) initCarte();
-    if (i === etapes.length - 1) construireRecap();
+    if (nom === "Adresse") initCarte();
+    if (nom === "Récapitulatif") construireRecap();
+    sauverBrouillon();
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Pas de liens, d'e-mails ni de numéros de téléphone dans l'annonce
+  var MSG_LIENS = "Pour la sécurité de tous, les liens internet, adresses e-mail et numéros de téléphone ne sont pas autorisés dans l'annonce. Les échanges se font sur Sundarly.";
+  function contientCoordonnees(texte) {
+    var x = texte.toLowerCase();
+    if (/(https?:\/\/|www\.|\bwa\.me\b|\bbit\.ly\b)/.test(x)) return true;
+    if (/[a-z0-9-]+\s*(\.|\(point\)|\[point\]| point )\s*(com|net|org|fr|ma|ch|be|tn|de|es|it|pt|io|co|info|online|site|app|me)\b/.test(x)) return true;
+    if (/[^\s@]+\s*(@|\(at\)|\[at\]| arobase )\s*[^\s@]+\.[a-z]{2,}/.test(x)) return true;
+    var chiffres = x.replace(/[\s.\-()\/+]/g, "");
+    if (/\d{8,}/.test(chiffres)) return true;
+    if (/(instagram|facebook|whatsapp|telegram|snapchat|tiktok|airbnb|booking)\b/.test(x)) return true;
+    return false;
   }
 
   function valider(i) {
     var s = etapes[i];
     var nom = s.getAttribute("data-etape");
-    if (nom === "Votre logement") {
-      if (!form.querySelector('input[name="type_logement"]:checked')) return "Choisissez un type de logement.";
-      if (!form.querySelector('input[name="type_espace"]:checked')) return "Indiquez ce dont les voyageurs disposeront.";
-    }
+    if (nom === "Votre logement" && !form.querySelector('input[name="type_logement"]:checked')) return "Choisissez un type de logement.";
+    if (nom === "Type d'espace" && !form.querySelector('input[name="type_espace"]:checked')) return "Indiquez ce dont les voyageurs disposeront.";
     if (nom === "Adresse") {
       if (!val("pays")) return "Choisissez le pays.";
       if (!val("ville")) return "Indiquez la ville.";
@@ -58,9 +85,13 @@
       if (!val("latitude")) return "Placez l'épingle sur la carte (bouton « Trouver l'adresse sur la carte » ou clic sur la carte).";
     }
     if (nom === "Photos" && photos.length < 5) return "Ajoutez au moins 5 photos (" + photos.length + " pour l'instant).";
-    if (nom === "Description") {
+    if (nom === "Titre") {
       if (val("titre").length < 10) return "Le titre doit faire au moins 10 caractères.";
+      if (contientCoordonnees(val("titre"))) return MSG_LIENS;
+    }
+    if (nom === "Description") {
       if (val("description").length < 50) return "La description doit faire au moins 50 caractères.";
+      if (contientCoordonnees(val("description"))) return MSG_LIENS;
     }
     if (nom === "Prix") {
       var p = parseFloat(val("prix_nuit"));
@@ -293,16 +324,16 @@
   function construireRecap() {
     var masque = function (n) { return n.length > 8 ? n.slice(0, 4) + " •••• " + n.slice(-4) : n; };
     var lignes = [
-      ["Logement", choisi("type_logement") + " · " + libelleEspace(choisi("type_espace")), 0],
-      ["Adresse", val("adresse") + ", " + val("ville") + ", " + val("pays"), 1],
-      ["Capacité", compteurs.voyageurs[0] + " voyageurs · " + compteurs.chambres[0] + " chambres · " + compteurs.lits[0] + " lits · " + compteurs.salles_de_bain[0] + " sdb", 2],
-      ["Équipements", equipements().join(", ") || "Aucun sélectionné", 3],
-      ["Photos", photos.length + " photos", 4],
-      ["Titre", val("titre"), 5],
-      ["Prix", montant(parseFloat(val("prix_nuit")) || 0) + " / nuit" + (val("frais_menage") ? " · ménage " + montant(parseFloat(val("frais_menage"))) : ""), 6],
-      ["Règles", "Annulation " + libelleAnnul(choisi("annulation")).toLowerCase() + " · arrivée " + (val("heure_arrivee") || "–") + " · départ " + (val("heure_depart") || "–"), 7],
-      ["Contact", val("nom") + " · " + val("email") + (val("telephone") ? " · " + val("telephone") : ""), 8],
-      ["Versements", banqueMaintenant() ? val("titulaire") + " · " + masque(numeroNettoye()) : "À renseigner plus tard", 9]
+      ["Logement", choisi("type_logement") + " · " + libelleEspace(choisi("type_espace")), indexDe("Votre logement")],
+      ["Adresse", val("adresse") + ", " + val("ville") + ", " + val("pays"), indexDe("Adresse")],
+      ["Capacité", compteurs.voyageurs[0] + " voyageurs · " + compteurs.chambres[0] + " chambres · " + compteurs.lits[0] + " lits · " + compteurs.salles_de_bain[0] + " sdb", indexDe("Capacité")],
+      ["Équipements", equipements().join(", ") || "Aucun sélectionné", indexDe("Équipements")],
+      ["Photos", photos.length + " photos", indexDe("Photos")],
+      ["Titre", val("titre"), indexDe("Titre")],
+      ["Prix", montant(parseFloat(val("prix_nuit")) || 0) + " / nuit" + (val("frais_menage") ? " · ménage " + montant(parseFloat(val("frais_menage"))) : ""), indexDe("Prix")],
+      ["Règles", "Annulation " + libelleAnnul(choisi("annulation")).toLowerCase() + " · arrivée " + (val("heure_arrivee") || "–") + " · départ " + (val("heure_depart") || "–"), indexDe("Règles")],
+      ["Contact", val("nom") + " · " + val("email") + (val("telephone") ? " · " + val("telephone") : ""), indexDe("Vos coordonnées")],
+      ["Versements", banqueMaintenant() ? val("titulaire") + " · " + masque(numeroNettoye()) : "À renseigner plus tard", indexDe("Versements")]
     ];
     var z = $("recap"); z.innerHTML = "";
     lignes.forEach(function (l) {
@@ -397,13 +428,52 @@
   }
   function reactiver() { envoiEnCours = false; btnSuivant.disabled = false; btnRetour.disabled = false; }
   function terminer() {
+    try { localStorage.removeItem(CLE_BROUILLON); } catch (e) {}
     etapes.forEach(function (s) { s.hidden = true; });
-    $("progression").hidden = true;
     $("barre-actions").hidden = true;
     $("succes").hidden = false;
     erreur("");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+
+  // ---------- Brouillon (« Enregistrer et quitter ») ----------
+  var CLE_BROUILLON = "sundarly-brouillon-annonce";
+  var A_IGNORER = { numero: 1, bic: 1, titulaire: 1, nom_banque: 1, consentement: 1, site_web: 1 };
+  function sauverBrouillon() {
+    try {
+      var d = {};
+      Array.prototype.forEach.call(form.elements, function (el) {
+        if (!el.name || A_IGNORER[el.name] || el.type === "file") return;
+        if (el.type === "radio") { if (el.checked) d[el.name] = el.value; }
+        else if (el.type === "checkbox") { if (el.checked) (d[el.name] = d[el.name] || []).push(el.value); }
+        else d[el.name] = el.value;
+      });
+      d._compteurs = { voyageurs: compteurs.voyageurs[0], chambres: compteurs.chambres[0], lits: compteurs.lits[0], salles_de_bain: compteurs.salles_de_bain[0] };
+      localStorage.setItem(CLE_BROUILLON, JSON.stringify(d));
+    } catch (e) {}
+  }
+  function chargerBrouillon() {
+    try {
+      var d = JSON.parse(localStorage.getItem(CLE_BROUILLON) || "null");
+      if (!d) return;
+      Array.prototype.forEach.call(form.elements, function (el) {
+        if (!el.name || !(el.name in d) || el.type === "file") return;
+        var v = d[el.name];
+        if (el.type === "radio") el.checked = el.value === v;
+        else if (el.type === "checkbox") el.checked = Array.isArray(v) && v.indexOf(el.value) >= 0;
+        else el.value = v;
+      });
+      if (d._compteurs) Object.keys(d._compteurs).forEach(function (k) { if (compteurs[k]) { compteurs[k][0] = d._compteurs[k]; majCompteur(k); } });
+      form.querySelectorAll("[data-compteur]").forEach(function (el) { el.dispatchEvent(new Event("input")); });
+      majPrix();
+    } catch (e) {}
+  }
+  form.addEventListener("change", sauverBrouillon);
+  document.getElementById("btn-quitter").addEventListener("click", function () {
+    sauverBrouillon();
+    window.location.href = "/";
+  });
+  chargerBrouillon();
 
   afficher(0);
 })();

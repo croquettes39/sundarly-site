@@ -16,31 +16,41 @@
 </head>
 <body>
 
-<header class="entete">
-  <div class="conteneur">
-    <a class="logo" href="/" aria-label="Sundarly, accueil">
-      <svg width="36" height="36" viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="15" r="6" stroke="currentColor" stroke-width="2.5"/><path d="M17 3v3M5 15h3M26 15h3M8.5 6.5l2 2M25.5 6.5l-2 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M4 27c3-3 6-3 9 0s6 3 9 0 6-3 9 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-      <span>sundarly</span>
-    </a>
-    <nav class="nav" aria-label="Navigation principale">
-      <label class="choix-devise"><span class="sr">Devise</span><select data-choix-devise aria-label="Devise d'affichage"><option value="EUR">€ EUR</option><option value="MAD">DH MAD</option><option value="CHF">CHF</option></select></label>
-      <a href="hotes.html">Aide aux hôtes</a>
-    </nav>
+<header class="entete-publier">
+  <a class="logo-seul" href="/" aria-label="Sundarly, accueil">
+    <svg width="38" height="38" viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="15" r="6" stroke="currentColor" stroke-width="2.5"/><path d="M17 3v3M5 15h3M26 15h3M8.5 6.5l2 2M25.5 6.5l-2 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M4 27c3-3 6-3 9 0s6 3 9 0 6-3 9 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+  </a>
+  <div class="entete-actions">
+    <label class="choix-devise"><span class="sr">Devise</span><select data-choix-devise aria-label="Devise d'affichage"><option value="EUR">€ EUR</option><option value="MAD">DH MAD</option><option value="CHF">CHF</option></select></label>
+    <a class="pilule" href="hotes.html#faq">Des questions ?</a>
+    <button type="button" class="pilule" id="btn-quitter">Enregistrer et quitter</button>
   </div>
 </header>
 
-<main class="publier">
+<main class="publier airbnb">
   <form id="form-annonce" novalidate>
 
-    <div class="progression" id="progression">
-      <div class="ligne-haut"><strong id="etape-nom">Votre logement</strong><span id="etape-num">Étape 1 sur 11</span></div>
-      <div class="barre" aria-hidden="true"><span id="barre" style="width:9%"></span></div>
-    </div>
 
-    <!-- 1. Type -->
-    <section class="etape-form" data-etape="Votre logement">
-      <h1>Quel type de logement proposez-vous ?</h1>
-      <p class="aide">Choisissez ce qui décrit le mieux votre bien.</p>
+    <section class="etape-form bienvenue" data-etape="Bienvenue" data-phase="0">
+      <h1>Publier votre logement sur Sundarly, c'est simple</h1>
+      <ol class="apercu-etapes">
+        <li><span class="n">1</span><div><strong>Parlez-nous de votre logement</strong><p>Indiquez quelques informations de base : type de logement, emplacement, nombre de voyageurs.</p></div></li>
+        <li><span class="n">2</span><div><strong>Faites-le sortir du lot</strong><p>Ajoutez au moins 5 photos, un titre et une description. Nous vous aidons.</p></div></li>
+        <li><span class="n">3</span><div><strong>Terminez et publiez</strong><p>Choisissez votre prix, vos règles, puis indiquez votre compte bancaire pour recevoir vos paiements.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="etape-form intro" data-etape="Étape 1" data-phase="1" hidden>
+      <div class="intro-texte">
+        <p class="intro-num">Étape 1</p>
+        <h1>Parlez-nous de votre logement</h1>
+        <p class="aide">Au cours de cette étape, nous allons vous demander quel type de logement vous proposez et si les voyageurs pourront le réserver dans son intégralité ou si vous ne louez qu'une chambre. Nous vous demanderons ensuite d'indiquer son emplacement et sa capacité d'accueil.</p>
+      </div>
+      <svg class="illustration" viewBox="0 0 320 260" role="img" aria-label="Illustration d'une maison"><defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#FDEEF3"/><stop offset="1" stop-color="#F8D6E3"/></linearGradient></defs><ellipse cx="160" cy="232" rx="130" ry="16" fill="#F3E7EC"/><path d="M60 120 160 50l100 70v104H60z" fill="url(#g1)" stroke="#D81B60" stroke-width="3" stroke-linejoin="round"/><path d="M40 128 160 42l120 86" fill="none" stroke="#B0124D" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><rect x="138" y="160" width="44" height="64" rx="4" fill="#fff" stroke="#D81B60" stroke-width="3"/><rect x="86" y="132" width="36" height="32" rx="3" fill="#fff" stroke="#D81B60" stroke-width="3"/><rect x="198" y="132" width="36" height="32" rx="3" fill="#fff" stroke="#D81B60" stroke-width="3"/><circle cx="252" cy="40" r="18" fill="#FFD27A"/></svg>
+    </section>
+
+    <section class="etape-form" data-etape="Votre logement" data-phase="1" hidden>
+      <h1>Parmi les propositions suivantes, laquelle décrit le mieux votre logement ?</h1>
       <div class="choix" role="radiogroup" aria-label="Type de logement">
         <label><input type="radio" name="type_logement" value="Appartement" required><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2M10 21v-3h4v3"/></svg>Appartement</label>
         <label><input type="radio" name="type_logement" value="Studio"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M9 20v-5h6v5"/></svg>Studio</label>
@@ -59,18 +69,21 @@
         <label><input type="radio" name="type_logement" value="Bateau"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 16h18l-3 4H6z"/><path d="M12 3v13M12 4l6 9h-6"/></svg>Bateau</label>
         <label><input type="radio" name="type_logement" value="Logement insolite"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Logement insolite</label>
       </div>
-      <h2>Les voyageurs disposeront…</h2>
+    </section>
+
+    <section class="etape-form" data-etape="Type d'espace" data-phase="1" hidden>
+      <h1>Quel type de logement sera à la disposition des voyageurs ?</h1>
       <div class="choix large" role="radiogroup" aria-label="Type d'espace">
-        <label><input type="radio" name="type_espace" value="logement_entier" required><span>Du logement entier<br><small>Ils ont le logement pour eux seuls.</small></span></label>
-        <label><input type="radio" name="type_espace" value="chambre_privee"><span>D'une chambre privée<br><small>Ils dorment dans leur chambre et partagent certains espaces.</small></span></label>
-        <label><input type="radio" name="type_espace" value="chambre_partagee"><span>D'une chambre partagée<br><small>Ils partagent la chambre avec d'autres personnes.</small></span></label>
+        <label><input type="radio" name="type_espace" value="logement_entier" required><span>Un logement entier<br><small>Les voyageurs disposent du logement dans son intégralité.</small></span><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></label>
+        <label><input type="radio" name="type_espace" value="chambre_privee"><span>Une chambre<br><small>Les voyageurs ont leur propre chambre dans un logement et ont accès à des espaces partagés.</small></span><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 21V3h12v18"/><path d="M4 21h16M14 12h.01"/></svg></label>
+        <label><input type="radio" name="type_espace" value="chambre_partagee"><span>Une chambre partagée<br><small>Les voyageurs dorment dans une chambre partagée, par exemple dans une auberge de jeunesse.</small></span><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2 20c1-3.5 3.5-5 6-5s5 1.5 6 5M14 15c2.5 0 5 1.5 6 5"/></svg></label>
       </div>
     </section>
 
     <!-- 2. Adresse -->
-    <section class="etape-form" data-etape="Adresse" hidden>
-      <h1>Où se trouve votre logement ?</h1>
-      <p class="aide">L'adresse exacte n'est communiquée au voyageur qu'après sa réservation.</p>
+    <section class="etape-form" data-etape="Adresse" data-phase="1" hidden>
+      <h1>Où est situé votre logement ?</h1>
+      <p class="aide">Votre adresse est uniquement communiquée aux voyageurs une fois leur réservation effectuée.</p>
       <div class="champs">
         <label class="champ">Pays
           <select name="pays" id="pays" required>
@@ -97,9 +110,9 @@
     </section>
 
     <!-- 3. Capacité -->
-    <section class="etape-form" data-etape="Capacité" hidden>
-      <h1>Combien de personnes pouvez-vous accueillir ?</h1>
-      <p class="aide">Vous pourrez modifier ces informations plus tard.</p>
+    <section class="etape-form" data-etape="Capacité" data-phase="1" hidden>
+      <h1>Donnez les informations principales concernant votre logement</h1>
+      <p class="aide">Vous pourrez ajouter d'autres informations plus tard, comme les types de lit.</p>
       <div class="compteurs">
         <div class="compteur"><span id="l-voyageurs">Voyageurs</span><div class="reglage"><button type="button" data-moins="voyageurs" aria-label="Retirer un voyageur">−</button><output id="o-voyageurs" aria-labelledby="l-voyageurs">4</output><button type="button" data-plus="voyageurs" aria-label="Ajouter un voyageur">+</button></div></div>
         <div class="compteur"><span id="l-chambres">Chambres</span><div class="reglage"><button type="button" data-moins="chambres" aria-label="Retirer une chambre">−</button><output id="o-chambres" aria-labelledby="l-chambres">2</output><button type="button" data-plus="chambres" aria-label="Ajouter une chambre">+</button></div></div>
@@ -108,12 +121,21 @@
       </div>
     </section>
 
+    <section class="etape-form intro" data-etape="Étape 2" data-phase="2" hidden>
+      <div class="intro-texte">
+        <p class="intro-num">Étape 2</p>
+        <h1>Faites sortir votre logement du lot</h1>
+        <p class="aide">À cette étape, vous ajouterez quelques-uns des équipements proposés dans votre logement, au moins 5 photos, puis vous rédigerez un titre et une description.</p>
+      </div>
+      <svg class="illustration" viewBox="0 0 320 260" role="img" aria-label="Illustration de photos"><ellipse cx="160" cy="232" rx="130" ry="16" fill="#F3E7EC"/><rect x="70" y="60" width="170" height="130" rx="14" transform="rotate(-8 155 125)" fill="#fff" stroke="#E3C5D2" stroke-width="3"/><rect x="90" y="70" width="170" height="130" rx="14" fill="#fff" stroke="#D81B60" stroke-width="3"/><rect x="104" y="84" width="142" height="86" rx="8" fill="#FDEEF3"/><path d="M110 166l40-40 30 28 22-18 40 30z" fill="#F49BBB"/><circle cx="214" cy="106" r="11" fill="#FFD27A"/></svg>
+    </section>
+
     <!-- 4. Équipements -->
-    <section class="etape-form" data-etape="Équipements" hidden>
-      <h1>Quels équipements proposez-vous ?</h1>
+    <section class="etape-form" data-etape="Équipements" data-phase="2" hidden>
+      <h1>Indiquez aux voyageurs quels sont les équipements de votre logement</h1>
       <p class="aide">Sélectionnez tout ce qui s'applique. Les voyageurs filtrent souvent leurs recherches avec ces critères.</p>
       <h2>Les essentiels</h2>
-      <div class="puces">
+      <div class="choix tuiles">
         <label><input type="checkbox" name="equipements" value="Wi-Fi">Wi-Fi</label>
         <label><input type="checkbox" name="equipements" value="Cuisine équipée">Cuisine équipée</label>
         <label><input type="checkbox" name="equipements" value="Lave-linge">Lave-linge</label>
@@ -125,7 +147,7 @@
         <label><input type="checkbox" name="equipements" value="Parking gratuit">Parking gratuit</label>
       </div>
       <h2>Les plus</h2>
-      <div class="puces">
+      <div class="choix tuiles">
         <label><input type="checkbox" name="equipements" value="Piscine">Piscine</label>
         <label><input type="checkbox" name="equipements" value="Jacuzzi">Jacuzzi</label>
         <label><input type="checkbox" name="equipements" value="Jardin">Jardin</label>
@@ -138,7 +160,7 @@
         <label><input type="checkbox" name="equipements" value="Petit-déjeuner possible">Petit-déjeuner possible</label>
       </div>
       <h2>Sécurité</h2>
-      <div class="puces">
+      <div class="choix tuiles">
         <label><input type="checkbox" name="equipements" value="Détecteur de fumée">Détecteur de fumée</label>
         <label><input type="checkbox" name="equipements" value="Extincteur">Extincteur</label>
         <label><input type="checkbox" name="equipements" value="Kit de premiers secours">Kit de premiers secours</label>
@@ -147,7 +169,7 @@
     </section>
 
     <!-- 5. Photos -->
-    <section class="etape-form" data-etape="Photos" hidden>
+    <section class="etape-form" data-etape="Photos" data-phase="2" hidden>
       <h1>Ajoutez des photos de votre logement</h1>
       <p class="aide">Il en faut au moins 5. La première sera la photo de couverture. Des photos lumineuses, prises de jour, attirent plus de réservations.</p>
       <label class="depot" id="depot" for="photos">
@@ -161,24 +183,36 @@
     </section>
 
     <!-- 6. Description -->
-    <section class="etape-form" data-etape="Description" hidden>
-      <h1>Donnez un titre et une description</h1>
-      <p class="aide">Soyez précis et donnez envie : ce que les voyageurs vont vivre, le quartier, ce qui rend votre logement unique.</p>
-      <div class="champs">
-        <label class="champ large">Titre de l'annonce
+    <section class="etape-form" data-etape="Titre" data-phase="2" hidden>
+      <h1>À présent, donnez un titre à votre annonce</h1>
+      <p class="aide">Les titres courts sont généralement les plus efficaces. Ne vous inquiétez pas, vous pourrez toujours le modifier plus tard. Les liens internet, e-mails et numéros de téléphone ne sont pas autorisés.</p>
+      <label class="champ large champ-geant"><span class="sr">Titre de l'annonce</span>
           <input type="text" name="titre" required minlength="10" maxlength="80" placeholder="Ex. : Villa avec piscine privée au pied de l'Atlas" data-compteur="c-titre">
           <span class="compte-car" id="c-titre">0 / 80</span>
         </label>
-        <label class="champ large">Description
+    </section>
+
+    <section class="etape-form" data-etape="Description" data-phase="2" hidden>
+      <h1>Créez votre description</h1>
+      <p class="aide">Racontez ce qui rend votre logement unique : l'ambiance, le quartier, ce que les voyageurs vont vivre. Les liens internet, e-mails et numéros de téléphone ne sont pas autorisés : tous les échanges se font sur Sundarly.</p>
+      <label class="champ large champ-geant"><span class="sr">Description</span>
           <textarea name="description" required minlength="50" maxlength="3000" rows="8" placeholder="Décrivez le logement, les chambres, l'extérieur, le quartier, les activités à proximité…" data-compteur="c-desc"></textarea>
           <span class="compte-car" id="c-desc">0 / 3000 · 50 minimum</span>
         </label>
+    </section>
+
+    <section class="etape-form intro" data-etape="Étape 3" data-phase="3" hidden>
+      <div class="intro-texte">
+        <p class="intro-num">Étape 3</p>
+        <h1>Terminez et publiez</h1>
+        <p class="aide">Enfin, vous choisirez votre prix et vos règles, puis vous indiquerez votre compte bancaire pour recevoir vos paiements. Notre équipe vérifie ensuite l'annonce avant sa mise en ligne.</p>
       </div>
+      <svg class="illustration" viewBox="0 0 320 260" role="img" aria-label="Illustration d'une clé"><ellipse cx="160" cy="232" rx="130" ry="16" fill="#F3E7EC"/><circle cx="118" cy="120" r="54" fill="#FDEEF3" stroke="#D81B60" stroke-width="4"/><circle cx="118" cy="120" r="20" fill="#fff" stroke="#D81B60" stroke-width="4"/><path d="M170 120h100M240 120v30M262 120v22" stroke="#B0124D" stroke-width="10" stroke-linecap="round"/></svg>
     </section>
 
     <!-- 7. Prix -->
-    <section class="etape-form" data-etape="Prix" hidden>
-      <h1>Fixez votre prix</h1>
+    <section class="etape-form" data-etape="Prix" data-phase="3" hidden>
+      <h1>À présent, fixez votre prix</h1>
       <p class="aide">La devise est choisie selon votre pays (euro par défaut, dirham au Maroc, franc suisse en Suisse). Vous pouvez la changer ici.</p>
       <div class="devises" role="radiogroup" aria-label="Devise">
         <label><input type="radio" name="devise" value="EUR" checked><span>€ Euro</span></label>
@@ -201,7 +235,7 @@
     </section>
 
     <!-- 8. Règles -->
-    <section class="etape-form" data-etape="Règles" hidden>
+    <section class="etape-form" data-etape="Règles" data-phase="3" hidden>
       <h1>Vos règles</h1>
       <p class="aide">C'est vous qui décidez. Les voyageurs les acceptent au moment de réserver.</p>
       <h2>Politique d'annulation</h2>
@@ -225,7 +259,7 @@
     </section>
 
     <!-- 9. Contact -->
-    <section class="etape-form" data-etape="Vos coordonnées" hidden>
+    <section class="etape-form" data-etape="Vos coordonnées" data-phase="3" hidden>
       <h1>Vos coordonnées</h1>
       <p class="aide">Pour vous contacter au sujet de votre annonce et vous transmettre les réservations. Elles ne sont pas affichées publiquement.</p>
       <div class="champs">
@@ -236,7 +270,7 @@
     </section>
 
     <!-- 10. Versements -->
-    <section class="etape-form" data-etape="Versements" hidden>
+    <section class="etape-form" data-etape="Versements" data-phase="3" hidden>
       <h1>Où souhaitez-vous recevoir vos paiements ?</h1>
       <p class="aide">Sundarly vous verse le montant de chaque réservation (moins 10 % sur les nuits) après l'arrivée du voyageur.</p>
       <div class="choix large" role="radiogroup" aria-label="Quand renseigner le compte bancaire">
@@ -265,7 +299,7 @@
     </section>
 
     <!-- 11. Récapitulatif -->
-    <section class="etape-form" data-etape="Récapitulatif" hidden>
+    <section class="etape-form" data-etape="Récapitulatif" data-phase="3" hidden>
       <h1>Vérifiez votre annonce</h1>
       <p class="aide">Notre équipe la relit avant sa mise en ligne. Vous recevrez un e-mail de confirmation.</p>
       <div class="recap" id="recap"></div>
@@ -289,10 +323,11 @@
 </main>
 
 <div class="barre-actions" id="barre-actions">
+  <div class="segments" id="segments" aria-hidden="true"><span><i></i></span><span><i></i></span><span><i></i></span></div>
   <div class="dedans">
     <button type="button" class="lien-retour" id="btn-retour" hidden>Retour</button>
     <span></span>
-    <button type="button" class="btn" id="btn-suivant">Suivant</button>
+    <button type="button" class="btn btn-sombre" id="btn-suivant">Commencer</button>
   </div>
 </div>
 

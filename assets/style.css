@@ -272,3 +272,60 @@ tbody tr:last-child td{border-bottom:0}
 .editeur-petit{margin-top:56px;padding-top:16px;border-top:1px solid var(--ligne);font-size:12px !important;line-height:1.6;color:var(--gris) !important}
 .editeur-petit a{color:var(--gris)}
 .choix-devise select{min-height:40px;border:1px solid var(--bord);border-radius:999px;padding:0 12px;font:inherit;font-size:14px;font-weight:700;color:var(--encre);background:#fff;cursor:pointer}
+
+/* ===== Parcours « Publier » façon plein écran ===== */
+.entete-publier{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px max(24px,env(safe-area-inset-right,0px)) 18px max(24px,env(safe-area-inset-left,0px));flex-wrap:wrap}
+.logo-seul{color:var(--rose);display:inline-flex}
+.entete-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pilule{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--bord);background:#fff;font:inherit;font-size:14px;font-weight:600;color:var(--encre);text-decoration:none;cursor:pointer}
+.pilule:hover{border-color:var(--encre);color:var(--encre)}
+.publier.airbnb{max-width:720px;padding:24px 24px 150px;min-height:calc(100vh - 180px)}
+.airbnb .etape-form{padding-top:24px}
+.airbnb .etape-form h1{font-size:clamp(26px,3.6vw,34px);letter-spacing:-.6px;line-height:1.18;text-align:left;margin:0 0 10px;font-weight:700}
+.airbnb .etape-form .aide{color:var(--gris);font-size:17px;margin:0 0 28px}
+.airbnb .choix{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.airbnb .choix label{min-height:104px;padding:18px;border-radius:14px;border:1px solid var(--bord);font-weight:600;font-size:16px;justify-content:space-between}
+.airbnb .choix label:has(input:checked){border:2px solid var(--encre);background:#F7F7F7;padding:17px}
+.airbnb .choix svg{color:var(--encre)}
+.airbnb .choix.large{grid-template-columns:1fr}
+.airbnb .choix.large label{flex-direction:row;align-items:center;min-height:96px;padding:20px 24px;gap:20px}
+.airbnb .choix.large label:has(input:checked){padding:19px 23px}
+.airbnb .choix.large small{display:block;margin-top:4px;font-weight:400;color:var(--gris);line-height:1.4}
+.airbnb .choix.tuiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+.airbnb .choix.tuiles label{min-height:84px;justify-content:center}
+.airbnb .intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center;min-height:52vh}
+.airbnb .intro[hidden]{display:none}
+.airbnb .intro h1{font-size:clamp(34px,5vw,48px) !important;letter-spacing:-1.2px}
+.intro-num{font-weight:700;font-size:17px;margin:0 0 10px;color:var(--encre)}
+.illustration{width:100%;max-width:340px;height:auto;justify-self:center}
+.bienvenue h1{font-size:clamp(32px,4.6vw,46px) !important;letter-spacing:-1.2px;max-width:600px}
+.apercu-etapes{list-style:none;margin:28px 0 0;padding:0;display:grid}
+.apercu-etapes li{display:flex;gap:18px;padding:24px 0;border-bottom:1px solid var(--ligne)}
+.apercu-etapes .n{flex:0 0 auto;font-size:22px;font-weight:700;width:28px}
+.apercu-etapes strong{font-size:21px;display:block;margin-bottom:6px}
+.apercu-etapes p{margin:0;color:var(--gris);font-size:16px}
+.champ-geant input,.champ-geant textarea{font-size:22px !important;padding:18px !important;border-radius:12px !important;min-height:64px}
+.champ-geant textarea{min-height:200px}
+#barre-actions{padding-top:0;border-top:0}
+.segments{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 calc(-1 * max(16px,env(safe-area-inset-right,0px))) 14px calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
+.segments span{height:6px;background:#EBEBEB;overflow:hidden}
+.segments i{display:block;height:100%;width:0;background:var(--encre);transition:width .35s ease}
+.btn-sombre{background:var(--encre);border-radius:10px;min-height:50px;padding:0 30px}
+.btn-sombre:hover{background:#000}
+.btn-sombre.btn-rose{background:var(--rose)}
+.btn-sombre.btn-rose:hover{background:var(--rose-fonce)}
+#barre-actions .dedans{max-width:none;padding:0 16px}
+@media (max-width:760px){
+  .airbnb .intro{grid-template-columns:1fr;gap:24px;min-height:0}
+  .illustration{max-width:240px}
+  .airbnb .choix,.airbnb .choix.tuiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .entete-publier{padding:12px 16px}
+  .entete-actions a.pilule{display:none}
+}
+@media (prefers-reduced-motion:reduce){.segments i{transition:none}}
+.publier.airbnb{max-width:1120px}
+.airbnb .etape-form{max-width:640px;margin:0 auto}
+.airbnb .etape-form.intro{max-width:1040px}
+.airbnb .etape-form.bienvenue{max-width:760px}
+.airbnb .etape-form h1{color:var(--encre)}
+.airbnb .choix label:has(input:checked){border-color:var(--encre) !important;box-shadow:0 0 0 1px var(--encre)}

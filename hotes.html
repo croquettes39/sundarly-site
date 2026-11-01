@@ -140,56 +140,19 @@
 
   <section class="section" id="inscription">
     <div class="conteneur">
-      <h2>Pas le temps de tout remplir ?</h2>
-      <p class="intro">Laissez simplement vos coordonnées : notre équipe vous rappelle et crée l'annonce avec vous. Sinon, <a href="publier.html">publiez votre logement vous-même en quelques minutes</a>.</p>
-
-      <form class="formulaire" data-formulaire="hotes" novalidate>
-        <div class="champs">
-          <label class="champ">Prénom et nom
-            <input type="text" name="nom" autocomplete="name" required maxlength="120">
-          </label>
-          <label class="champ">E-mail
-            <input type="email" name="email" autocomplete="email" required maxlength="200">
-          </label>
-          <label class="champ">Téléphone ou WhatsApp <span class="facultatif">(facultatif)</span>
-            <input type="tel" name="telephone" autocomplete="tel" maxlength="40">
-          </label>
-          <label class="champ">Pays du logement
-            <select name="pays" required>
-              <option value="">Choisir…</option>
-              <option>Maroc</option><option>Tunisie</option><option>France</option><option>Suisse</option><option>Belgique</option><option>Espagne</option><option>Portugal</option><option>Italie</option><option>Grèce</option><option>Allemagne</option><option>Autriche</option><option>Pays-Bas</option><option>Croatie</option><option>Autre pays d'Europe</option><option>Autre pays</option>
-            </select>
-          </label>
-          <label class="champ">Ville ou région
-            <input type="text" name="ville" required maxlength="120" placeholder="Ex. : Marrakech, Djerba, Nice…">
-          </label>
-          <label class="champ">Type de logement
-            <select name="type_logement" required>
-              <option value="">Choisir…</option>
-              <option>Appartement</option><option>Maison</option><option>Villa</option><option>Chalet</option><option>Chambre privée</option><option>Logement insolite</option><option>Plusieurs types</option>
-            </select>
-          </label>
-          <label class="champ">Nombre de logements
-            <input type="number" name="nb_logements" min="1" max="500" value="1" required>
-          </label>
-          <label class="champ">Lien vers une annonce existante <span class="facultatif">(facultatif)</span>
-            <input type="url" name="lien_annonce" placeholder="https://…" maxlength="500">
-          </label>
-          <label class="champ large">Un mot sur votre logement <span class="facultatif">(facultatif)</span>
-            <textarea name="message" maxlength="2000" placeholder="Capacité, points forts, disponibilités…"></textarea>
-          </label>
+      <div class="bandeau">
+        <div>
+          <span class="sur-titre">Inscription gratuite</span>
+          <h2>Publiez votre logement en quelques minutes</h2>
+          <p>Trois étapes simples : votre logement, vos photos, puis votre prix et votre compte bancaire pour recevoir vos paiements. Notre équipe vérifie l'annonce avant sa mise en ligne.</p>
+          <a class="btn" href="publier.html">Publier mon logement</a>
         </div>
-        <div class="piege" aria-hidden="true"><label>Ne pas remplir<input type="text" name="site_web" tabindex="-1" autocomplete="off"></label></div>
-        <label class="case">
-          <input type="checkbox" name="consentement" required>
-          <span>J'accepte que Sundarly utilise ces informations pour me recontacter au sujet de mon inscription. Voir la <a href="confidentialite.html">politique de confidentialité</a>.</span>
-        </label>
-        <div class="actions">
-          <small>Vos données ne sont jamais revendues.</small>
-          <button class="btn" type="submit">Envoyer mon inscription</button>
+        <div class="etapes">
+          <div class="etape"><span class="num">1</span><div><strong>Parlez-nous de votre logement</strong><p>Type, emplacement et capacité.</p></div></div>
+          <div class="etape"><span class="num">2</span><div><strong>Faites-le sortir du lot</strong><p>Équipements, photos, titre et description.</p></div></div>
+          <div class="etape"><span class="num">3</span><div><strong>Terminez et publiez</strong><p>Prix, règles et compte bancaire.</p></div></div>
         </div>
-        <p class="message" role="status" aria-live="polite"></p>
-      </form>
+      </div>
     </div>
   </section>
 
@@ -236,7 +199,7 @@
       </div>
       <div>
         <strong>Propriétaires</strong>
-        <a href="#inscription">Inscription</a>
+        <a href="publier.html">Publier un logement</a>
         <a href="#faq">Questions fréquentes</a>
       </div>
       <div>
