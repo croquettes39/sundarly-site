@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Publier mon logement – Sundarly</title>
+<meta name="description" content="Publiez votre logement de vacances sur Sundarly en quelques minutes : 10 % de commission seulement, sur le prix des nuits.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#D81B60">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="entete">
+  <div class="conteneur">
+    <a class="logo" href="/" aria-label="Sundarly, accueil">
+      <svg width="36" height="36" viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="15" r="6" stroke="currentColor" stroke-width="2.5"/><path d="M17 3v3M5 15h3M26 15h3M8.5 6.5l2 2M25.5 6.5l-2 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M4 27c3-3 6-3 9 0s6 3 9 0 6-3 9 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <span>sundarly</span>
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="hotes.html">Aide aux hôtes</a>
+    </nav>
+  </div>
+</header>
+
+<main class="publier">
+  <form id="form-annonce" novalidate>
+
+    <div class="progression" id="progression">
+      <div class="ligne-haut"><strong id="etape-nom">Votre logement</strong><span id="etape-num">Étape 1 sur 11</span></div>
+      <div class="barre" aria-hidden="true"><span id="barre" style="width:9%"></span></div>
+    </div>
+
+    <!-- 1. Type -->
+    <section class="etape-form" data-etape="Votre logement">
+      <h1>Quel type de logement proposez-vous ?</h1>
+      <p class="aide">Choisissez ce qui décrit le mieux votre bien.</p>
+      <div class="choix" role="radiogroup" aria-label="Type de logement">
+        <label><input type="radio" name="type_logement" value="Appartement" required><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2M10 21v-3h4v3"/></svg>Appartement</label>
+        <label><input type="radio" name="type_logement" value="Studio"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M9 20v-5h6v5"/></svg>Studio</label>
+        <label><input type="radio" name="type_logement" value="Maison"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>Maison</label>
+        <label><input type="radio" name="type_logement" value="Villa"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-6 9 6"/><path d="M5 9v7h14V9"/><path d="M3 20c2-1.5 4-1.5 6 0s4 1.5 6 0 4-1.5 6 0"/></svg>Villa</label>
+        <label><input type="radio" name="type_logement" value="Riad"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V5h16v16"/><path d="M9 21v-6a3 3 0 016 0v6"/><path d="M4 9h16"/></svg>Riad</label>
+        <label><input type="radio" name="type_logement" value="Maison d'hôtes"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><circle cx="12" cy="14" r="2"/></svg>Maison d'hôtes</label>
+        <label><input type="radio" name="type_logement" value="Chambre d'hôtes"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18V8M3 14h18v4M21 18v-6a2 2 0 00-2-2h-8v4"/><circle cx="7" cy="11" r="1.5"/></svg>Chambre d'hôtes</label>
+        <label><input type="radio" name="type_logement" value="Chambre d'hôtel"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 21v-4h8v4M8 7h8M8 11h8"/></svg>Chambre d'hôtel</label>
+        <label><input type="radio" name="type_logement" value="Auberge / hostel"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20V9l9-5 9 5v11"/><path d="M7 20v-6h4v6M13 14h4v3h-4z"/></svg>Auberge / hostel</label>
+        <label><input type="radio" name="type_logement" value="Gîte"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12l10-8 10 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-4h6v4M9 13h2"/></svg>Gîte</label>
+        <label><input type="radio" name="type_logement" value="Chalet"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20L12 4l10 16z"/><path d="M9 20v-5h6v5"/></svg>Chalet</label>
+        <label><input type="radio" name="type_logement" value="Bungalow"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h20L12 5z"/><path d="M5 12v8h14v-8M10 20v-4h4v4"/></svg>Bungalow</label>
+        <label><input type="radio" name="type_logement" value="Tente / glamping"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20L12 4l9 16z"/><path d="M12 4v16M8 20l4-7 4 7"/></svg>Tente / glamping</label>
+        <label><input type="radio" name="type_logement" value="Cabane"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l8-6 8 6"/><path d="M6 11v6h12v-6M12 17v4M8 21h8"/></svg>Cabane</label>
+        <label><input type="radio" name="type_logement" value="Bateau"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 16h18l-3 4H6z"/><path d="M12 3v13M12 4l6 9h-6"/></svg>Bateau</label>
+        <label><input type="radio" name="type_logement" value="Logement insolite"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Logement insolite</label>
+      </div>
+      <h2>Les voyageurs disposeront…</h2>
+      <div class="choix large" role="radiogroup" aria-label="Type d'espace">
+        <label><input type="radio" name="type_espace" value="logement_entier" required><span>Du logement entier<br><small>Ils ont le logement pour eux seuls.</small></span></label>
+        <label><input type="radio" name="type_espace" value="chambre_privee"><span>D'une chambre privée<br><small>Ils dorment dans leur chambre et partagent certains espaces.</small></span></label>
+        <label><input type="radio" name="type_espace" value="chambre_partagee"><span>D'une chambre partagée<br><small>Ils partagent la chambre avec d'autres personnes.</small></span></label>
+      </div>
+    </section>
+
+    <!-- 2. Adresse -->
+    <section class="etape-form" data-etape="Adresse" hidden>
+      <h1>Où se trouve votre logement ?</h1>
+      <p class="aide">L'adresse exacte n'est communiquée au voyageur qu'après sa réservation.</p>
+      <div class="champs">
+        <label class="champ">Pays
+          <select name="pays" id="pays" required>
+            <option value="">Choisir…</option>
+            <option>France</option><option>Suisse</option><option>Belgique</option><option>Espagne</option><option>Portugal</option><option>Italie</option><option>Grèce</option><option>Allemagne</option><option>Autriche</option><option>Pays-Bas</option><option>Croatie</option><option>Maroc</option><option>Tunisie</option><option>Autre pays</option>
+          </select>
+        </label>
+        <label class="champ">Ville
+          <input type="text" name="ville" required maxlength="120" autocomplete="address-level2" placeholder="Ex. : Nice, Marrakech…">
+        </label>
+        <label class="champ large">Adresse
+          <input type="text" name="adresse" id="adresse" required minlength="3" maxlength="250" autocomplete="street-address" placeholder="Numéro, rue, quartier">
+        </label>
+      </div>
+      <div class="carte-entete">
+        <h2>Placez l'épingle sur votre logement</h2>
+        <button type="button" class="btn btn-contour" id="btn-localiser">Trouver l'adresse sur la carte</button>
+      </div>
+      <p class="aide" style="margin-bottom:14px">Déplacez l'épingle ou cliquez sur la carte pour indiquer l'emplacement exact. Les voyageurs ne verront qu'une zone approximative avant de réserver.</p>
+      <div id="carte" class="carte" role="application" aria-label="Carte pour placer le logement"></div>
+      <p class="petite-note" id="carte-etat">Aucun emplacement choisi pour l'instant.</p>
+      <input type="hidden" name="latitude" id="latitude">
+      <input type="hidden" name="longitude" id="longitude">
+    </section>
+
+    <!-- 3. Capacité -->
+    <section class="etape-form" data-etape="Capacité" hidden>
+      <h1>Combien de personnes pouvez-vous accueillir ?</h1>
+      <p class="aide">Vous pourrez modifier ces informations plus tard.</p>
+      <div class="compteurs">
+        <div class="compteur"><span id="l-voyageurs">Voyageurs</span><div class="reglage"><button type="button" data-moins="voyageurs" aria-label="Retirer un voyageur">−</button><output id="o-voyageurs" aria-labelledby="l-voyageurs">4</output><button type="button" data-plus="voyageurs" aria-label="Ajouter un voyageur">+</button></div></div>
+        <div class="compteur"><span id="l-chambres">Chambres</span><div class="reglage"><button type="button" data-moins="chambres" aria-label="Retirer une chambre">−</button><output id="o-chambres" aria-labelledby="l-chambres">2</output><button type="button" data-plus="chambres" aria-label="Ajouter une chambre">+</button></div></div>
+        <div class="compteur"><span id="l-lits">Lits</span><div class="reglage"><button type="button" data-moins="lits" aria-label="Retirer un lit">−</button><output id="o-lits" aria-labelledby="l-lits">2</output><button type="button" data-plus="lits" aria-label="Ajouter un lit">+</button></div></div>
+        <div class="compteur"><span id="l-sdb">Salles de bain</span><div class="reglage"><button type="button" data-moins="salles_de_bain" aria-label="Retirer une salle de bain">−</button><output id="o-salles_de_bain" aria-labelledby="l-sdb">1</output><button type="button" data-plus="salles_de_bain" aria-label="Ajouter une salle de bain">+</button></div></div>
+      </div>
+    </section>
+
+    <!-- 4. Équipements -->
+    <section class="etape-form" data-etape="Équipements" hidden>
+      <h1>Quels équipements proposez-vous ?</h1>
+      <p class="aide">Sélectionnez tout ce qui s'applique. Les voyageurs filtrent souvent leurs recherches avec ces critères.</p>
+      <h2>Les essentiels</h2>
+      <div class="puces">
+        <label><input type="checkbox" name="equipements" value="Wi-Fi">Wi-Fi</label>
+        <label><input type="checkbox" name="equipements" value="Cuisine équipée">Cuisine équipée</label>
+        <label><input type="checkbox" name="equipements" value="Lave-linge">Lave-linge</label>
+        <label><input type="checkbox" name="equipements" value="Climatisation">Climatisation</label>
+        <label><input type="checkbox" name="equipements" value="Chauffage">Chauffage</label>
+        <label><input type="checkbox" name="equipements" value="Télévision">Télévision</label>
+        <label><input type="checkbox" name="equipements" value="Espace de travail">Espace de travail</label>
+        <label><input type="checkbox" name="equipements" value="Linge de maison fourni">Linge de maison fourni</label>
+        <label><input type="checkbox" name="equipements" value="Parking gratuit">Parking gratuit</label>
+      </div>
+      <h2>Les plus</h2>
+      <div class="puces">
+        <label><input type="checkbox" name="equipements" value="Piscine">Piscine</label>
+        <label><input type="checkbox" name="equipements" value="Jacuzzi">Jacuzzi</label>
+        <label><input type="checkbox" name="equipements" value="Jardin">Jardin</label>
+        <label><input type="checkbox" name="equipements" value="Terrasse">Terrasse</label>
+        <label><input type="checkbox" name="equipements" value="Barbecue">Barbecue</label>
+        <label><input type="checkbox" name="equipements" value="Vue mer">Vue mer</label>
+        <label><input type="checkbox" name="equipements" value="Vue montagne">Vue montagne</label>
+        <label><input type="checkbox" name="equipements" value="Accès plage">Accès plage</label>
+        <label><input type="checkbox" name="equipements" value="Hammam">Hammam</label>
+        <label><input type="checkbox" name="equipements" value="Petit-déjeuner possible">Petit-déjeuner possible</label>
+      </div>
+      <h2>Sécurité</h2>
+      <div class="puces">
+        <label><input type="checkbox" name="equipements" value="Détecteur de fumée">Détecteur de fumée</label>
+        <label><input type="checkbox" name="equipements" value="Extincteur">Extincteur</label>
+        <label><input type="checkbox" name="equipements" value="Kit de premiers secours">Kit de premiers secours</label>
+        <label><input type="checkbox" name="equipements" value="Caméras extérieures">Caméras extérieures</label>
+      </div>
+    </section>
+
+    <!-- 5. Photos -->
+    <section class="etape-form" data-etape="Photos" hidden>
+      <h1>Ajoutez des photos de votre logement</h1>
+      <p class="aide">Il en faut au moins 5. La première sera la photo de couverture. Des photos lumineuses, prises de jour, attirent plus de réservations.</p>
+      <label class="depot" id="depot" for="photos">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#D81B60" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></svg>
+        <strong>Glissez vos photos ici ou cliquez pour les choisir</strong>
+        <span>JPG, PNG ou WebP · 5 à 20 photos</span>
+      </label>
+      <input type="file" id="photos" accept="image/jpeg,image/png,image/webp" multiple class="sr">
+      <p class="petite-note" id="photos-compte">0 photo sur 5 minimum</p>
+      <div class="vignettes" id="vignettes"></div>
+    </section>
+
+    <!-- 6. Description -->
+    <section class="etape-form" data-etape="Description" hidden>
+      <h1>Donnez un titre et une description</h1>
+      <p class="aide">Soyez précis et donnez envie : ce que les voyageurs vont vivre, le quartier, ce qui rend votre logement unique.</p>
+      <div class="champs">
+        <label class="champ large">Titre de l'annonce
+          <input type="text" name="titre" required minlength="10" maxlength="80" placeholder="Ex. : Villa avec piscine privée au pied de l'Atlas" data-compteur="c-titre">
+          <span class="compte-car" id="c-titre">0 / 80</span>
+        </label>
+        <label class="champ large">Description
+          <textarea name="description" required minlength="50" maxlength="3000" rows="8" placeholder="Décrivez le logement, les chambres, l'extérieur, le quartier, les activités à proximité…" data-compteur="c-desc"></textarea>
+          <span class="compte-car" id="c-desc">0 / 3000 · 50 minimum</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- 7. Prix -->
+    <section class="etape-form" data-etape="Prix" hidden>
+      <h1>Fixez votre prix</h1>
+      <p class="aide">Les prix sont affichés en euros par défaut. Vous pouvez aussi choisir le dirham ou le franc suisse.</p>
+      <div class="devises" role="radiogroup" aria-label="Devise">
+        <label><input type="radio" name="devise" value="EUR" checked><span>€ Euro</span></label>
+        <label><input type="radio" name="devise" value="MAD"><span>DH Dirham</span></label>
+        <label><input type="radio" name="devise" value="CHF"><span>CHF</span></label>
+      </div>
+      <label class="champ" style="max-width:340px">Prix par nuit
+        <span class="prix-grand"><input type="number" name="prix_nuit" id="prix_nuit" required min="1" max="100000" step="1" inputmode="decimal" value="100"><b class="symbole">€</b></span>
+      </label>
+      <label class="champ" style="max-width:340px;margin-top:18px">Frais de ménage par séjour <span class="facultatif">(facultatif)</span>
+        <input type="number" name="frais_menage" id="frais_menage" min="0" max="100000" step="1" inputmode="decimal" placeholder="0">
+      </label>
+      <div class="simulation" aria-live="polite">
+        <div class="l"><span>Le voyageur paie pour 1 nuit</span><span id="s-nuit">100 €</span></div>
+        <div class="l"><span>Commission Sundarly (10 % sur la nuit)</span><span id="s-com">− 10 €</span></div>
+        <div class="l"><span>Frais de ménage (100 % pour vous)</span><span id="s-menage">0 €</span></div>
+        <div class="l total"><span>Vous recevez</span><span id="s-total">90 €</span></div>
+        <small>Aucun frais de service ajouté pour le voyageur. Aucune commission sur le ménage.</small>
+      </div>
+    </section>
+
+    <!-- 8. Règles -->
+    <section class="etape-form" data-etape="Règles" hidden>
+      <h1>Vos règles</h1>
+      <p class="aide">C'est vous qui décidez. Les voyageurs les acceptent au moment de réserver.</p>
+      <h2>Politique d'annulation</h2>
+      <div class="choix large" role="radiogroup" aria-label="Politique d'annulation">
+        <label><input type="radio" name="annulation" value="souple" required><span>Souple<br><small>Remboursement intégral jusqu'à 24 h avant l'arrivée.</small></span></label>
+        <label><input type="radio" name="annulation" value="moderee"><span>Modérée<br><small>Remboursement intégral jusqu'à 5 jours avant l'arrivée.</small></span></label>
+        <label><input type="radio" name="annulation" value="stricte"><span>Stricte<br><small>Remboursement de 50 % jusqu'à 7 jours avant l'arrivée, rien ensuite.</small></span></label>
+      </div>
+      <h2>Arrivée, départ et caution</h2>
+      <div class="champs">
+        <label class="champ">Arrivée à partir de<input type="time" name="heure_arrivee" value="15:00"></label>
+        <label class="champ">Départ avant<input type="time" name="heure_depart" value="11:00"></label>
+        <label class="champ">Caution <span class="facultatif">(facultatif, dans votre devise)</span><input type="number" name="caution" min="0" max="100000" step="1" placeholder="Ex. : 300"></label>
+      </div>
+      <h2>Autorisés dans le logement</h2>
+      <div class="puces">
+        <label><input type="checkbox" name="animaux">Animaux</label>
+        <label><input type="checkbox" name="fumeurs">Fumeurs</label>
+        <label><input type="checkbox" name="fetes">Fêtes et événements</label>
+      </div>
+    </section>
+
+    <!-- 9. Contact -->
+    <section class="etape-form" data-etape="Vos coordonnées" hidden>
+      <h1>Vos coordonnées</h1>
+      <p class="aide">Pour vous contacter au sujet de votre annonce et vous transmettre les réservations. Elles ne sont pas affichées publiquement.</p>
+      <div class="champs">
+        <label class="champ">Prénom et nom<input type="text" name="nom" required maxlength="120" autocomplete="name"></label>
+        <label class="champ">E-mail<input type="email" name="email" required maxlength="200" autocomplete="email"></label>
+        <label class="champ">Téléphone ou WhatsApp <span class="facultatif">(recommandé)</span><input type="tel" name="telephone" maxlength="40" autocomplete="tel" placeholder="+33…, +41…, +212…"></label>
+      </div>
+    </section>
+
+    <!-- 10. Versements -->
+    <section class="etape-form" data-etape="Versements" hidden>
+      <h1>Où souhaitez-vous recevoir vos paiements ?</h1>
+      <p class="aide">Sundarly vous verse le montant de chaque réservation (moins 10 % sur les nuits) après l'arrivée du voyageur.</p>
+      <div class="choix large" role="radiogroup" aria-label="Quand renseigner le compte bancaire">
+        <label><input type="radio" name="banque_quand" value="maintenant" checked><span>Je renseigne mon compte maintenant</span></label>
+        <label><input type="radio" name="banque_quand" value="plus_tard"><span>Je le ferai plus tard<br><small>Notre équipe vous le demandera avant votre premier versement.</small></span></label>
+      </div>
+      <div id="bloc-banque">
+        <h2>Compte bancaire</h2>
+        <div class="champs">
+          <label class="champ">Titulaire du compte<input type="text" name="titulaire" maxlength="120" autocomplete="name" placeholder="Nom tel qu'il figure sur le compte"></label>
+          <label class="champ">Pays de la banque
+            <select name="pays_banque" id="pays_banque">
+              <option value="">Choisir…</option>
+              <option>France</option><option>Suisse</option><option>Belgique</option><option>Espagne</option><option>Portugal</option><option>Italie</option><option>Allemagne</option><option>Autre pays (IBAN)</option><option>Maroc</option><option>Tunisie</option>
+            </select>
+          </label>
+          <label class="champ large"><span id="l-numero">IBAN</span>
+            <input type="text" name="numero" id="numero" maxlength="50" autocomplete="off" spellcheck="false" placeholder="FR76 3000 6000 0112 3456 7890 189">
+            <span class="compte-car" id="aide-numero">Les espaces sont acceptés.</span>
+          </label>
+          <label class="champ">BIC / SWIFT <span class="facultatif">(facultatif)</span><input type="text" name="bic" maxlength="11" autocomplete="off" spellcheck="false" placeholder="Ex. : BNPAFRPP"></label>
+          <label class="champ">Nom de la banque <span class="facultatif">(facultatif)</span><input type="text" name="nom_banque" maxlength="120"></label>
+        </div>
+      </div>
+      <p class="note-securite"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg><span>Vos coordonnées bancaires sont envoyées de façon chiffrée et ne sont jamais visibles sur le site. Elles servent uniquement à vous verser vos revenus. Sundarly ne vous demandera jamais votre code de carte ni vos mots de passe bancaires.</span></p>
+    </section>
+
+    <!-- 11. Récapitulatif -->
+    <section class="etape-form" data-etape="Récapitulatif" hidden>
+      <h1>Vérifiez votre annonce</h1>
+      <p class="aide">Notre équipe la relit avant sa mise en ligne. Vous recevrez un e-mail de confirmation.</p>
+      <div class="recap" id="recap"></div>
+      <label class="case">
+        <input type="checkbox" name="consentement" id="consentement">
+        <span>Je certifie être autorisé·e à louer ce logement et j'accepte les <a href="conditions-generales.html" target="_blank">conditions générales</a> de Sundarly (commission de 10 % sur le prix des nuits) ainsi que la <a href="confidentialite.html" target="_blank">politique de confidentialité</a>.</span>
+      </label>
+      <p class="envoi-etat" id="envoi-etat" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- Succès -->
+    <section class="etape-form succes-final" id="succes" hidden>
+      <div class="rond"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></div>
+      <h1>Votre annonce est envoyée !</h1>
+      <p class="aide">Merci. Notre équipe la vérifie et vous contacte très vite pour sa mise en ligne.</p>
+      <a class="btn" href="/">Retour à l'accueil</a>
+    </section>
+
+    <p class="erreur-etape" id="erreur" role="alert"></p>
+  </form>
+</main>
+
+<div class="barre-actions" id="barre-actions">
+  <div class="dedans">
+    <button type="button" class="lien-retour" id="btn-retour" hidden>Retour</button>
+    <span></span>
+    <button type="button" class="btn" id="btn-suivant">Suivant</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="assets/config.js"></script>
+<script src="assets/publier.js"></script>
+</body>
+</html>
