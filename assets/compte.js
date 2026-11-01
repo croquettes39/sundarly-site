@@ -4,7 +4,7 @@
   var A = window.SundarlyAuth, client = A.client;
   var params = new URLSearchParams(location.search);
   var retour = params.get("retour") || "espace-hote.html";
-  if (!/^[a-z0-9-]+\.html(#[a-z0-9-]*)?$/i.test(retour)) retour = "espace-hote.html"; // pas de redirection vers un autre site
+  if (!/^[a-z0-9-]+\.html(\?id=[0-9a-f-]{36})?(#[a-z0-9-]*)?$/i.test(retour)) retour = "espace-hote.html"; // pas de redirection vers un autre site
 
   var forms = { connexion: $("f-connexion"), inscription: $("f-inscription"), oubli: $("f-oubli"), nouveau: $("f-nouveau") };
   function $(id) { return document.getElementById(id); }

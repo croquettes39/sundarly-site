@@ -117,7 +117,7 @@
         $("aucune").hidden = r.data.length > 0;
         r.data.forEach(function (a) {
           var st = STATUTS[a.statut] || [a.statut, "badge-attente"];
-          var el = document.createElement("article"); el.className = "annonce-ligne";
+          var el = document.createElement("a"); el.className = "annonce-ligne"; el.href = "annonce.html?id=" + encodeURIComponent(a.id);
           var img = document.createElement("div"); img.className = "annonce-photo";
           if (a.photos && a.photos[0]) { var i = document.createElement("img"); i.src = a.photos[0]; i.alt = ""; i.loading = "lazy"; img.appendChild(i); }
           var txt = document.createElement("div"); txt.className = "annonce-texte";
@@ -126,7 +126,8 @@
           p.textContent = a.ville + ", " + a.pays + " · " + Number(a.prix_nuit).toLocaleString("fr-FR") + " " + (SYM[a.devise] || a.devise) + " / nuit";
           txt.appendChild(h); txt.appendChild(p);
           var badge = document.createElement("span"); badge.className = "badge " + st[1]; badge.textContent = st[0];
-          el.appendChild(img); el.appendChild(txt); el.appendChild(badge);
+          var mod = document.createElement("span"); mod.className = "lien-modifier"; mod.textContent = "Modifier";
+          el.appendChild(img); el.appendChild(txt); el.appendChild(badge); el.appendChild(mod);
           z.appendChild(el);
         });
       });

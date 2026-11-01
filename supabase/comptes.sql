@@ -41,7 +41,7 @@ grant select, insert, update on public.profils to authenticated;
 create or replace function public.proteger_verification() returns trigger
 language plpgsql as $$
 begin
-  if coalesce(current_setting('request.jwt.claims', true)::json ->> 'role', '') = 'authenticated' then
+  if coalesce(nullif(current_setting('request.jwt.claims', true), '')::json ->> 'role', '') = 'authenticated' then
     if new.statut_verification in ('verifie', 'refuse')
        and new.statut_verification is distinct from old.statut_verification then
       raise exception 'Statut de vérification réservé à l''équipe Sundarly';
