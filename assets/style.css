@@ -333,3 +333,61 @@ tbody tr:last-child td{border-bottom:0}
 .epingle-sundarly{background:none;border:0}
 .carte{cursor:crosshair}
 #carte-etat{font-weight:600;color:var(--encre)}
+
+/* ---------- Compte & espace hôte ---------- */
+.fond-compte{background:var(--rose-pale)}
+.carte-compte{max-width:520px;margin:28px auto 60px;background:#fff;border-radius:24px;box-shadow:0 10px 40px rgba(0,0,0,.08);padding:26px 28px 30px}
+.onglets{display:flex;gap:6px;background:var(--rose-pale);padding:5px;border-radius:999px;margin-bottom:22px}
+.onglets button{flex:1;border:0;background:transparent;font:inherit;font-weight:700;font-size:15px;padding:11px;border-radius:999px;cursor:pointer;color:var(--gris-texte)}
+.onglets button[aria-selected="true"]{background:#fff;color:var(--encre);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.bloc-compte{display:flex;flex-direction:column;gap:16px}
+.bloc-compte h1{font-size:26px;margin:0}
+.bloc-compte .case{margin-top:4px}
+.bloc-compte .note-securite{margin-top:0}
+.aide-compte{color:var(--gris-texte);margin:0;font-size:15px}
+.deux-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.lien-discret{background:none;border:0;padding:0;font:inherit;font-size:14px;font-weight:600;color:var(--encre);text-decoration:underline;cursor:pointer;align-self:flex-start}
+.btn-large{width:100%;min-height:54px;font-size:17px}
+.espace{max-width:860px;margin:0 auto;padding:20px 20px 70px}
+.chargement{color:var(--gris);text-align:center;padding:60px 0}
+.bonjour{font-size:clamp(26px,4.5vw,38px);margin:14px 0 26px;letter-spacing:-.02em}
+.carte-espace{background:#fff;border:1px solid var(--bord);border-radius:20px;padding:24px;margin-bottom:20px}
+.carte-espace h2{font-size:21px;margin:0 0 8px}
+.gris{color:var(--gris-texte)}
+.verif-entete{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.verif-entete p{margin:0}
+#f-identite{margin-top:20px}
+.badge{display:inline-block;white-space:nowrap;font-size:13px;font-weight:800;padding:6px 12px;border-radius:999px}
+.badge-attente{background:#F1F1F1;color:#444}
+.badge-cours{background:#FFF4D6;color:#7A5300}
+.badge-ok{background:#E8F6EE;color:#0F5C36}
+.badge-refus{background:#FDECEC;color:#8A1C1C}
+.pieces{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:18px}
+.piece-zone{display:flex;flex-direction:column;gap:4px;border:2px dashed var(--bord);border-radius:16px;padding:20px;cursor:pointer;min-height:120px;justify-content:center;text-align:center}
+.piece-zone:hover{border-color:var(--rose)}
+.piece-zone span{font-size:14px;color:var(--gris-texte)}
+.piece-zone em{font-style:normal;font-size:13px;color:#0F5C36;font-weight:700;word-break:break-all}
+.piece-zone.rempli{border-style:solid;border-color:#0F5C36;background:#F3FBF6}
+.piece-zone:focus-within{outline:3px solid rgba(216,27,96,.25)}
+.ligne-action{display:flex;align-items:center;gap:16px;padding:16px 4px;color:var(--encre);text-decoration:none;font-weight:700;font-size:17px;border-top:1px solid var(--bord);margin-top:10px}
+.ligne-action span{flex:1}
+.ligne-action:hover{color:var(--rose)}
+.liste-annonces{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.annonce-ligne{display:flex;align-items:center;gap:16px;padding:10px;border:1px solid var(--bord);border-radius:16px}
+.annonce-photo{width:76px;height:64px;border-radius:12px;background:var(--rose-pale);overflow:hidden;flex:0 0 auto}
+.annonce-photo img{width:100%;height:100%;object-fit:cover}
+.annonce-texte{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}
+.annonce-texte strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.annonce-texte .gris{font-size:14px}
+.avis-verif{background:#FFF4D6;color:#7A5300;border-radius:14px;padding:14px 16px;font-size:15px;margin:0 0 18px}
+@media (max-width:560px){
+  .carte-compte{margin:12px 12px 40px;padding:20px 18px 24px}
+  .deux-col{grid-template-columns:1fr}
+  .verif-entete{flex-direction:column}
+  .annonce-ligne{display:grid;grid-template-columns:64px 1fr;column-gap:12px;row-gap:6px}
+  .annonce-photo{width:64px;height:56px;grid-row:span 2}
+  .annonce-ligne .badge{grid-column:2;justify-self:start}
+}
+.attente-connexion main,.attente-connexion .barre-actions{visibility:hidden}
+.piece-zone[hidden]{display:none}
+[hidden]{display:none !important}

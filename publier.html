@@ -317,8 +317,9 @@
     <section class="etape-form succes-final" id="succes" hidden>
       <div class="rond"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></div>
       <h1>Votre annonce est envoyée !</h1>
-      <p class="aide">Merci. Notre équipe la vérifie et vous contacte très vite pour sa mise en ligne.</p>
-      <a class="btn" href="/">Retour à l'accueil</a>
+      <p class="aide">Merci. Notre équipe la vérifie avant sa mise en ligne. Vous pouvez suivre son statut dans votre espace hôte.</p>
+      <p class="avis-verif" id="avis-verif" hidden>Dernière étape : vérifiez votre identité depuis votre espace hôte. Vos annonces ne seront mises en ligne qu'une fois votre identité vérifiée.</p>
+      <a class="btn" href="espace-hote.html">Aller à mon espace hôte</a>
     </section>
 
     <p class="erreur-etape" id="erreur" role="alert"></p>
@@ -338,6 +339,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script src="assets/devise.js"></script>
 <script src="assets/config.js"></script>
+<script src="assets/auth.js"></script>
 <script src="assets/publier.js"></script>
 </body>
 </html>

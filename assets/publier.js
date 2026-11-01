@@ -3,10 +3,8 @@
   "use strict";
 
   var cfg = window.SUNDARLY_CONFIG || {};
-  var client = null;
-  if (cfg.SUPABASE_URL && cfg.SUPABASE_ANON_KEY && window.supabase) {
-    client = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY, { auth: { persistSession: false } });
-  }
+  var client = window.SundarlyAuth ? window.SundarlyAuth.client : null;
+  var SESSION = null;
 
   var form = document.getElementById("form-annonce");
   var etapes = Array.prototype.slice.call(form.querySelectorAll("section.etape-form[data-etape]"));
@@ -468,7 +466,7 @@
     function envoyerPhoto() {
       if (i >= photos.length) return Promise.resolve();
       etat.textContent = "Envoi des photos : " + (i + 1) + " sur " + photos.length + "…";
-      var chemin = id + "/" + String(i + 1).padStart(2, "0") + "-" + uuid().slice(0, 8) + ".jpg";
+      var chemin = SESSION.user.id + "/" + id + "/" + String(i + 1).padStart(2, "0") + "-" + uuid().slice(0, 8) + ".jpg";
       return client.storage.from("photos-annonces").upload(chemin, photos[i].blob, { contentType: "image/jpeg", upsert: false })
         .then(function (r) {
           if (r.error) throw r.error;
@@ -481,7 +479,7 @@
       .then(function () {
         etat.textContent = "Enregistrement de l'annonce…";
         return client.from("annonces").insert({
-          id: id,
+          id: id, hote_id: SESSION.user.id,
           type_logement: choisi("type_logement"),
           type_espace: choisi("type_espace"),
           pays: val("pays"), ville: val("ville"), code_postal: val("code_postal"), adresse: val("adresse"),
@@ -504,7 +502,7 @@
         etat.textContent = "Enregistrement des coordonnées bancaires…";
         var bic = val("bic").replace(/\s/g, "").toUpperCase();
         return client.from("coordonnees_bancaires").insert({
-          annonce_id: id, titulaire: val("titulaire"), pays_banque: val("pays_banque"),
+          annonce_id: id, hote_id: SESSION.user.id, titulaire: val("titulaire"), pays_banque: val("pays_banque"),
           numero: numeroNettoye(), bic: bic || null, nom_banque: val("nom_banque") || null
         });
       })
@@ -561,9 +559,27 @@
   form.addEventListener("change", sauverBrouillon);
   document.getElementById("btn-quitter").addEventListener("click", function () {
     sauverBrouillon();
-    window.location.href = "/";
+    window.location.href = SESSION ? "espace-hote.html" : "/";
   });
   chargerBrouillon();
+
+  // ---------- Compte hôte obligatoire ----------
+  // Il faut être inscrit et connecté pour publier (comme Airbnb / Booking)
+  if (client) {
+    document.body.classList.add("attente-connexion");
+    window.SundarlyAuth.exiger("publier.html")
+      .then(function (s) { SESSION = s; return window.SundarlyAuth.profil(s); })
+      .then(function (p) {
+        document.body.classList.remove("attente-connexion");
+        // Pré-remplit les coordonnées depuis le compte
+        if (!val("nom")) form.elements.nom.value = (p.prenom + " " + p.nom).trim();
+        form.elements.email.value = SESSION.user.email;
+        form.elements.email.readOnly = true;
+        if (!val("telephone") && p.telephone !== "000000") form.elements.telephone.value = p.telephone;
+        if (p.statut_verification !== "verifie") $("avis-verif").hidden = false;
+      })
+      .catch(function (e) { console.error(e); document.body.classList.remove("attente-connexion"); });
+  }
 
   afficher(0);
 })();

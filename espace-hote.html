@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mon espace hôte – Sundarly</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#D81B60">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="entete-publier">
+  <a class="logo-seul" href="/" aria-label="Sundarly, accueil">
+    <svg width="38" height="38" viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="15" r="6" stroke="currentColor" stroke-width="2.5"/><path d="M17 3v3M5 15h3M26 15h3M8.5 6.5l2 2M25.5 6.5l-2 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M4 27c3-3 6-3 9 0s6 3 9 0 6-3 9 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+  </a>
+  <div class="entete-actions">
+    <a class="pilule" href="hotes.html#faq">Des questions ?</a>
+    <button type="button" class="pilule" id="btn-deconnexion">Se déconnecter</button>
+  </div>
+</header>
+
+<main class="espace">
+  <p class="chargement" id="chargement">Chargement de votre espace…</p>
+
+  <div id="contenu" hidden>
+    <h1 class="bonjour">Nous sommes ravis de vous revoir, <span id="prenom"></span></h1>
+
+    <!-- Vérification d'identité -->
+    <section class="carte-espace" id="bloc-verif">
+      <div class="verif-entete">
+        <div>
+          <h2>Vérification d'identité</h2>
+          <p id="verif-texte" class="gris"></p>
+        </div>
+        <span class="badge" id="verif-badge"></span>
+      </div>
+      <form id="f-identite" novalidate hidden>
+        <label class="champ">Type de pièce
+          <select name="type_piece" required>
+            <option value="">Choisir…</option>
+            <option value="cni">Carte nationale d'identité</option>
+            <option value="passeport">Passeport</option>
+            <option value="titre_sejour">Titre de séjour</option>
+            <option value="permis">Permis de conduire</option>
+          </select>
+        </label>
+        <div class="pieces">
+          <label class="piece-zone"><input type="file" name="recto" accept="image/jpeg,image/png,image/webp,application/pdf" class="sr"><strong>Recto</strong><span>Photo nette de la face avant</span><em data-nom></em></label>
+          <label class="piece-zone" id="zone-verso"><input type="file" name="verso" accept="image/jpeg,image/png,image/webp,application/pdf" class="sr"><strong>Verso</strong><span>Face arrière (sauf passeport)</span><em data-nom></em></label>
+          <label class="piece-zone"><input type="file" name="selfie" accept="image/jpeg,image/png,image/webp" capture="user" class="sr"><strong>Selfie</strong><span>Une photo de vous, visage bien visible</span><em data-nom></em></label>
+        </div>
+        <p class="note-securite"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg><span>Vos documents sont envoyés de façon chiffrée dans un espace privé. Seule l'équipe Sundarly peut les consulter, uniquement pour vérifier votre identité. Ils ne sont jamais montrés aux voyageurs.</span></p>
+        <div class="actions"><span></span><button class="btn" type="submit">Envoyer pour vérification</button></div>
+        <p class="message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- Annonces -->
+    <section class="carte-espace">
+      <h2>Créez une nouvelle annonce</h2>
+      <a class="ligne-action" href="publier.html">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M12 12v5M9.5 14.5h5"/></svg>
+        <span>Créer une nouvelle annonce</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </a>
+    </section>
+
+    <section class="carte-espace">
+      <h2>Mes annonces</h2>
+      <div id="annonces" class="liste-annonces"></div>
+      <p id="aucune" class="gris" hidden>Vous n'avez pas encore d'annonce.</p>
+    </section>
+
+    <!-- Profil -->
+    <section class="carte-espace">
+      <h2>Mes informations</h2>
+      <p class="gris">Elles ne sont jamais affichées sur vos annonces. Le voyageur reçoit votre téléphone et votre e-mail uniquement après une réservation confirmée et payée.</p>
+      <form id="f-profil" novalidate>
+        <div class="champs">
+          <label class="champ">Prénom<input type="text" name="prenom" required maxlength="80" autocomplete="given-name"></label>
+          <label class="champ">Nom<input type="text" name="nom" required maxlength="80" autocomplete="family-name"></label>
+          <label class="champ">Téléphone<input type="tel" name="telephone" required maxlength="40" autocomplete="tel"></label>
+          <label class="champ">E-mail<input type="email" name="email" disabled></label>
+          <label class="champ">Date de naissance<input type="date" name="date_naissance"></label>
+          <label class="champ">Pays de résidence<input type="text" name="pays" maxlength="60"></label>
+        </div>
+        <div class="actions"><span></span><button class="btn btn-contour" type="submit">Enregistrer</button></div>
+        <p class="message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/devise.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/auth.js"></script>
+<script src="assets/espace.js"></script>
+</body>
+</html>

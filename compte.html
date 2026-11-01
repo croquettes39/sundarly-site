@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Connexion – Sundarly</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#D81B60">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="fond-compte">
+
+<header class="entete-publier">
+  <a class="logo-seul" href="/" aria-label="Sundarly, accueil">
+    <svg width="38" height="38" viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="15" r="6" stroke="currentColor" stroke-width="2.5"/><path d="M17 3v3M5 15h3M26 15h3M8.5 6.5l2 2M25.5 6.5l-2 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M4 27c3-3 6-3 9 0s6 3 9 0 6-3 9 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+  </a>
+  <div class="entete-actions"><a class="pilule" href="hotes.html">Devenir hôte</a></div>
+</header>
+
+<main class="carte-compte">
+  <div class="onglets" role="tablist" aria-label="Connexion ou inscription">
+    <button type="button" role="tab" id="tab-connexion" aria-selected="true" data-onglet="connexion">Connexion</button>
+    <button type="button" role="tab" id="tab-inscription" aria-selected="false" data-onglet="inscription">Inscription</button>
+  </div>
+
+  <!-- Connexion -->
+  <form id="f-connexion" class="bloc-compte" novalidate>
+    <h1>Bon retour parmi nous</h1>
+    <label class="champ">E-mail<input type="email" name="email" autocomplete="email" required></label>
+    <label class="champ">Mot de passe<input type="password" name="mdp" autocomplete="current-password" required></label>
+    <button type="button" class="lien-discret" id="lien-oubli">Mot de passe oublié ?</button>
+    <button class="btn btn-large" type="submit">Se connecter</button>
+    <p class="message" role="status" aria-live="polite"></p>
+  </form>
+
+  <!-- Inscription -->
+  <form id="f-inscription" class="bloc-compte" novalidate hidden>
+    <h1>Créer votre compte hôte</h1>
+    <p class="aide-compte">Il vous permet de publier vos logements, de suivre vos annonces et de recevoir vos paiements.</p>
+    <div class="deux-col">
+      <label class="champ">Prénom<input type="text" name="prenom" autocomplete="given-name" required maxlength="80"></label>
+      <label class="champ">Nom<input type="text" name="nom" autocomplete="family-name" required maxlength="80"></label>
+    </div>
+    <label class="champ">E-mail<input type="email" name="email" autocomplete="email" required maxlength="200"></label>
+    <label class="champ">Téléphone (WhatsApp de préférence)<input type="tel" name="telephone" autocomplete="tel" required maxlength="40" placeholder="+33…, +41…, +212…"></label>
+    <label class="champ">Pays de résidence
+      <select name="pays" required>
+        <option value="">Choisir…</option>
+        <option>France</option><option>Suisse</option><option>Belgique</option><option>Maroc</option><option>Tunisie</option><option>Espagne</option><option>Portugal</option><option>Italie</option><option>Allemagne</option><option>Autre pays</option>
+      </select>
+    </label>
+    <label class="champ">Mot de passe<input type="password" name="mdp" autocomplete="new-password" required minlength="8"><span class="compte-car">8 caractères minimum</span></label>
+    <p class="note-securite"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg><span>Votre téléphone et votre e-mail ne sont jamais affichés sur vos annonces. Ils sont transmis au voyageur uniquement après une réservation confirmée et payée.</span></p>
+    <label class="case"><input type="checkbox" name="cgu" required><span>J'ai 18 ans ou plus et j'accepte les <a href="conditions-generales.html" target="_blank">conditions générales</a> et la <a href="confidentialite.html" target="_blank">politique de confidentialité</a>.</span></label>
+    <button class="btn btn-large" type="submit">Créer mon compte</button>
+    <p class="message" role="status" aria-live="polite"></p>
+  </form>
+
+  <!-- Mot de passe oublié -->
+  <form id="f-oubli" class="bloc-compte" novalidate hidden>
+    <h1>Mot de passe oublié</h1>
+    <p class="aide-compte">Indiquez votre e-mail : nous vous envoyons un lien pour choisir un nouveau mot de passe.</p>
+    <label class="champ">E-mail<input type="email" name="email" autocomplete="email" required></label>
+    <button class="btn btn-large" type="submit">Envoyer le lien</button>
+    <button type="button" class="lien-discret" data-retour-connexion>Retour à la connexion</button>
+    <p class="message" role="status" aria-live="polite"></p>
+  </form>
+
+  <!-- Nouveau mot de passe (après le lien reçu par e-mail) -->
+  <form id="f-nouveau" class="bloc-compte" novalidate hidden>
+    <h1>Choisissez un nouveau mot de passe</h1>
+    <label class="champ">Nouveau mot de passe<input type="password" name="mdp" autocomplete="new-password" required minlength="8"><span class="compte-car">8 caractères minimum</span></label>
+    <button class="btn btn-large" type="submit">Enregistrer</button>
+    <p class="message" role="status" aria-live="polite"></p>
+  </form>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/auth.js"></script>
+<script src="assets/compte.js"></script>
+</body>
+</html>
