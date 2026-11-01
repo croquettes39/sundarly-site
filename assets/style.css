@@ -557,3 +557,21 @@ a.annonce-ligne:hover{box-shadow:0 4px 18px rgba(0,0,0,.1);color:var(--encre)}
 .doc-pdf{height:220px;display:flex;align-items:center;justify-content:center;background:#F3F3F3;border-radius:12px;font-size:26px;color:var(--rose)}
 @media (max-width:600px){.titre-admin{display:none}.tuile-nombre{font-size:32px}}
 @media (max-width:600px){.tuiles-stats{grid-template-columns:1fr 1fr}.tuile-stat{padding:14px}}
+
+/* ---------- Bandeau propriétaires + deux choix ---------- */
+.bandeau-hotes{display:flex;justify-content:center;align-items:center;gap:6px 14px;flex-wrap:wrap;background:var(--encre);color:#fff;text-decoration:none;font-size:14px;padding:10px 16px;text-align:center}
+.bandeau-hotes:hover{color:#fff;background:#000}
+.bandeau-hotes strong{color:#FF8FB8}
+.bandeau-lien{font-weight:800;text-decoration:underline;white-space:nowrap}
+.deux-choix{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:820px;margin:30px auto 0;text-align:left}
+.choix-carte{display:flex;flex-direction:column;gap:6px;background:#fff;border-radius:22px;padding:20px 22px;color:var(--encre);text-decoration:none;border:1.5px solid transparent}
+.choix-carte strong{font-size:20px;letter-spacing:-.01em}
+.choix-carte>span:not(.btn):not(.choix-etiquette){font-size:15px;color:var(--gris-texte)}
+.choix-carte b{color:var(--rose)}
+.choix-etiquette{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--rose)}
+.choix-hote{border-color:var(--rose);box-shadow:0 8px 28px rgba(216,27,96,.15)}
+.choix-hote:hover{color:var(--encre);transform:translateY(-2px);transition:transform .15s}
+.choix-hote .btn{align-self:flex-start;margin-top:8px}
+.choix-voyageur{background:rgba(255,255,255,.6)}
+.deux-choix + .attente{margin-top:14px}
+@media (max-width:700px){.deux-choix{grid-template-columns:1fr}.bandeau-hotes{font-size:13px}}
