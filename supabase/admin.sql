@@ -14,6 +14,7 @@ create or replace function public.est_admin() returns boolean
 language sql stable security definer set search_path = public as $$
   select exists (select 1 from public.admins where user_id = auth.uid());
 $$;
+revoke execute on function public.est_admin() from public, anon;
 grant execute on function public.est_admin() to authenticated;
 
 -- 2) L'admin peut lire et gérer les inscriptions, profils et annonces
@@ -75,6 +76,9 @@ begin
   return new;
 end $$;
 
+alter function public.proteger_verification() set search_path = public;
+alter function public.proteger_annonce() set search_path = public;
+
 -- 3) Pièces d'identité : l'admin peut les consulter (liens temporaires)
 drop policy if exists "piece identite : lecture admin" on storage.objects;
 create policy "piece identite : lecture admin" on storage.objects
@@ -109,6 +113,7 @@ begin
   ) into r;
   return r;
 end $$;
+revoke execute on function public.admin_stats() from public, anon;
 grant execute on function public.admin_stats() to authenticated;
 
 -- 5) Liste des comptes hôtes avec leur e-mail
@@ -126,6 +131,7 @@ begin
     from auth.users u left join public.profils p on p.id = u.id
     order by u.created_at desc;
 end $$;
+revoke execute on function public.admin_comptes() from public, anon;
 grant execute on function public.admin_comptes() to authenticated;
 
 -- 6) VOUS : remplacez VOTRE-EMAIL par l'e-mail de votre compte sur le site
