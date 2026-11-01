@@ -187,22 +187,40 @@
     var c = CENTRES[val("pays")];
     if (carte && c && !epingle) carte.setView([c[0], c[1]], c[2]);
   });
-  $("btn-localiser").addEventListener("click", function () {
-    var q = [val("adresse"), val("ville"), val("pays")].filter(Boolean).join(", ");
-    if (!val("ville")) { erreur("Indiquez au moins la ville avant de chercher sur la carte."); return; }
-    var b = this; b.disabled = true; b.textContent = "Recherche…";
-    fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=fr&q=" + encodeURIComponent(q))
+  function chercher(q) {
+    return fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=fr&q=" + encodeURIComponent(q))
       .then(function (r) { return r.json(); })
-      .then(function (res) {
-        if (res && res[0]) {
-          var precis = val("adresse").length > 3 && /house|building|road|residential|street/.test(res[0].type + res[0].class);
-          placer(parseFloat(res[0].lat), parseFloat(res[0].lon), precis ? 17 : 14);
+      .then(function (res) { return res && res[0] ? res[0] : null; });
+  }
+  // Centre la carte sur la ville dès qu'elle est saisie
+  form.elements.ville.addEventListener("change", function () {
+    if (!val("ville") || epingle || !carte) return;
+    chercher(val("ville") + ", " + val("pays")).then(function (r) {
+      if (r && !epingle) carte.setView([parseFloat(r.lat), parseFloat(r.lon)], 13);
+    }).catch(function () {});
+  });
+  $("btn-localiser").addEventListener("click", function () {
+    if (!val("ville")) { erreur("Indiquez au moins la ville avant de chercher sur la carte."); return; }
+    var b = this; b.disabled = true; b.textContent = "Recherche…"; erreur("");
+    var complete = [val("adresse"), val("ville"), val("pays")].filter(Boolean).join(", ");
+    chercher(complete)
+      .then(function (r) {
+        if (r) {
+          placer(parseFloat(r.lat), parseFloat(r.lon), 17);
           $("carte-etat").textContent = "Adresse trouvée. Vérifiez la position et déplacez l'épingle si besoin.";
-        } else {
-          erreur("Adresse introuvable. Cliquez directement sur la carte à l'emplacement du logement.");
+          return;
         }
+        // Adresse précise inconnue de la carte : on se place sur la ville
+        return chercher(val("ville") + ", " + val("pays")).then(function (v) {
+          if (v) {
+            carte.setView([parseFloat(v.lat), parseFloat(v.lon)], 13);
+            $("carte-etat").textContent = "Nous avons centré la carte sur " + val("ville") + ". Zoomez avec + puis cliquez à l'emplacement exact de votre logement pour placer l'épingle.";
+          } else {
+            erreur("Adresse introuvable. Zoomez sur la carte et cliquez directement à l'emplacement du logement.");
+          }
+        });
       })
-      .catch(function () { erreur("La recherche n'a pas fonctionné. Cliquez directement sur la carte à l'emplacement du logement."); })
+      .catch(function () { erreur("La recherche n'a pas fonctionné. Zoomez sur la carte et cliquez directement à l'emplacement du logement."); })
       .finally(function () { b.disabled = false; b.textContent = "Trouver l'adresse sur la carte"; });
   });
 
