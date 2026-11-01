@@ -268,3 +268,4 @@ tbody tr:last-child td{border-bottom:0}
 .en-attendant{margin:28px auto 0;max-width:780px;background:#fff;border:1.5px solid #F2C9D8;border-radius:22px;padding:20px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;text-align:left}
 .en-attendant p{margin:0;flex:1 1 360px;font-size:16px;color:var(--gris-texte)}
 .en-attendant strong{color:var(--encre)}
+.bloc-editeur{display:inline-block;border:1.5px solid var(--ligne);border-radius:14px;padding:14px 20px;font-variant-numeric:tabular-nums;line-height:1.7;color:var(--encre)}
