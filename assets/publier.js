@@ -70,6 +70,12 @@
     var chiffres = x.replace(/[\s.\-()\/+]/g, "");
     if (/\d{8,}/.test(chiffres)) return true;
     if (/(instagram|facebook|whatsapp|telegram|snapchat|tiktok|airbnb|booking)\b/.test(x)) return true;
+    // numéros écrits en toutes lettres : « zéro six six trois… »
+    var mots = x.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(/[^a-z0-9]+/);
+    var suite = 0, chiffresLettres = { zero: 1, un: 1, deux: 1, trois: 1, quatre: 1, cinq: 1, six: 1, sept: 1, huit: 1, neuf: 1 };
+    for (var k = 0; k < mots.length; k++) {
+      if (chiffresLettres[mots[k]] || /^\d+$/.test(mots[k])) { suite++; if (suite >= 6) return true; } else if (mots[k]) suite = 0;
+    }
     return false;
   }
 
