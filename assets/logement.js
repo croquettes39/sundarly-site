@@ -30,14 +30,48 @@
     });
   }).catch(function (e) { console.error(e); $("chargement").textContent = "Impossible de charger ce logement pour le moment."; });
 
-  function indisponible() { $("fiche").hidden = true; $("bientot").hidden = false; }
+  function indisponible() {
+    $("fiche").hidden = true; $("bientot").hidden = false;
+    var m = document.createElement("meta"); m.name = "robots"; m.content = "noindex"; document.head.appendChild(m);
+  }
+
+  // Référencement : titre, description, lien canonique, partage et données structurées du logement
+  function meta(attr, nom, valeur) {
+    var el = document.head.querySelector("meta[" + attr + '="' + nom + '"]');
+    if (!el) { el = document.createElement("meta"); el.setAttribute(attr, nom); document.head.appendChild(el); }
+    el.setAttribute("content", valeur);
+  }
+  function seo() {
+    var url = "https://www.sundarly.com/logement?id=" + A.id;
+    var titre = A.titre + " – " + A.type_logement + " à " + A.ville + " | Sundarly";
+    var desc = (A.type_logement + " à " + A.ville + ", " + A.pays + " · " + V.pluriel(A.voyageurs, "voyageur", "voyageurs") + ", " + V.pluriel(A.chambres, "chambre", "chambres") + ". " + String(A.description || "").replace(/\s+/g, " ")).slice(0, 155);
+    document.title = titre;
+    meta("name", "description", desc);
+    meta("property", "og:title", titre); meta("property", "og:description", desc); meta("property", "og:url", url);
+    meta("name", "twitter:title", titre); meta("name", "twitter:description", desc);
+    if (A.photos && A.photos[0]) { meta("property", "og:image", A.photos[0]); meta("name", "twitter:image", A.photos[0]); }
+    var c = document.head.querySelector('link[rel="canonical"]'); if (c) c.href = url;
+    var ld = {
+      "@context": "https://schema.org", "@type": "VacationRental", "@id": url, "identifier": A.id, "name": A.titre, "url": url,
+      "description": String(A.description || ""), "image": (A.photos || []).slice(0, 8),
+      "address": { "@type": "PostalAddress", "addressLocality": A.ville, "addressCountry": A.pays },
+      "latitude": Number(A.latitude), "longitude": Number(A.longitude),
+      "containsPlace": { "@type": "Accommodation", "additionalType": A.type_espace === "logement_entier" ? "EntirePlace" : "PrivateRoom",
+        "occupancy": { "@type": "QuantitativeValue", "value": A.voyageurs }, "numberOfBedrooms": A.chambres, "numberOfBathroomsTotal": A.salles_de_bain,
+        "amenityFeature": (A.equipements || []).map(function (e) { return { "@type": "LocationFeatureSpecification", "name": e, "value": true }; }) },
+      "brand": { "@type": "Brand", "name": "Sundarly" }
+    };
+    var s = document.getElementById("ld-logement");
+    if (!s) { s = document.createElement("script"); s.type = "application/ld+json"; s.id = "ld-logement"; document.head.appendChild(s); }
+    s.textContent = JSON.stringify(ld);
+  }
   document.addEventListener("sundarly:devise", function () { if (A) { rendre(); } });
 
   function liste(t, items) { return items && items.length ? "<section class=\"fi-bloc\"><h2>" + esc(t) + '</h2><ul class="fi-equip">' + items.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></section>" : ""; }
   function texte(t, s) { return s ? '<section class="fi-bloc"><h2>' + esc(t) + "</h2><p>" + nl(s) + "</p></section>" : ""; }
 
   function rendre() {
-    document.title = A.titre + " – " + A.ville + " – Sundarly";
+    seo();
     var p = A.photos || [];
     var depuis = A.hote_depuis ? new Date(A.hote_depuis).toLocaleDateString("fr-FR", { month: "long", year: "numeric" }) : "";
     var regles = [];

@@ -1,0 +1,13 @@
+# Sundarly — consignes pour les robots d'indexation
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /compte
+Disallow: /espace-hote
+Disallow: /annonce
+Disallow: /publier
+Disallow: /api/
+Disallow: /supabase/
+Disallow: /*?*retour=
+
+Sitemap: https://www.sundarly.com/sitemap.xml

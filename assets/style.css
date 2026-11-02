@@ -249,8 +249,8 @@ tbody tr:last-child td{border-bottom:0}
 }
 .carte-entete{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-top:28px}
 .carte-entete h2{margin:0}
-.carte{height:360px;border-radius:18px;border:1px solid var(--ligne);overflow:hidden;background:#EEF0EC;z-index:0}
-@media (max-width:640px){.carte{height:300px}}
+.carte-map{height:360px;border-radius:18px;border:1px solid var(--ligne);overflow:hidden;background:#EEF0EC;z-index:0}
+@media (max-width:640px){.carte-map{height:300px}}
 
 .legal-societe{margin:16px 0 0;font-size:12px;line-height:1.6;color:var(--gris)}
 .legal-societe a{color:var(--gris)}
@@ -331,7 +331,7 @@ tbody tr:last-child td{border-bottom:0}
 .airbnb .choix label:has(input:checked){border-color:var(--encre) !important;box-shadow:0 0 0 1px var(--encre)}
 .boutons-carte{display:flex;flex-wrap:wrap;gap:10px}
 .epingle-sundarly{background:none;border:0}
-.carte{cursor:crosshair}
+.carte-map{cursor:crosshair}
 #carte-etat{font-weight:600;color:var(--encre)}
 
 /* ---------- Compte & espace hôte ---------- */
@@ -714,3 +714,31 @@ a.annonce-ligne:hover{box-shadow:0 4px 18px rgba(0,0,0,.1);color:var(--encre)}
   .fr-zero-mobile{color:#0F5C36;font-size:12px;font-weight:700}
 }
 .ouverture{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}.ouverture h2{margin:0 0 4px;font-size:19px}.ouverture p{margin:0;max-width:640px}
+
+/* ---------- Pages destinations (référencement) ---------- */
+.fil-ariane{font-size:14px;color:var(--gris-texte);padding-top:14px;padding-bottom:4px}
+.fil-ariane a{color:var(--gris-texte)}
+.heros-dest{padding:48px 0 56px}
+.heros-dest h1{font-size:clamp(32px,5vw,54px)}
+.recherche-dest{margin-top:30px;text-align:left}
+.texte-long{font-size:17px;line-height:1.7;max-width:820px;color:var(--gris-texte)}
+.sous-titre{font-size:20px;margin:28px 0 12px}
+.puces-liens{display:flex;flex-wrap:wrap;gap:10px}
+.puce-lien{border:1px solid var(--bord);background:#fff;border-radius:999px;padding:10px 16px;font-weight:600;font-size:15px;color:var(--encre);text-decoration:none}
+.puce-lien:hover{border-color:var(--encre);color:var(--encre)}
+.deux-blocs{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:20px}
+.liste-coches{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;font-size:16px}
+.liste-coches li{padding-left:26px;position:relative}
+.liste-coches li::before{content:"";position:absolute;left:3px;top:.45em;width:11px;height:6px;border-left:2px solid var(--rose);border-bottom:2px solid var(--rose);transform:rotate(-45deg)}
+.grille-dest{margin-top:20px}
+.grille-dest .cl-photos img{width:100%;height:100%;object-fit:cover}
+.bandeau-hote-dest{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;background:var(--rose-pale);border-radius:24px;padding:28px 32px}
+.bandeau-hote-dest h2{margin:0 0 6px;font-size:26px}
+.bandeau-hote-dest p{margin:0;color:var(--gris-texte);max-width:640px}
+.grille-dest-liens{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:14px 0 34px}
+.carte-dest{display:flex;flex-direction:column;gap:4px;background:#fff;border:1px solid var(--bord);border-radius:18px;padding:18px 20px;color:var(--encre);text-decoration:none}
+.carte-dest:hover{box-shadow:0 6px 22px rgba(0,0,0,.08);color:var(--encre)}
+.carte-dest strong{font-size:18px}
+.carte-dest span{font-size:14px;color:var(--gris-texte)}
+.colonnes-4{grid-template-columns:1.4fr 1fr 1fr 1fr}
+@media (max-width:760px){.deux-blocs{grid-template-columns:1fr}.colonnes-4{grid-template-columns:1fr 1fr}}
