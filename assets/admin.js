@@ -47,13 +47,32 @@
       client.rpc("admin_comptes"),
       client.from("annonces").select("id,created_at,statut,titre,type_logement,ville,pays,prix_nuit,devise,photos,nom,email,telephone,hote_id").order("created_at", { ascending: false }),
       client.from("hotes").select("*").order("created_at", { ascending: false }),
-      client.from("liste_attente").select("*").order("created_at", { ascending: false })
+      client.from("liste_attente").select("*").order("created_at", { ascending: false }),
+      client.rpc("site_ouvert")
     ]).then(function (r) {
       r.forEach(function (x) { if (x.error) throw x.error; });
       D.stats = r[0].data; D.comptes = r[1].data || []; D.annonces = r[2].data || []; D.hotes = r[3].data || []; D.voyageurs = r[4].data || [];
-      rendreBord(); rendreIdentites(); rendreAnnonces(); rendreTableaux();
+      D.ouvert = !!r[5].data;
+      rendreBord(); rendreIdentites(); rendreAnnonces(); rendreTableaux(); rendreOuverture();
     });
   }
+
+  // ---------- Ouverture du site voyageurs ----------
+  function rendreOuverture() {
+    var enLigne = D.annonces.filter(function (a) { return a.statut === "en_ligne"; }).length;
+    $("ouverture-texte").innerHTML = D.ouvert
+      ? "<strong>Ouvert au public.</strong> Les visiteurs voient les " + enLigne + " annonce(s) « En ligne »."
+      : "<strong>Fermé au public (aperçu).</strong> Vous seule voyez les logements. Les visiteurs voient « Bientôt disponible ». Le jour J, cliquez sur « Ouvrir le site » : seules les annonces « En ligne » (" + enLigne + " aujourd'hui) seront visibles.";
+    var b = $("btn-ouvrir");
+    b.textContent = D.ouvert ? "Refermer le site" : "Ouvrir le site au public";
+    b.className = "btn btn-petit " + (D.ouvert ? "btn-contour" : "btn-sombre");
+  }
+  $("btn-ouvrir").addEventListener("click", function () {
+    var ouvrir = !D.ouvert;
+    if (!confirm(ouvrir ? "Ouvrir le site voyageurs à tout le monde ? Les annonces « En ligne » seront visibles par tous." : "Refermer le site voyageurs ? Les visiteurs verront à nouveau « Bientôt disponible ».")) return;
+    client.rpc("admin_ouvrir_site", { ouvrir: ouvrir }).then(function (r) { if (r.error) throw r.error; return charger(); })
+      .catch(function (e) { console.error(e); alert("La modification n'a pas fonctionné."); });
+  });
 
   // ---------- Tableau de bord ----------
   function rendreBord() {

@@ -20,6 +20,7 @@
   </a>
   <strong class="titre-admin">Administration</strong>
   <div class="entete-actions">
+    <a class="pilule" href="logements.html">Voir le site voyageurs</a>
     <button type="button" class="pilule" id="btn-actualiser">Actualiser</button>
     <button type="button" class="pilule" id="btn-deconnexion">Se déconnecter</button>
   </div>
@@ -44,6 +45,10 @@
 
     <!-- Tableau de bord -->
     <section data-panneau="bord">
+      <div class="carte-espace ouverture" id="ouverture">
+        <div><h2>Site voyageurs</h2><p class="gris" id="ouverture-texte">…</p></div>
+        <div class="actions-admin"><a class="btn btn-contour btn-petit" href="logements.html">Voir l'aperçu</a><button type="button" class="btn btn-sombre btn-petit" id="btn-ouvrir"></button></div>
+      </div>
       <div class="tuiles-stats" id="tuiles"></div>
       <div class="graphes">
         <figure class="carte-espace graphe" id="g-comptes"></figure>

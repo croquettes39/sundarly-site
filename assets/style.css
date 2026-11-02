@@ -575,3 +575,142 @@ a.annonce-ligne:hover{box-shadow:0 4px 18px rgba(0,0,0,.1);color:var(--encre)}
 .choix-voyageur{background:rgba(255,255,255,.6)}
 .deux-choix + .attente{margin-top:14px}
 @media (max-width:700px){.deux-choix{grid-template-columns:1fr}.bandeau-hotes{font-size:13px}}
+
+/* ---------- Côté voyageurs : catalogue ---------- */
+.bandeau-apercu{background:#FFF4D6;color:#5C4000;font-size:14px;text-align:center;padding:10px 16px}
+.bandeau-apercu a{color:#5C4000;font-weight:700}
+.entete-voyageurs .conteneur{max-width:1400px}
+.recherche{display:flex;align-items:stretch;max-width:860px;margin:18px auto 6px;background:#fff;border:1px solid var(--bord);border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.08);padding:6px;gap:0}
+.rech-champ{flex:1;display:flex;flex-direction:column;gap:2px;padding:8px 18px;border-right:1px solid var(--bord);min-width:0;cursor:text}
+.rech-champ:last-of-type{border-right:0}
+.rech-champ span{font-size:12px;font-weight:800}
+.rech-champ input{border:0;outline:0;font:inherit;font-size:14px;color:var(--encre);background:transparent;padding:0;min-width:0;width:100%}
+.rech-dest{flex:1.6}
+.rech-voy{flex:.8}
+.rech-bouton{display:inline-flex;align-items:center;gap:8px;background:var(--rose);color:#fff;border:0;border-radius:999px;padding:0 22px;font:inherit;font-weight:800;cursor:pointer}
+.rech-bouton:hover{background:var(--rose-fonce)}
+.filtres-types{display:flex;gap:8px;overflow-x:auto;max-width:1400px;margin:12px auto 0;padding:6px 24px 10px;scrollbar-width:none}
+.filtres-types button{flex:0 0 auto;border:1px solid var(--bord);background:#fff;border-radius:999px;padding:9px 16px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;color:var(--encre)}
+.filtres-types button[aria-pressed="true"]{background:var(--encre);color:#fff;border-color:var(--encre)}
+.resultats-zone{display:grid;grid-template-columns:minmax(0,1fr) 42%;gap:24px;max-width:1400px;margin:0 auto;padding:6px 24px 60px}
+.resultats-titre{font-weight:700;margin:6px 0 16px}
+.grille-logements{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:28px 20px}
+.carte-logement{display:flex;flex-direction:column;gap:10px}
+.cl-photos{position:relative;aspect-ratio:20/19;border-radius:16px;overflow:hidden;background:#F3E7EC}
+.cl-lien-photo{display:block;height:100%}
+.cl-piste{display:flex;height:100%;transition:transform .3s ease}
+.cl-piste img{flex:0 0 100%;width:100%;height:100%;object-fit:cover}
+.cl-fleche{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:99px;border:0;background:rgba(255,255,255,.92);font-size:20px;line-height:1;cursor:pointer;opacity:0;transition:opacity .15s;color:var(--encre)}
+.cl-prec{left:10px}.cl-suiv{right:10px}
+.carte-logement:hover .cl-fleche,.cl-fleche:focus-visible{opacity:1}
+.cl-points{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:5px;pointer-events:none}
+.cl-points i{width:6px;height:6px;border-radius:99px;background:rgba(255,255,255,.6)}
+.cl-points i.actif{background:#fff}
+.pastille-statut{position:absolute;left:10px;top:10px;background:#FFF4D6;color:#5C4000;font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px}
+.cl-texte{display:flex;flex-direction:column;gap:2px;color:var(--encre);text-decoration:none;font-size:15px}
+.cl-texte:hover{color:var(--encre)}
+.cl-lieu{font-weight:800}
+.cl-titre{color:var(--gris-texte);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cl-gris{color:var(--gris-texte);font-size:14px}
+.cl-verifie{color:#0F5C36}
+.cl-prix{margin-top:4px}
+.carte-resultats{position:sticky;top:16px;height:calc(100vh - 32px);border-radius:18px;overflow:hidden;border:1px solid var(--bord)}
+#carte{width:100%;height:100%}
+.marqueur-prix span{display:inline-block;transform:translate(-50%,-50%);background:#fff;color:var(--encre);font-weight:800;font-size:13px;padding:6px 10px;border-radius:999px;box-shadow:0 2px 10px rgba(0,0,0,.25);white-space:nowrap}
+.marqueur-prix.survol span,.marqueur-prix:hover span{background:var(--encre);color:#fff;transform:translate(-50%,-50%) scale(1.08)}
+.bouton-carte{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:30;display:inline-flex;align-items:center;gap:8px;background:var(--encre);color:#fff;border:0;border-radius:999px;padding:14px 22px;font:inherit;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer}
+.bientot{max-width:720px;margin:60px auto;padding:0 20px;text-align:center}
+.bientot h1{font-size:clamp(28px,5vw,44px)}
+.bientot .btn{margin:6px}
+.pied-simple{padding:26px 0;text-align:center}
+@media (max-width:999px){
+  .resultats-zone{grid-template-columns:1fr}
+  .carte-resultats{display:none}
+  .voir-carte .carte-resultats{display:block;position:fixed;inset:0;top:0;height:100vh;z-index:25;border-radius:0}
+  .voir-carte .resultats{display:none}
+}
+@media (max-width:760px){
+  .recherche{flex-wrap:wrap;border-radius:22px;margin:12px 16px 4px;padding:8px}
+  .rech-champ{flex:1 1 40%;border-right:0;border-bottom:1px solid var(--bord);padding:8px 12px}
+  .rech-dest{flex-basis:100%}
+  .rech-bouton{flex:1 1 100%;justify-content:center;min-height:46px;margin-top:6px}
+  .filtres-types{padding:6px 16px 10px}
+  .resultats-zone{padding:6px 16px 90px}
+  .grille-logements{grid-template-columns:1fr}
+  .cl-fleche{opacity:1}
+}
+
+/* ---------- Fiche logement ---------- */
+.fiche{max-width:1120px;margin:0 auto;padding:22px 24px 60px}
+.fi-statut{background:#FFF4D6;color:#5C4000;font-weight:700;border-radius:12px;padding:10px 14px;display:inline-block;margin:0 0 12px}
+.fi-titre{font-size:clamp(24px,3.4vw,32px);text-align:left;letter-spacing:-.02em;margin:0;max-width:none}
+.fi-sous{margin:6px 0 16px;font-weight:600}
+.fi-verifie{color:#0F5C36}
+.fi-photos{position:relative;display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:210px 210px;gap:8px;border-radius:18px;overflow:hidden}
+.fi-photos.n1{grid-template-columns:1fr;grid-template-rows:420px}
+.fi-photos.n2,.fi-photos.n3,.fi-photos.n4{grid-template-columns:2fr 1fr}
+.fi-photo{border:0;padding:0;background:#F3E7EC;cursor:pointer;overflow:hidden}
+.fi-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:filter .15s}
+.fi-photo:hover img{filter:brightness(.92)}
+.fi-photo:first-child{grid-row:span 2}
+.fi-toutes{position:absolute;right:16px;bottom:16px;background:#fff;border:1px solid var(--encre);border-radius:10px;padding:8px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.fi-grille{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:64px;margin-top:30px;align-items:start}
+.fi-resume h2{font-size:22px;margin:0 0 4px}
+.fi-resume p{margin:0;color:var(--gris-texte)}
+.fi-hote{display:flex;align-items:center;gap:14px;padding:22px 0;margin:22px 0 0;border-top:1px solid var(--bord);border-bottom:1px solid var(--bord)}
+.fi-hote div{display:flex;flex-direction:column;gap:2px}
+.fi-hote span{color:var(--gris-texte);font-size:14px}
+.fi-avatar{width:50px;height:50px;border-radius:99px;background:var(--rose);color:#fff !important;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px !important;flex:0 0 auto}
+.fi-atouts{display:flex;flex-direction:column;gap:16px;padding:24px 0;border-bottom:1px solid var(--bord)}
+.fi-atouts div{display:flex;flex-direction:column;gap:2px}
+.fi-atouts span{color:var(--gris-texte);font-size:14px}
+.fi-bloc{padding:24px 0;border-bottom:1px solid var(--bord)}
+.fi-bloc h2{font-size:21px;margin:0 0 12px}
+.fi-bloc p{line-height:1.65;margin:0 0 8px}
+.fi-equip{display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;list-style:none;padding:0;margin:0}
+.fi-equip li{padding-left:24px;position:relative}
+.fi-equip li::before{content:"";position:absolute;left:2px;top:.45em;width:10px;height:6px;border-left:2px solid var(--rose);border-bottom:2px solid var(--rose);transform:rotate(-45deg)}
+.fi-carte{height:320px;border-radius:16px;overflow:hidden;margin:12px 0}
+.fi-gris{color:var(--gris-texte);font-size:14px}
+.fi-trois{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;border-bottom:0}
+.fi-trois h3{font-size:17px;margin:0 0 10px}
+.fi-trois ul{padding-left:18px;margin:0;display:flex;flex-direction:column;gap:7px;font-size:15px}
+.fi-reservation{position:sticky;top:20px;border:1px solid var(--bord);border-radius:18px;box-shadow:0 6px 28px rgba(0,0,0,.12);padding:24px;display:flex;flex-direction:column;gap:14px}
+.fr-prix{margin:0;font-size:16px}
+.fr-prix strong{font-size:24px}
+.fr-champs{display:grid;grid-template-columns:1fr 1fr;border:1px solid #B9B0B4;border-radius:12px;overflow:hidden}
+.fr-champs label{display:flex;flex-direction:column;gap:2px;padding:10px 12px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
+.fr-champs label:first-child{border-right:1px solid #B9B0B4}
+.fr-champs .fr-large{grid-column:1 / -1;border-top:1px solid #B9B0B4}
+.fr-champs input,.fr-champs select{border:0;outline:0;font:inherit;font-size:14px;font-weight:500;text-transform:none;letter-spacing:0;background:transparent;padding:2px 0;color:var(--encre)}
+.fr-note{text-align:center;font-size:14px;color:var(--gris-texte);margin:0}
+.fr-erreur{color:#8A1C1C;font-size:14px;font-weight:600;margin:0}
+.fr-detail{margin:0;display:flex;flex-direction:column;gap:10px}
+.fr-detail div{display:flex;justify-content:space-between;gap:12px}
+.fr-detail dt{text-decoration:underline;text-decoration-color:#D8CDD1}
+.fr-detail dd{margin:0;font-variant-numeric:tabular-nums}
+.fr-reduc dd{color:#0F5C36}
+.fr-zero dd{color:#0F5C36;font-weight:700}
+.fr-total{border-top:1px solid var(--bord);padding-top:14px;font-weight:800;font-size:17px}
+.fr-total dt{text-decoration:none}
+.fr-gris{font-size:12px;color:var(--gris);margin:0}
+.fi-barre-mobile{display:none}
+.galerie{position:fixed;inset:0;z-index:70;background:#fff;overflow:auto}
+.galerie-haut{position:sticky;top:0;background:#fff;display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--bord);font-weight:700;z-index:2}
+.galerie-corps{max-width:900px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+.galerie-corps img{width:100%;border-radius:12px;display:block;scroll-margin-top:80px}
+@media (max-width:900px){
+  .fi-grille{grid-template-columns:1fr;gap:10px}
+  .fi-reservation{position:static;scroll-margin-top:20px}
+  .fi-trois{grid-template-columns:1fr}
+  .fi-photos{grid-template-columns:1fr;grid-template-rows:280px}
+  .fi-photos .fi-photo:not(:first-child){display:none}
+  .fi-photo:first-child{grid-row:auto}
+  .fi-equip{grid-template-columns:1fr}
+  .fiche{padding:14px 16px 100px}
+  .fi-barre-mobile{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--bord);padding:12px 16px calc(12px + env(safe-area-inset-bottom));align-items:center;justify-content:space-between;gap:12px}
+  .fi-barre-mobile div{display:flex;flex-direction:column;font-size:14px}
+  .fi-barre-mobile strong{font-size:17px}
+  .fr-zero-mobile{color:#0F5C36;font-size:12px;font-weight:700}
+}
+.ouverture{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}.ouverture h2{margin:0 0 4px;font-size:19px}.ouverture p{margin:0;max-width:640px}

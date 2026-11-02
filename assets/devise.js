@@ -48,6 +48,9 @@
 
   var devise = lireChoix() || devineDevise();
   window.SUNDARLY_DEVISE = function () { return devise; };
+  // Convertit un montant d'une devise à l'autre (taux indicatifs)
+  window.SUNDARLY_CONVERTIR = function (montant, de, vers) { return montant / (TAUX[de] || 1) * (TAUX[vers || devise] || 1); };
+  window.SUNDARLY_FORMATER = function (montant, dev, dec) { return formater(montant, dev || devise, dec || 0); };
 
   document.querySelectorAll("select[data-choix-devise]").forEach(function (s) {
     s.addEventListener("change", function () {

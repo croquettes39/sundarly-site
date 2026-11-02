@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trouver un logement – Sundarly</title>
+<meta name="description" content="Villas, appartements, riads, maisons et chambres chez l'habitant en Europe, au Maroc et en Tunisie. Aucun frais de service pour les voyageurs.">
+<meta name="theme-color" content="#D81B60">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="page-voyageurs">
+
+<div class="bandeau-apercu" id="bandeau-apercu" hidden>
+  <strong>Aperçu administrateur</strong> — les visiteurs ne voient pas encore cette page. Elle s'ouvrira quand vous cliquerez « Ouvrir le site » dans le <a href="admin.html">panneau d'administration</a>.
+</div>
+
+<header class="entete entete-voyageurs">
+  <div class="conteneur">
+    <a class="logo" href="/" aria-label="Sundarly, accueil">
+      <svg width="36" height="36" viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="15" r="6" stroke="currentColor" stroke-width="2.5"/><path d="M17 3v3M5 15h3M26 15h3M8.5 6.5l2 2M25.5 6.5l-2 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M4 27c3-3 6-3 9 0s6 3 9 0 6-3 9 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <span>sundarly</span>
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <label class="choix-devise"><span class="sr">Devise</span><select data-choix-devise aria-label="Devise d'affichage"><option value="EUR">€ EUR</option><option value="MAD">DH MAD</option><option value="CHF">CHF</option></select></label>
+      <a href="compte.html" data-lien-compte>Connexion</a>
+      <a class="btn" href="hotes.html">Devenir hôte</a>
+    </nav>
+  </div>
+</header>
+
+<form class="recherche" id="recherche" role="search">
+  <label class="rech-champ rech-dest"><span>Destination</span><input type="search" name="q" placeholder="Rechercher une ville, un pays…" autocomplete="off"></label>
+  <label class="rech-champ"><span>Arrivée</span><input type="date" name="arrivee"></label>
+  <label class="rech-champ"><span>Départ</span><input type="date" name="depart"></label>
+  <label class="rech-champ rech-voy"><span>Voyageurs</span><input type="number" name="voyageurs" min="1" max="50" placeholder="Ajouter"></label>
+  <button class="rech-bouton" type="submit" aria-label="Rechercher">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    <span>Rechercher</span>
+  </button>
+</form>
+
+<div class="filtres-types" id="filtres" role="toolbar" aria-label="Type de logement"></div>
+
+<main class="resultats-zone" id="zone">
+  <section class="resultats">
+    <p class="resultats-titre" id="resultats-titre">Chargement des logements…</p>
+    <div class="grille-logements" id="grille"></div>
+  </section>
+  <aside class="carte-resultats" id="carte-zone"><div id="carte"></div></aside>
+</main>
+
+<section class="bientot" id="bientot" hidden>
+  <h1>Les logements arrivent très bientôt</h1>
+  <div class="rebours" data-rebours="2026-11-20T00:00:00+01:00">
+    <p class="rebours-titre">Ouverture des réservations le <strong>20 novembre 2026</strong></p>
+    <div class="rebours-cases" role="timer" aria-live="off">
+      <div><span data-j>--</span><small>jours</small></div>
+      <div><span data-h>--</span><small>heures</small></div>
+      <div><span data-m>--</span><small>minutes</small></div>
+      <div><span data-s>--</span><small>secondes</small></div>
+    </div>
+  </div>
+  <p><a class="btn" href="/">Être prévenu de l'ouverture</a> <a class="btn btn-contour" href="publier.html">Publier mon logement</a></p>
+</section>
+
+<button type="button" class="bouton-carte" id="bouton-carte" hidden>
+  <span>Carte</span>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>
+</button>
+
+<footer class="pied pied-simple">
+  <div class="conteneur">
+    <span class="liens-legaux">© <span data-annee>2026</span> Sundarly · <a href="conditions-generales.html">Conditions générales</a> · <a href="mentions-legales.html">Mentions légales</a> · <a href="confidentialite.html">Confidentialité</a></span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="assets/devise.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/auth.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/voyageurs-commun.js"></script>
+<script src="assets/logements.js"></script>
+</body>
+</html>
