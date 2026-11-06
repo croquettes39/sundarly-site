@@ -751,3 +751,10 @@ a.annonce-ligne:hover{box-shadow:0 4px 18px rgba(0,0,0,.1);color:var(--encre)}
 .alerte-verif{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;background:#FDECF3;border:1px solid #F5B5CF;color:#7A1240;border-radius:16px;padding:14px 18px;margin:0 0 20px;font-size:15px}
 .alerte-verif strong{display:block;font-size:16px}
 .mention-verif{font-size:13px;color:var(--gris-texte);text-align:center;margin:10px 0 0}
+/* Admin — statistiques de visites */
+.titre-classement{font-size:17px;margin:0 0 14px}
+.ligne-classement{margin-bottom:14px}
+.ligne-classement-texte{display:flex;justify-content:space-between;gap:12px;font-size:14px}
+.ligne-classement-texte span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ligne-classement-texte strong{white-space:nowrap;font-variant-numeric:tabular-nums}
+.ligne-classement .barre{margin-top:6px}

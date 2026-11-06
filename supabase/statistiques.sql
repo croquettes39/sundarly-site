@@ -1,0 +1,4 @@
+-- Sundarly — statistiques de visites (déjà appliqué sur la base le 6 nov. 2026, migration « statistiques_visites »)
+-- Table visites (aucun accès direct), fonction publique enregistrer_visite (appelée par /api/visite),
+-- fonction admin_visites(jours) réservée aux administrateurs (onglet Statistiques du panneau admin).
+-- Voir la migration dans Supabase pour le code complet.

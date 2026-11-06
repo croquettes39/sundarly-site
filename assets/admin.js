@@ -121,6 +121,52 @@
     });
   }
 
+  // ---------- Statistiques de visites ----------
+  try { localStorage.setItem("sundarly-admin", "1"); } catch (e) {} // vos propres visites ne sont pas comptées
+  var NOMS_PAYS = null;
+  try { NOMS_PAYS = new Intl.DisplayNames(["fr"], { type: "region" }); } catch (e) {}
+  function nomPays(c) {
+    if (!c || c === "??") return "Inconnu";
+    var drapeau = String.fromCodePoint.apply(null, c.split("").map(function (l) { return 127397 + l.charCodeAt(0); }));
+    var nom = c; try { nom = NOMS_PAYS ? NOMS_PAYS.of(c) : c; } catch (e) {}
+    return drapeau + " " + nom;
+  }
+  var NOMS_PAGES = { "/": "Accueil", "/index": "Accueil", "/hotes": "Devenir hôte", "/logements": "Logements", "/logement": "Fiche logement", "/compte": "Connexion / inscription", "/espace-hote": "Espace hôte", "/publier": "Publier une annonce", "/verification": "Vérification d'identité", "/locations-vacances": "Destinations", "/conditions-generales": "Conditions générales" };
+  function nomPage(p) { return NOMS_PAGES[p] || (p.indexOf("/locations-vacances/") === 0 ? "Destination : " + p.split("/").pop() : p); }
+  function classement(id, liste, nom, unite) {
+    var z = $(id); liste = liste || [];
+    if (!liste.length) { z.innerHTML = '<p class="vide">Pas encore de données.</p>'; return; }
+    var max = Math.max.apply(null, liste.map(function (x) { return x.n; }));
+    z.innerHTML = liste.map(function (x) {
+      return '<div class="ligne-classement"><div class="ligne-classement-texte"><span>' + esc(nom ? nom(x.cle) : x.cle) + '</span><strong>' + Number(x.n).toLocaleString("fr-FR") + " " + unite + '</strong></div><div class="barre"><span style="width:' + (x.n / max * 100) + '%"></span></div></div>';
+    }).join("");
+  }
+  function chargerVisites() {
+    var j = Number($("f-periode").value);
+    return client.rpc("admin_visites", { p_jours: j }).then(function (r) {
+      if (r.error) throw r.error;
+      var s = r.data, libelle = j === 1 ? "aujourd'hui" : "sur " + j + " jours";
+      $("stats-note").textContent = s.premiere_visite ? "Visites comptées depuis le " + date(s.premiere_visite) + ". Vos propres visites ne sont pas comptées." : "Les visites seront comptées dès les prochaines visites (vos propres visites ne sont pas comptées).";
+      var t = [
+        ["Visiteurs " + libelle, s.visiteurs, "Personnes différentes"],
+        ["Pages vues " + libelle, s.pages_vues, s.visiteurs ? (s.pages_vues / s.visiteurs).toFixed(1).replace(".", ",") + " page(s) par visiteur" : "—"],
+        ["Visiteurs aujourd'hui", s.visiteurs_jour, "Depuis minuit"],
+        ["Pays différents", s.pays_differents, libelle]
+      ];
+      $("tuiles-visites").innerHTML = t.map(function (x) {
+        return '<div class="tuile-stat"><span class="tuile-libelle">' + esc(x[0]) + '</span><span class="tuile-nombre">' + Number(x[1]).toLocaleString("fr-FR") + '</span><span class="tuile-detail">' + esc(x[2]) + "</span></div>";
+      }).join("");
+      graphe($("g-visites"), "Visiteurs par jour", j === 1 ? "Aujourd'hui" : j + " derniers jours", s.par_jour || [], "visiteurs");
+      classement("c-pays", s.pays, nomPays, "visiteur(s)");
+      classement("c-provenances", s.provenances, null, "visiteur(s)");
+      classement("c-pages", s.pages, nomPage, "vue(s)");
+      classement("c-villes", s.villes, null, "visiteur(s)");
+      classement("c-appareils", s.appareils, null, "visiteur(s)");
+    }).catch(function (e) { console.error(e); $("stats-note").textContent = "Impossible de charger les statistiques pour le moment."; });
+  }
+  $("f-periode").addEventListener("change", chargerVisites);
+  document.querySelector('[data-vue="statistiques"]').addEventListener("click", chargerVisites);
+
   // ---------- Identités ----------
   $("f-identites").addEventListener("change", rendreIdentites);
   function rendreIdentites() {

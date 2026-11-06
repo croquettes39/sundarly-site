@@ -43,6 +43,7 @@
       <button type="button" role="tab" aria-selected="false" data-vue="annonces">Annonces <span class="pastille" id="p-annonces" hidden></span></button>
       <button type="button" role="tab" aria-selected="false" data-vue="proprietaires">Propriétaires</button>
       <button type="button" role="tab" aria-selected="false" data-vue="voyageurs">Voyageurs</button>
+      <button type="button" role="tab" aria-selected="false" data-vue="statistiques">Statistiques</button>
     </nav>
 
     <!-- Tableau de bord -->
@@ -55,6 +56,22 @@
       <div class="graphes">
         <figure class="carte-espace graphe" id="g-comptes"></figure>
         <figure class="carte-espace graphe" id="g-voyageurs"></figure>
+      </div>
+    </section>
+
+    <!-- Statistiques de visites -->
+    <section data-panneau="statistiques" hidden>
+      <div class="barre-outils"><h2>Visites du site</h2>
+        <label class="champ-inline">Période <select id="f-periode"><option value="1">Aujourd'hui</option><option value="7">7 derniers jours</option><option value="30" selected>30 derniers jours</option><option value="90">90 derniers jours</option></select></label></div>
+      <p class="gris petit" id="stats-note"></p>
+      <div class="tuiles-stats" id="tuiles-visites"></div>
+      <figure class="carte-espace graphe" id="g-visites" style="margin-bottom:14px"></figure>
+      <div class="graphes">
+        <div class="carte-espace"><h3 class="titre-classement">Pays</h3><div id="c-pays"></div></div>
+        <div class="carte-espace"><h3 class="titre-classement">D'où viennent les visiteurs</h3><div id="c-provenances"></div></div>
+        <div class="carte-espace"><h3 class="titre-classement">Pages les plus vues</h3><div id="c-pages"></div></div>
+        <div class="carte-espace"><h3 class="titre-classement">Villes</h3><div id="c-villes"></div></div>
+        <div class="carte-espace"><h3 class="titre-classement">Appareils</h3><div id="c-appareils"></div></div>
       </div>
     </section>
 
