@@ -802,3 +802,7 @@ html,body{overflow-x:clip}
 .etoiles-choix input:checked ~ label,.etoiles-choix label:hover,.etoiles-choix label:hover ~ label{color:var(--rose)}
 .etoiles-choix input:focus-visible + label{outline:2px solid var(--rose);border-radius:4px}
 .form-mini{margin-top:10px}
+.fr-animal{display:flex !important;flex-direction:row !important;align-items:center;gap:10px;cursor:pointer;font-size:14px}
+.fr-animal input{width:20px;height:20px;accent-color:var(--rose);flex:0 0 auto}
+.fr-animal-non{font-size:14px;color:var(--gris-texte);margin:0;padding:10px 12px}
+.fr-champs .fr-animal span{text-transform:none;letter-spacing:0;font-size:14px;font-weight:600}

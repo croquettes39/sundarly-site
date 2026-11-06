@@ -78,7 +78,7 @@
     if (A.heure_arrivee) regles.push("Arrivée à partir de " + A.heure_arrivee);
     if (A.heure_depart) regles.push("Départ avant " + A.heure_depart);
     regles.push("Jusqu'à " + V.pluriel(A.voyageurs, "voyageur", "voyageurs"));
-    regles.push(A.animaux ? "Animaux acceptés" : "Animaux non acceptés");
+    regles.push(A.animaux ? "Animaux acceptés" + (A.frais_animaux ? " (frais : " + V.prix(A.frais_animaux, A.devise) + " par séjour)" : ", sans frais") : "Animaux non acceptés");
     regles.push(A.fumeurs ? "Logement fumeur" : "Non-fumeur");
     regles.push(A.fetes ? "Fêtes autorisées" : "Pas de fêtes ni d'événements");
     if (A.nuits_min > 1) regles.push(V.pluriel(A.nuits_min, "nuit", "nuits") + " minimum");
@@ -127,7 +127,7 @@
   var SEJ = { arrivee: params.get("arrivee") || "", depart: params.get("depart") || "", voyageurs: parseInt(params.get("voyageurs"), 10) || 1 };
   function rendreReservation() {
     var z = $("reservation"), n = V.nuits(SEJ.arrivee, SEJ.depart);
-    var c = n ? V.calculSejour(A, n, SEJ.arrivee) : null;
+    var c = n ? V.calculSejour(A, n, SEJ.arrivee, SEJ.animal) : null;
     var promos = [];
     if (A.promo_nouvelle_active) promos.push("-20 % : promotion nouvelle annonce");
     if (A.reduction_semaine) promos.push("-" + A.reduction_semaine + " % dès 7 nuits");
@@ -145,7 +145,8 @@
       (promos.length ? '<div class="fr-promos"><strong>🎁 Promotions</strong><ul>' + promos.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul><small>La meilleure s'applique automatiquement.</small></div>" : "") +
       '<div class="fr-champs"><label><span>Arrivée</span><input type="date" name="arrivee" min="' + min + '" value="' + esc(SEJ.arrivee) + '"></label>' +
       '<label><span>Départ</span><input type="date" name="depart" min="' + esc(SEJ.arrivee || min) + '" value="' + esc(SEJ.depart) + '"></label>' +
-      '<label class="fr-large"><span>Voyageurs</span><select name="voyageurs">' + Array.from({ length: A.voyageurs }, function (_, i) { return '<option value="' + (i + 1) + '"' + (i + 1 === SEJ.voyageurs ? " selected" : "") + ">" + V.pluriel(i + 1, "voyageur", "voyageurs") + "</option>"; }).join("") + "</select></label></div>" +
+      '<label class="fr-large"><span>Voyageurs</span><select name="voyageurs">' + Array.from({ length: A.voyageurs }, function (_, i) { return '<option value="' + (i + 1) + '"' + (i + 1 === SEJ.voyageurs ? " selected" : "") + ">" + V.pluriel(i + 1, "voyageur", "voyageurs") + "</option>"; }).join("") + "</select></label>" +
+        (A.animaux ? '<label class="fr-large fr-animal"><input type="checkbox" name="animal"' + (SEJ.animal ? " checked" : "") + "><span>Je viens avec un animal" + (A.frais_animaux ? " (+" + esc(V.prix(A.frais_animaux, A.devise)) + ")" : " (gratuit)") + "</span></label>" : '<p class="fr-large fr-animal-non">🐾 Animaux non acceptés</p>') + "</div>" +
       '<button type="button" class="btn btn-large" id="btn-reserver"' + (ouvert && n && !erreur ? "" : " disabled") + ">" + (ouvert ? (n ? "Réserver" : "Choisissez vos dates") : "Réservations ouvertes le 20 novembre") + "</button>" +
       (erreur ? '<p class="fr-erreur">' + esc(erreur) + "</p>" : "") +
       '<p class="mention-verif">🔒 Identité vérifiée obligatoire pour réserver</p>' +
@@ -153,12 +154,13 @@
         "<div><dt>" + esc(V.prix(A.prix_nuit, A.devise)) + " × " + V.pluriel(n, "nuit", "nuits") + "</dt><dd>" + esc(V.prix(c.base, A.devise)) + "</dd></div>" +
         (c.reduction ? '<div class="fr-reduc"><dt>' + esc(c.libelleReduction) + "</dt><dd>-" + esc(V.prix(c.reduction, A.devise)) + "</dd></div>" : "") +
         (c.menage ? "<div><dt>Frais de ménage</dt><dd>" + esc(V.prix(c.menage, A.devise)) + "</dd></div>" : "") +
+        (c.animaux ? "<div><dt>Frais pour l'animal</dt><dd>" + esc(V.prix(c.animaux, A.devise)) + "</dd></div>" : "") +
         '<div class="fr-zero"><dt>Frais de service Sundarly</dt><dd>' + esc(V.prix(0, A.devise)) + "</dd></div>" +
         '<div class="fr-total"><dt>Total</dt><dd>' + esc(V.prix(c.total, A.devise)) + "</dd></div></dl>" : "") +
       (A.devise !== V.devise() ? '<p class="fr-gris">Prix fixé par l\'hôte en ' + esc(A.devise) + " ; conversion indicative.</p>" : "");
     z.querySelectorAll("input,select").forEach(function (i) {
       i.addEventListener("change", function () {
-        SEJ[i.name] = i.name === "voyageurs" ? +i.value : i.value;
+        SEJ[i.name] = i.name === "voyageurs" ? +i.value : i.type === "checkbox" ? i.checked : i.value;
         if (i.name === "arrivee" && SEJ.depart && SEJ.depart <= SEJ.arrivee) SEJ.depart = "";
         rendreReservation();
       });

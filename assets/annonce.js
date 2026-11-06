@@ -253,21 +253,26 @@
         var r = ["Jusqu'à " + pluriel(a.voyageurs, "voyageur", "voyageurs")];
         if (a.heure_arrivee) r.push("Arrivée à partir de " + a.heure_arrivee);
         if (a.heure_depart) r.push("Départ avant " + a.heure_depart);
-        r.push(a.animaux ? "Animaux acceptés" : "Pas d'animaux");
+        r.push(a.animaux ? "Animaux acceptés" + (a.frais_animaux ? " (frais : " + prix(a.frais_animaux, a.devise) + " par séjour)" : " (sans frais)") : "Pas d'animaux");
         return '<ul class="liste-puces">' + r.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>";
       },
       form: function (a) {
         return '<div class="champs"><label class="champ">Arrivée à partir de<input type="time" name="heure_arrivee" value="' + esc(a.heure_arrivee || "") + '"></label>' +
           '<label class="champ">Départ avant<input type="time" name="heure_depart" value="' + esc(a.heure_depart || "") + '"></label></div>' +
           "<h3>Autorisés dans le logement</h3>" + '<div class="choix-liste">' + interrupteur("animaux", "Animaux", a.animaux) + interrupteur("fumeurs", "Fumeurs", a.fumeurs) + interrupteur("fetes", "Fêtes et événements", a.fetes) + "</div>" +
+          '<label class="champ" id="zone-frais-animaux"' + (a.animaux ? "" : " hidden") + ' style="max-width:340px;margin-top:12px">Frais pour les animaux, par séjour (' + esc(SYM[a.devise] || a.devise) + ') <span class="facultatif">(laissez vide si c\'est gratuit)</span><input type="number" name="frais_animaux" min="0" max="100000" step="1" value="' + esc(a.frais_animaux == null ? "" : a.frais_animaux) + '"></label>' +
           champTexte("reglement", "Règles supplémentaires", a.reglement, { max: 1500, lignes: 5, aide: "Ex. : silence après 22 h, pas de chaussures dans le salon…" });
       },
       lire: function (f) {
         return textesSansContact(f, ["reglement"]) || {
           heure_arrivee: F(f, "heure_arrivee") || null, heure_depart: F(f, "heure_depart") || null,
           animaux: f.elements.animaux.checked, fumeurs: f.elements.fumeurs.checked, fetes: f.elements.fetes.checked,
+          frais_animaux: f.elements.animaux.checked ? (nombre(f, "frais_animaux") || null) : null,
           reglement: F(f, "reglement") || null
         };
+      },
+      apres: function (f) {
+        f.elements.animaux.addEventListener("change", function () { document.getElementById("zone-frais-animaux").hidden = !this.checked; });
       }
     },
     {

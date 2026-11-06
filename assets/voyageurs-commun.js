@@ -41,11 +41,12 @@
     var m = Math.max(a.reduction_semaine || 0, a.reduction_mois || 0, a.reduction_anticipee || 0, a.reduction_derniere_minute || 0);
     return m ? "Jusqu'à -" + m + " %" : "";
   }
-  function calculSejour(a, n, arrivee) {
+  function calculSejour(a, n, arrivee, animal) {
     var base = Number(a.prix_nuit) * n, best = promotions(a, n, arrivee);
     var red = best ? base * best[0] / 100 : 0;
     var menage = Number(a.frais_menage || 0);
-    return { base: base, reduction: red, libelleReduction: best ? best[1] : "", menage: menage, total: base - red + menage };
+    var fraisAnimaux = animal && a.animaux ? Number(a.frais_animaux || 0) : 0;
+    return { base: base, reduction: red, libelleReduction: best ? best[1] : "", menage: menage, animaux: fraisAnimaux, total: base - red + menage + fraisAnimaux };
   }
   // Étoiles « ★ 4,87 (12) » ou « Nouveau »
   function note(a) {

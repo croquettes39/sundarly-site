@@ -493,6 +493,7 @@
           annulation: choisi("annulation"), caution: nombreOuNull("caution"),
           heure_arrivee: val("heure_arrivee") || null, heure_depart: val("heure_depart") || null,
           animaux: coche("animaux"), fumeurs: coche("fumeurs"), fetes: coche("fetes"),
+          frais_animaux: coche("animaux") ? nombreOuNull("frais_animaux") : null,
           nom: val("nom"), email: val("email").toLowerCase(), telephone: val("telephone") || null,
           consentement: true
         });
@@ -589,4 +590,9 @@
   }
 
   afficher(0);
+  // Frais pour les animaux : visibles seulement si les animaux sont acceptés
+  (function () {
+    var c = document.querySelector('input[name="animaux"]'), z = document.getElementById("zone-frais-animaux");
+    if (c && z) { var maj = function () { z.hidden = !c.checked; }; c.addEventListener("change", maj); maj(); }
+  })();
 })();
