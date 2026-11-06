@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Contrat de séjour et règlement – Sundarly</title>
+<style>
+  @page { size: A4; margin: 16mm 16mm 18mm 16mm; }
+  :root { --rose:#D81B60; --encre:#1F1A1D; --gris:#6B6268; --pale:#FFF3F7; --ligne:#EBDDE3; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Poppins, sans-serif; color: var(--encre); font-size: 9.6pt; line-height: 1.45; }
+  .entete { display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid var(--rose); padding-bottom:10px; }
+  .logo { display:flex; align-items:center; gap:8px; color:var(--rose); font-weight:700; font-size:22pt; letter-spacing:-.5px; }
+  .logo svg { width:40px; height:40px; }
+  .ref { text-align:right; font-size:8.5pt; color:var(--gris); }
+  .ref strong { color:var(--encre); font-size:9.5pt; }
+  h1 { font-size:17pt; margin:18px 0 2px; letter-spacing:-.3px; }
+  .sous { color:var(--gris); margin:0 0 14px; }
+  .modele { background:#FFF4D6; color:#5C4000; border-radius:8px; padding:6px 12px; font-size:8.5pt; margin-bottom:12px; }
+  .parties { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+  .carte { border:1px solid var(--ligne); border-radius:10px; padding:10px 12px; }
+  .carte h3 { margin:0 0 6px; font-size:9pt; text-transform:uppercase; letter-spacing:1px; color:var(--rose); }
+  .carte p { margin:2px 0; }
+  .lbl { color:var(--gris); font-size:8.5pt; display:inline-block; min-width:118px; }
+  .val { font-weight:600; }
+  .sejour { background:var(--pale); border-radius:10px; padding:10px 12px; display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:14px; }
+  .sejour div span { display:block; font-size:8pt; color:var(--gris); }
+  .sejour div strong { font-size:10pt; }
+  h2 { font-size:11.5pt; margin:14px 0 4px; color:var(--encre); display:flex; gap:8px; align-items:baseline; break-after:avoid; }
+  h2 b { color:var(--rose); }
+  p { margin:4px 0; }
+  ul { margin:4px 0 4px 0; padding-left:18px; }
+  li { margin:2px 0; }
+  .art { }
+  li, .encadre { break-inside:avoid; }
+  .encadre { border-left:3px solid var(--rose); background:#FAF6F8; padding:8px 12px; border-radius:0 8px 8px 0; margin:6px 0; }
+  .signature { margin-top:18px; border:2px solid var(--rose); border-radius:12px; padding:12px 14px; break-inside:avoid; }
+  .signature h3 { margin:0 0 6px; color:var(--rose); font-size:11pt; }
+  .case { display:flex; gap:10px; align-items:flex-start; margin:8px 0; }
+  .case i { flex:0 0 16px; height:16px; border:2px solid var(--rose); border-radius:4px; margin-top:2px; background:var(--rose); position:relative; }
+  .case i::after { content:"✓"; color:#fff; font-style:normal; font-size:11px; position:absolute; left:2px; top:-3px; font-weight:700; }
+  .preuve { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; font-size:8.5pt; color:var(--gris); margin-top:8px; }
+  .preuve strong { display:block; color:var(--encre); font-size:9pt; }
+  .pied { margin-top:16px; text-align:center; font-size:8pt; color:var(--gris); border-top:1px solid var(--ligne); padding-top:8px; }
+</style>
+</head>
+<body>
+
+<div class="entete">
+  <div class="logo">
+    <svg viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="15" r="6" stroke="currentColor" stroke-width="2.5"/><path d="M17 3v3M5 15h3M26 15h3M8.5 6.5l2 2M25.5 6.5l-2 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M4 27c3-3 6-3 9 0s6 3 9 0 6-3 9 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+    <span>sundarly</span>
+  </div>
+  <div class="ref">Réservation n° <strong>{{REFERENCE}}</strong><br>Document émis le {{DATE_EMISSION}}</div>
+</div>
+
+<h1>Contrat de séjour et règlement du logement</h1>
+<p class="sous">Location de courte durée conclue par l'intermédiaire de la plateforme Sundarly</p>
+{{BANDEAU_MODELE}}
+
+<div class="parties">
+  <div class="carte">
+    <h3>Le propriétaire (l'hôte)</h3>
+    <p><span class="lbl">Nom et prénom</span> <span class="val">{{HOTE_NOM}}</span></p>
+    <p><span class="lbl">Adresse du logement</span> <span class="val">{{ADRESSE}}</span></p>
+    <p><span class="lbl">Logement</span> <span class="val">{{LOGEMENT}}</span></p>
+  </div>
+  <div class="carte">
+    <h3>Le voyageur (le locataire)</h3>
+    <p><span class="lbl">Nom et prénom</span> <span class="val">{{VOYAGEUR_NOM}}</span></p>
+    <p><span class="lbl">Pièce d'identité</span> <span class="val">{{PIECE_TYPE}} n° {{PIECE_NUMERO}}</span></p>
+    <p><span class="lbl">Identité vérifiée par Sundarly</span> <span class="val">Oui</span></p>
+  </div>
+</div>
+
+<div class="sejour">
+  <div><span>Arrivée</span><strong>{{ARRIVEE}}</strong></div>
+  <div><span>Départ</span><strong>{{DEPART}}</strong></div>
+  <div><span>Voyageurs</span><strong>{{NB_VOYAGEURS}}</strong></div>
+  <div><span>Montant payé</span><strong>{{TOTAL}}</strong></div>
+</div>
+
+<div class="art">
+<h2><b>1.</b> Objet du contrat</h2>
+<p>Le présent contrat fixe les conditions dans lesquelles le propriétaire met son logement à la disposition du voyageur pour un séjour de courte durée, aux dates indiquées ci-dessus. Le logement est loué <strong>meublé, à usage exclusif d'habitation temporaire</strong>. Il ne peut en aucun cas devenir la résidence principale du voyageur.</p>
+<p>Dans ce contrat, « le propriétaire » désigne aussi toute personne qui le représente pour la gestion du logement (<strong>conciergerie, gestionnaire, gardien</strong>). Ce représentant peut exercer en son nom tous les droits prévus ici, notamment ceux de l'article 7.</p>
+</div>
+
+<div class="art">
+<h2><b>2.</b> Engagements du voyageur</h2>
+<p>Le voyageur s'engage à :</p>
+<ul>
+  <li>utiliser le logement <strong>avec soin, en « bon père de famille »</strong>, et respecter les équipements, le mobilier et la décoration ;</li>
+  <li>respecter le <strong>règlement intérieur</strong> fixé par le propriétaire (article 5) ;</li>
+  <li>ne pas dépasser le <strong>nombre de voyageurs prévu</strong> dans la réservation et ne pas héberger d'autres personnes sans l'accord écrit du propriétaire ;</li>
+  <li>ne pas sous-louer ni prêter le logement à un tiers ;</li>
+  <li>respecter le voisinage, la tranquillité des lieux et les lois en vigueur dans le pays ;</li>
+  <li>signaler sans délai au propriétaire tout problème, panne ou dommage survenu pendant le séjour.</li>
+</ul>
+</div>
+
+<div class="art">
+<h2><b>3.</b> Engagements du propriétaire</h2>
+<p>Le propriétaire (ou son représentant) s'engage à :</p>
+<ul>
+  <li>remettre un logement <strong>conforme à l'annonce</strong> publiée sur Sundarly (photos, description, équipements, nombre de couchages) ;</li>
+  <li>remettre un logement <strong>propre, en bon état et en bon état de fonctionnement</strong> (eau, électricité, équipements annoncés) ;</li>
+  <li>garantir l'<strong>accès au logement</strong> à la date et à l'heure d'arrivée prévues, et transmettre les instructions d'arrivée en temps utile ;</li>
+  <li>assurer au voyageur la <strong>jouissance paisible</strong> du logement pendant le séjour et respecter sa vie privée (pas d'entrée dans le logement sans accord, sauf urgence) ;</li>
+  <li>rester <strong>joignable</strong> pendant le séjour et intervenir dans un délai raisonnable en cas de panne ou de problème ;</li>
+  <li>respecter les obligations légales du pays (déclarations, sécurité, assurance du logement).</li>
+</ul>
+</div>
+
+<div class="art">
+<h2><b>4.</b> Propreté et restitution du logement</h2>
+<p>Le voyageur s'engage à <strong>laisser le logement dans l'état le plus propre possible</strong> à son départ :</p>
+<ul>
+  <li>vaisselle lavée et rangée, réfrigérateur vidé, poubelles sorties ou regroupées ;</li>
+  <li>aucun objet personnel ni déchet laissé sur place ;</li>
+  <li>mobilier remis à sa place d'origine, portes et fenêtres fermées, clés restituées selon les instructions de l'hôte.</li>
+</ul>
+<p>Les frais de ménage éventuellement payés couvrent un nettoyage normal de fin de séjour. Un <strong>nettoyage exceptionnel</strong> (salissures importantes, odeurs de tabac dans un logement non-fumeur, traces d'animaux non autorisés…) pourra être facturé au voyageur sur justificatifs.</p>
+</div>
+
+<div class="art">
+<h2><b>5.</b> Règlement intérieur du logement</h2>
+<ul>
+  <li>Arrivée à partir de <strong>{{HEURE_ARRIVEE}}</strong> · départ avant <strong>{{HEURE_DEPART}}</strong></li>
+  <li>{{REGLE_ANIMAUX}}</li>
+  <li>{{REGLE_FUMEURS}}</li>
+  <li>{{REGLE_FETES}}</li>
+</ul>
+{{REGLES_HOTE}}
+</div>
+
+<div class="art">
+<h2><b>6.</b> État du logement, dégradations, casse et vols</h2>
+<p><strong>État à l'arrivée.</strong> Le logement est remis en bon état de propreté et de fonctionnement, conforme à l'annonce. Le voyageur dispose de <strong>24 heures après son arrivée</strong> pour signaler, via la messagerie Sundarly et si possible avec photos, toute anomalie ou dégradation déjà présente. Sans signalement dans ce délai, le logement est réputé avoir été remis en bon état.</p>
+<p><strong>État au départ.</strong> Le propriétaire peut constater l'état du logement après le départ du voyageur (photos datées). Il doit signaler à Sundarly tout dommage ou objet manquant <strong>dans les 72 heures suivant le départ</strong>.</p>
+<div class="encadre">Le voyageur est <strong>responsable</strong> de toute dégradation, casse, perte ou disparition d'objets ou d'équipements survenue pendant son séjour, de son fait ou du fait des personnes qu'il accueille, hors usure normale. Il s'engage à en <strong>rembourser le coût de réparation ou de remplacement</strong>, sur présentation de justificatifs (photos, factures, devis).</div>
+{{CAUTION}}<p>En cas de vol ou de dommage important, le propriétaire peut également porter plainte et engager toute action en justice (article 9).</p>
+</div>
+
+<div class="art">
+<h2><b>7.</b> Fin anticipée du séjour (expulsion)</h2>
+<p>En cas de <strong>manquement grave</strong> du voyageur, le propriétaire ou son représentant (conciergerie, gestionnaire) peut <strong>mettre fin immédiatement au séjour</strong> et demander au voyageur de quitter le logement. Sont notamment considérés comme des manquements graves :</p>
+<ul>
+  <li><strong>bruit et nuisances</strong> répétés, plaintes du voisinage ;</li>
+  <li><strong>fête ou événement</strong> non autorisé ;</li>
+  <li>présence de <strong>personnes non déclarées</strong> ou dépassement du nombre de voyageurs prévu ;</li>
+  <li><strong>non-respect du règlement intérieur</strong> (tabac, animaux non autorisés, horaires…) malgré un avertissement ;</li>
+  <li>dégradations volontaires, vol, comportement violent, dangereux ou illégal dans le logement.</li>
+</ul>
+<p>Sauf urgence ou faits graves, un <strong>avertissement</strong> (message, appel ou sur place) est donné au voyageur avant l'expulsion. Le voyageur doit alors libérer les lieux <strong>dans le délai indiqué par le propriétaire</strong>. En cas de refus, le propriétaire peut faire appel aux forces de l'ordre. Le propriétaire informe Sundarly de la situation.</p>
+<div class="encadre">En cas d'expulsion pour manquement grave, <strong>les nuits restantes ne sont pas remboursées</strong>, et le voyageur reste responsable des dommages causés (article 6).</div>
+</div>
+
+<div class="art">
+<h2><b>8.</b> Annulation</h2>
+<p>Les conditions d'annulation applicables sont celles de l'annonce : <strong>{{ANNULATION}}</strong>. Si le propriétaire annule, le voyageur est remboursé intégralement.</p>
+</div>
+
+<div class="art">
+<h2><b>9.</b> Loi applicable et recours juridiques</h2>
+<p>Le présent contrat est soumis à la <strong>loi du pays où se situe le logement ({{PAYS}})</strong>. En cas de litige, les parties rechercheront d'abord une solution amiable, avec l'aide de Sundarly si elles le souhaitent. À défaut d'accord, <strong>le propriétaire pourra saisir les juridictions compétentes du lieu où se situe le logement</strong> pour obtenir réparation de son préjudice (dégradations, vols, impayés, nuisances…), sous réserve des droits que le voyageur tient des règles impératives de protection des consommateurs.</p>
+<p>Lorsque la loi locale l'exige, l'identité du voyageur pourra être déclarée aux autorités par le propriétaire (par exemple la fiche de police au Maroc).</p>
+</div>
+
+<div class="art">
+<h2><b>10.</b> Rôle de Sundarly et données personnelles</h2>
+<p>Sundarly est une plateforme de mise en relation : le contrat de location est conclu directement entre le propriétaire et le voyageur. Sundarly vérifie l'identité des utilisateurs, encaisse le paiement de façon sécurisée et peut accompagner les parties en cas de désaccord. Les informations d'identité figurant sur ce contrat sont communiquées au propriétaire uniquement pour l'exécution de la location et le respect de ses obligations légales, conformément à la politique de confidentialité de Sundarly.</p>
+</div>
+
+<div class="art">
+<h2><b>11.</b> Acceptation du contrat</h2>
+<p>Ce contrat est envoyé au voyageur après le paiement de la réservation. Le voyageur doit le lire et l'accepter <strong>dans les 48 heures</strong> (et au plus tard avant son arrivée). <strong>Sans acceptation dans ce délai, la réservation est annulée et le voyageur est intégralement remboursé.</strong> L'acceptation électronique ci-dessous a la même valeur qu'une signature manuscrite.</p>
+</div>
+
+<div class="signature">
+  <h3>Acceptation électronique du voyageur</h3>
+  <div class="case"><i></i><span>J'ai lu et j'accepte le présent contrat et le règlement du logement. Je m'engage à respecter le bien, le voisinage et le règlement, et à restituer le logement propre. Je reconnais être responsable des dégradations, de la casse et des vols survenus pendant mon séjour, et que le propriétaire ou son représentant peut mettre fin à mon séjour en cas de manquement grave.</span></div>
+  <div class="preuve">
+    <div><strong>{{VOYAGEUR_NOM}}</strong>Accepté par</div>
+    <div><strong>{{DATE_ACCEPTATION}}</strong>Date et heure</div>
+    <div><strong>{{PREUVE}}</strong>Preuve électronique</div>
+  </div>
+</div>
+
+<p class="pied">Sundarly · www.sundarly.com · info@sundarly.com — Document généré automatiquement pour la réservation n° {{REFERENCE}}. Conservez-le jusqu'à la fin de votre séjour.</p>
+
+</body>
+</html>
