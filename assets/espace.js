@@ -14,7 +14,18 @@
 
   A.exiger("espace-hote.html")
     .then(function (s) { SESSION = s; return A.profil(s); })
-    .then(function (p) { PROFIL = p; afficherProfil(); afficherVerif(); return chargerAnnonces(); })
+    .then(function (p) {
+      PROFIL = p;
+      // Identité obligatoire en premier (comme Airbnb) : pas d'accès à l'espace sans pièce d'identité envoyée
+      if (p.statut_verification === "non_verifie" || p.statut_verification === "refuse") {
+        return client.rpc("est_admin").then(function (r) {
+          if (r && r.data) return true;
+          location.replace("verification.html?retour=espace-hote.html");
+          return new Promise(function () {});
+        });
+      }
+    })
+    .then(function () { afficherProfil(); afficherVerif(); return chargerAnnonces(); })
     .then(function () { $("chargement").hidden = true; $("contenu").hidden = false; })
     .catch(function (e) {
       console.error(e);
