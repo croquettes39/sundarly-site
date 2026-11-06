@@ -576,6 +576,12 @@
         form.elements.email.value = SESSION.user.email;
         form.elements.email.readOnly = true;
         if (!val("telephone") && p.telephone !== "000000") form.elements.telephone.value = p.telephone;
+        // Identité obligatoire : sans pièce envoyée, on ne peut pas publier
+        if (p.statut_verification === "non_verifie" || p.statut_verification === "refuse") {
+          sauverBrouillon();
+          window.location.replace("verification.html?retour=publier.html");
+          return;
+        }
         if (p.statut_verification !== "verifie") $("avis-verif").hidden = false;
       })
       .catch(function (e) { console.error(e); document.body.classList.remove("attente-connexion"); });

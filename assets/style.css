@@ -742,3 +742,12 @@ a.annonce-ligne:hover{box-shadow:0 4px 18px rgba(0,0,0,.1);color:var(--encre)}
 .carte-dest span{font-size:14px;color:var(--gris-texte)}
 .colonnes-4{grid-template-columns:1.4fr 1fr 1fr 1fr}
 @media (max-width:760px){.deux-blocs{grid-template-columns:1fr}.colonnes-4{grid-template-columns:1fr 1fr}}
+/* Vérification d'identité obligatoire */
+.carte-verif{border:2px solid var(--rose);box-shadow:0 8px 28px rgba(216,27,96,.10)}
+.carte-verif.ok{border:1px solid var(--bord);box-shadow:none}
+.sur-titre-verif{font-size:13px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--rose);margin:0 0 6px !important}
+.titre-verif{font-size:clamp(24px,4vw,32px);margin:0 0 8px;letter-spacing:-.02em}
+.pourquoi-verif{margin:18px 0 0;padding:16px 18px 16px 34px;background:var(--rose-pale);border-radius:14px;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.alerte-verif{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;background:#FDECF3;border:1px solid #F5B5CF;color:#7A1240;border-radius:16px;padding:14px 18px;margin:0 0 20px;font-size:15px}
+.alerte-verif strong{display:block;font-size:16px}
+.mention-verif{font-size:13px;color:var(--gris-texte);text-align:center;margin:10px 0 0}

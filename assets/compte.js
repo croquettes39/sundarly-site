@@ -4,7 +4,7 @@
   var A = window.SundarlyAuth, client = A.client;
   var params = new URLSearchParams(location.search);
   var retour = params.get("retour") || "espace-hote.html";
-  if (!/^[a-z0-9-]+\.html(\?id=[0-9a-f-]{36})?(#[a-z0-9-]*)?$/i.test(retour)) retour = "espace-hote.html"; // pas de redirection vers un autre site
+  if (!/^[a-z0-9-]+\.html(\?id=[0-9a-f-]{36})?(#[a-z0-9-]*)?$/i.test(retour) && !/^verification\.html\?retour=[a-z0-9-]+\.html(%3Fid%3D[0-9a-f-]{36})?$/i.test(retour)) retour = "espace-hote.html"; // pas de redirection vers un autre site
 
   var forms = { connexion: $("f-connexion"), inscription: $("f-inscription"), oubli: $("f-oubli"), nouveau: $("f-nouveau") };
   function $(id) { return document.getElementById(id); }
@@ -21,6 +21,18 @@
     var b = form.querySelector("button[type=submit]");
     if (!b.dataset.t) b.dataset.t = b.textContent;
     b.disabled = oui; b.textContent = oui ? texte : b.dataset.t;
+  }
+  // Après connexion : si l'identité n'est pas vérifiée, on passe d'abord par la vérification
+  function continuer() {
+    A.session().then(function (s) {
+      if (!s) { location.replace(retour); return; }
+      return A.profil(s).then(function (p) {
+        var st = p.statut_verification;
+        if ((st === "non_verifie" || st === "refuse") && !/^verification\.html/.test(retour)) {
+          location.replace("verification.html?retour=" + encodeURIComponent(retour));
+        } else location.replace(retour);
+      });
+    }).catch(function () { location.replace(retour); });
   }
   function traduire(e) {
     var m = (e && e.message || "").toLowerCase();
@@ -47,7 +59,7 @@
   }
 
   // Déjà connecté ? On continue directement
-  A.session().then(function (s) { if (s && !location.hash.match(/type=recovery/)) location.replace(retour); });
+  A.session().then(function (s) { if (s && !location.hash.match(/type=recovery/)) continuer(); });
   client.auth.onAuthStateChange(function (evt) { if (evt === "PASSWORD_RECOVERY") montrer("nouveau"); });
 
   forms.connexion.addEventListener("submit", function (e) {
@@ -55,7 +67,7 @@
     if (!f.checkValidity()) { f.reportValidity(); return; }
     occupe(f, true, "Connexion…");
     client.auth.signInWithPassword({ email: v(f, "email").toLowerCase(), password: f.elements.mdp.value })
-      .then(function (r) { if (r.error) throw r.error; location.replace(retour); })
+      .then(function (r) { if (r.error) throw r.error; continuer(); })
       .catch(function (err) { msg(f, "erreur", traduire(err)); occupe(f, false); });
   });
 
@@ -73,7 +85,7 @@
       }
     }).then(function (r) {
       if (r.error) throw r.error;
-      if (r.data && r.data.session) { location.replace(retour); return; }
+      if (r.data && r.data.session) { continuer(); return; }
       f.reset();
       msg(f, "ok", "Compte créé ! Nous vous avons envoyé un e-mail : cliquez sur le lien qu'il contient pour activer votre compte (pensez à regarder dans les spams).");
       occupe(f, false);

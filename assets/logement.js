@@ -139,6 +139,7 @@
       '<label class="fr-large"><span>Voyageurs</span><select name="voyageurs">' + Array.from({ length: A.voyageurs }, function (_, i) { return '<option value="' + (i + 1) + '"' + (i + 1 === SEJ.voyageurs ? " selected" : "") + ">" + V.pluriel(i + 1, "voyageur", "voyageurs") + "</option>"; }).join("") + "</select></label></div>" +
       '<button type="button" class="btn btn-large" id="btn-reserver"' + (ouvert && n && !erreur ? "" : " disabled") + ">" + (ouvert ? (n ? "Réserver" : "Choisissez vos dates") : "Réservations ouvertes le 20 novembre") + "</button>" +
       (erreur ? '<p class="fr-erreur">' + esc(erreur) + "</p>" : "") +
+      '<p class="mention-verif">🔒 Identité vérifiée obligatoire pour réserver</p>' +
       (c && !erreur ? '<p class="fr-note">Vous ne payez rien pour le moment</p><dl class="fr-detail">' +
         "<div><dt>" + esc(V.prix(A.prix_nuit, A.devise)) + " × " + V.pluriel(n, "nuit", "nuits") + "</dt><dd>" + esc(V.prix(c.base, A.devise)) + "</dd></div>" +
         (c.reduction ? '<div class="fr-reduc"><dt>' + esc(c.libelleReduction) + "</dt><dd>-" + esc(V.prix(c.reduction, A.devise)) + "</dd></div>" : "") +
@@ -153,8 +154,24 @@
         rendreReservation();
       });
     });
+    var br = $("btn-reserver");
+    if (br) br.addEventListener("click", reserver);
     var bm = $("barre-mobile");
     bm.innerHTML = "<div><strong>" + esc(c && !erreur ? V.prix(c.total, A.devise) : V.prix(A.prix_nuit, A.devise)) + "</strong> " + (c && !erreur ? "pour " + V.pluriel(n, "nuit", "nuits") : "par nuit") + '<span class="fr-zero-mobile">Aucun frais de service</span></div><a class="btn" href="#reservation">' + (ouvert ? "Réserver" : "Dès le 20 nov.") + "</a>";
+  }
+
+  // Réserver : compte + identité vérifiée obligatoires
+  function reserver() {
+    var ici = "logement.html?id=" + ID;
+    var A2 = window.SundarlyAuth;
+    if (!A2 || !A2.client) return;
+    A2.session().then(function (s) {
+      if (!s) { location.href = "compte.html?mode=inscription&retour=" + encodeURIComponent(ici); return; }
+      return A2.profil(s).then(function (p) {
+        if (p.statut_verification !== "verifie") { location.href = "verification.html?retour=" + encodeURIComponent(ici); return; }
+        alert("Votre identité est vérifiée ✓ La réservation en ligne s'ouvre très bientôt sur cette page.");
+      });
+    }).catch(function (e) { console.error(e); });
   }
 
   // ---------- Carte approximative ----------

@@ -202,7 +202,7 @@
         b.disabled = true;
         client.from("annonces").update({ statut: b.getAttribute("data-statut") }).eq("id", b.getAttribute("data-id")).then(function (r) {
           if (r.error) throw r.error; return charger();
-        }).catch(function (e) { console.error(e); b.disabled = false; alert("La mise à jour n'a pas fonctionné."); });
+        }).catch(function (e) { console.error(e); b.disabled = false; alert(/IDENTITE/.test(e && e.message || "") ? "Impossible : l'identité de cet hôte n'est pas encore validée. Validez d'abord sa pièce d'identité (onglet Identités)." : "La mise à jour n'a pas fonctionné."); });
       });
     });
   }

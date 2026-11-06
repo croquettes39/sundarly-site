@@ -46,60 +46,23 @@
     });
   });
 
-  // ---------- Vérification d'identité ----------
+  // ---------- Vérification d'identité (obligatoire) ----------
   var TEXTES = {
-    non_verifie: ["À faire", "Pour publier vos annonces, nous devons vérifier votre identité. Cela prend 2 minutes : une pièce d'identité et un selfie.", "badge-attente"],
+    non_verifie: ["Obligatoire", "Votre identité n'est pas encore vérifiée : vous ne pouvez ni publier d'annonce ni réserver tant que ce n'est pas fait. Cela prend 2 minutes : une pièce d'identité et un selfie.", "badge-refus"],
     en_cours: ["En cours", "Merci ! Vos documents sont en cours de vérification par notre équipe (en général sous 48 h).", "badge-cours"],
     verifie: ["Vérifiée", "Votre identité est vérifiée. Vos annonces peuvent être mises en ligne après validation.", "badge-ok"],
-    refuse: ["À refaire", "Vos documents n'ont pas pu être validés (photo floue, pièce expirée…). Merci de les envoyer à nouveau.", "badge-refus"]
+    refuse: ["À refaire", "Vos documents n'ont pas pu être validés (photo floue, pièce expirée…). Merci de les envoyer à nouveau : c'est obligatoire pour utiliser Sundarly.", "badge-refus"]
   };
   function afficherVerif() {
-    var t = TEXTES[PROFIL.statut_verification] || TEXTES.non_verifie;
+    var st = PROFIL.statut_verification, t = TEXTES[st] || TEXTES.non_verifie;
+    var aFaire = st === "non_verifie" || st === "refuse";
     $("verif-badge").textContent = t[0]; $("verif-badge").className = "badge " + t[2];
     $("verif-texte").textContent = t[1];
-    $("f-identite").hidden = !(PROFIL.statut_verification === "non_verifie" || PROFIL.statut_verification === "refuse");
+    $("cta-verif").hidden = !aFaire;
+    $("bloc-verif").classList.toggle("ok", !aFaire);
+    // Pas d'annonce sans pièce d'identité envoyée
+    if (aFaire) $("lien-publier").href = "verification.html?retour=publier.html";
   }
-  var fId = $("f-identite");
-  fId.elements.type_piece.addEventListener("change", function () {
-    $("zone-verso").hidden = this.value === "passeport";
-  });
-  fId.querySelectorAll("input[type=file]").forEach(function (inp) {
-    inp.addEventListener("change", function () {
-      var em = inp.parentElement.querySelector("[data-nom]");
-      em.textContent = inp.files[0] ? "✓ " + inp.files[0].name : "";
-      inp.parentElement.classList.toggle("rempli", !!inp.files[0]);
-    });
-  });
-  fId.addEventListener("submit", function (e) {
-    e.preventDefault(); var f = this;
-    var type = f.elements.type_piece.value;
-    var aEnvoyer = [["recto", f.elements.recto.files[0]], ["selfie", f.elements.selfie.files[0]]];
-    if (type !== "passeport") aEnvoyer.splice(1, 0, ["verso", f.elements.verso.files[0]]);
-    if (!type) { msg(f, "erreur", "Choisissez le type de pièce."); return; }
-    var manque = aEnvoyer.filter(function (x) { return !x[1]; }).map(function (x) { return x[0]; });
-    if (manque.length) { msg(f, "erreur", "Il manque : " + manque.join(", ") + "."); return; }
-    if (aEnvoyer.some(function (x) { return x[1].size > 10 * 1024 * 1024; })) { msg(f, "erreur", "Chaque fichier doit faire moins de 10 Mo."); return; }
-    var b = f.querySelector("button[type=submit]"); b.disabled = true; b.textContent = "Envoi…";
-    var horodatage = Date.now();
-    aEnvoyer.reduce(function (p, x) {
-      return p.then(function () {
-        var ext = (x[1].name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
-        return client.storage.from("pieces-identite")
-          .upload(SESSION.user.id + "/" + horodatage + "-" + x[0] + "." + ext, x[1], { contentType: x[1].type, upsert: false })
-          .then(function (r) { if (r.error) throw r.error; });
-      });
-    }, Promise.resolve())
-      .then(function () {
-        return client.from("profils").update({ type_piece: type, statut_verification: "en_cours", piece_envoyee_le: new Date().toISOString() })
-          .eq("id", SESSION.user.id).select().single();
-      })
-      .then(function (r) { if (r.error) throw r.error; PROFIL = r.data; afficherVerif(); })
-      .catch(function (err) {
-        console.error(err);
-        msg(f, "erreur", "L'envoi n'a pas abouti. Vérifiez votre connexion et réessayez.");
-        b.disabled = false; b.textContent = "Envoyer pour vérification";
-      });
-  });
 
   // ---------- Annonces ----------
   var STATUTS = {
