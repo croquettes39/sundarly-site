@@ -489,6 +489,7 @@
           equipements: equipements(), photos: urls,
           titre: val("titre"), description: val("description"),
           devise: devise(), prix_nuit: nombreOuNull("prix_nuit"), frais_menage: nombreOuNull("frais_menage"),
+          promo_nouvelle: coche("promo_nouvelle"),
           annulation: choisi("annulation"), caution: nombreOuNull("caution"),
           heure_arrivee: val("heure_arrivee") || null, heure_depart: val("heure_depart") || null,
           animaux: coche("animaux"), fumeurs: coche("fumeurs"), fetes: coche("fetes"),

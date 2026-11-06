@@ -44,6 +44,7 @@
       <button type="button" role="tab" aria-selected="false" data-vue="proprietaires">Propriétaires</button>
       <button type="button" role="tab" aria-selected="false" data-vue="voyageurs">Voyageurs</button>
       <button type="button" role="tab" aria-selected="false" data-vue="statistiques">Statistiques</button>
+      <button type="button" role="tab" aria-selected="false" data-vue="avis">Avis contestés</button>
     </nav>
 
     <!-- Tableau de bord -->
@@ -73,6 +74,13 @@
         <div class="carte-espace"><h3 class="titre-classement">Villes</h3><div id="c-villes"></div></div>
         <div class="carte-espace"><h3 class="titre-classement">Appareils</h3><div id="c-appareils"></div></div>
       </div>
+    </section>
+
+    <!-- Avis contestés -->
+    <section data-panneau="avis" hidden>
+      <div class="barre-outils"><h2>Avis contestés</h2></div>
+      <p class="gris petit">Un hôte ou un voyageur estime qu'un avis est injuste. Décidez sous 72 h : retirer l'avis s'il ne respecte pas les règles (insultes, hors sujet, chantage, faux séjour…), sinon le maintenir.</p>
+      <div id="liste-avis"></div>
     </section>
 
     <!-- Identités -->

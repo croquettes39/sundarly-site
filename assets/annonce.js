@@ -175,18 +175,13 @@
       resume: function (a) {
         var t = prix(a.prix_nuit, a.devise) + " par nuit";
         if (a.frais_menage) t += " · ménage " + prix(a.frais_menage, a.devise);
-        var r = [];
-        if (a.reduction_semaine) r.push("-" + a.reduction_semaine + " % à la semaine");
-        if (a.reduction_mois) r.push("-" + a.reduction_mois + " % au mois");
-        return '<p class="gris">' + esc(t) + (r.length ? "<br>" + esc(r.join(" · ")) : "") + "</p>";
+        return '<p class="gris">' + esc(t) + "</p>";
       },
       form: function (a) {
         return '<label class="champ">Devise<select name="devise">' + ["EUR", "MAD", "CHF"].map(function (d) { return '<option value="' + d + '"' + (d === a.devise ? " selected" : "") + ">" + d + " (" + SYM[d] + ")</option>"; }).join("") + "</select></label>" +
           '<div class="champs">' +
           '<label class="champ">Prix par nuit<input type="number" name="prix_nuit" min="1" max="100000" step="1" required value="' + esc(a.prix_nuit) + '"></label>' +
           '<label class="champ">Frais de ménage <span class="facultatif">(facultatif)</span><input type="number" name="frais_menage" min="0" max="100000" step="1" value="' + esc(a.frais_menage == null ? "" : a.frais_menage) + '"></label>' +
-          '<label class="champ">Réduction à la semaine (%)<input type="number" name="reduction_semaine" min="0" max="90" step="1" value="' + esc(a.reduction_semaine || 0) + '"></label>' +
-          '<label class="champ">Réduction au mois (%)<input type="number" name="reduction_mois" min="0" max="90" step="1" value="' + esc(a.reduction_mois || 0) + '"></label>' +
           "</div>" +
           '<div class="simulation" id="simu"></div>';
       },
@@ -202,9 +197,43 @@
         var p = nombre(f, "prix_nuit");
         if (!p || p <= 0) return "Indiquez un prix par nuit.";
         return {
-          devise: F(f, "devise"), prix_nuit: p, frais_menage: nombre(f, "frais_menage"),
-          reduction_semaine: Math.max(0, Math.min(90, nombre(f, "reduction_semaine") || 0)),
-          reduction_mois: Math.max(0, Math.min(90, nombre(f, "reduction_mois") || 0))
+          devise: F(f, "devise"), prix_nuit: p, frais_menage: nombre(f, "frais_menage")
+        };
+      }
+    },
+    {
+      cle: "promotions", titre: "Promotions",
+      resume: function (a) {
+        var r = [];
+        if (a.promo_nouvelle) r.push("Nouvelle annonce -20 %");
+        if (a.reduction_semaine) r.push("Semaine -" + a.reduction_semaine + " %");
+        if (a.reduction_mois) r.push("Mois -" + a.reduction_mois + " %");
+        if (a.reduction_anticipee) r.push("Réservation anticipée -" + a.reduction_anticipee + " %");
+        if (a.reduction_derniere_minute) r.push("Dernière minute -" + a.reduction_derniere_minute + " %");
+        return '<p class="gris">' + (r.length ? esc(r.join(" · ")) : "Aucune promotion active. Les annonces en promotion sont mises en avant et attirent plus de voyageurs.") + "</p>";
+      },
+      form: function (a) {
+        function pct(nom, v) { return '<input type="number" name="' + nom + '" min="0" max="90" step="1" value="' + esc(v || 0) + '">'; }
+        function choix(nom, vals, cur, unite) { return '<select name="' + nom + '">' + vals.map(function (v) { return '<option value="' + v[0] + '"' + (Number(cur) === v[0] ? " selected" : "") + ">" + esc(v[1]) + "</option>"; }).join("") + "</select>"; }
+        return '<div class="promo-bloc promo-vedette"><label class="case-ligne"><span><strong>Promotion « nouvelle annonce » : -20 %</strong><small>Sur vos 3 premières réservations. C\'est le meilleur moyen d\'obtenir vos premiers voyageurs et vos premiers avis. Votre annonce affiche un badge « -20 % ».</small></span><input type="checkbox" name="promo_nouvelle"' + (a.promo_nouvelle ? " checked" : "") + "></label></div>" +
+          "<h3>Réductions selon la durée</h3>" +
+          '<div class="champs"><label class="champ">À la semaine (7 nuits et plus), en %' + pct("reduction_semaine", a.reduction_semaine) + '</label>' +
+          '<label class="champ">Au mois (28 nuits et plus), en %' + pct("reduction_mois", a.reduction_mois) + "</label></div>" +
+          "<h3>Réservation anticipée</h3>" +
+          '<div class="champs"><label class="champ">Réduction en %' + pct("reduction_anticipee", a.reduction_anticipee) + '</label>' +
+          '<label class="champ">Si le voyageur réserve au moins' + choix("anticipee_jours", [[30, "1 mois à l'avance"], [60, "2 mois à l'avance"], [90, "3 mois à l'avance"], [180, "6 mois à l'avance"], [365, "1 an à l'avance"]], a.anticipee_jours || 90) + "</label></div>" +
+          "<h3>Dernière minute</h3>" +
+          '<div class="champs"><label class="champ">Réduction en %' + pct("reduction_derniere_minute", a.reduction_derniere_minute) + '</label>' +
+          '<label class="champ">Si l\'arrivée est dans moins de' + choix("derniere_minute_jours", [[1, "1 jour"], [3, "3 jours"], [7, "7 jours"], [14, "14 jours"], [21, "21 jours"], [28, "28 jours"]], a.derniere_minute_jours || 7) + "</label></div>" +
+          '<p class="aide-champ">Les promotions ne se cumulent pas : le voyageur profite automatiquement de la plus avantageuse. Mettez 0 pour désactiver une réduction.</p>';
+      },
+      lire: function (f) {
+        function p(n) { return Math.max(0, Math.min(90, Math.round(nombre(f, n) || 0))); }
+        return {
+          promo_nouvelle: f.elements.promo_nouvelle.checked,
+          reduction_semaine: p("reduction_semaine"), reduction_mois: p("reduction_mois"),
+          reduction_anticipee: p("reduction_anticipee"), anticipee_jours: Number(F(f, "anticipee_jours")) || 90,
+          reduction_derniere_minute: p("reduction_derniere_minute"), derniere_minute_jours: Number(F(f, "derniere_minute_jours")) || 7
         };
       }
     },

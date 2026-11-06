@@ -167,6 +167,34 @@
   $("f-periode").addEventListener("change", chargerVisites);
   document.querySelector('[data-vue="statistiques"]').addEventListener("click", chargerVisites);
 
+  // ---------- Avis contestés ----------
+  function chargerAvis() {
+    return client.rpc("admin_avis_contestes").then(function (r) {
+      if (r.error) throw r.error;
+      var l = r.data || [], z = $("liste-avis");
+      if (!l.length) { z.innerHTML = '<p class="vide">Aucun avis contesté. 🎉</p>'; return; }
+      z.innerHTML = "";
+      l.forEach(function (a) {
+        var el = document.createElement("article"); el.className = "carte-espace";
+        var retard = new Date(a.echeance) < new Date();
+        el.innerHTML = "<p><strong>" + esc(a.titre) + '</strong></p><p class="gris petit">Avis de ' + esc(a.auteur) + " (" + (a.role_auteur === "voyageur" ? "voyageur" : "hôte") + ") sur " + esc(a.cible) + " · " + "★".repeat(a.note) + "</p>" +
+          '<blockquote class="av-cite">' + esc(a.commentaire) + "</blockquote>" +
+          "<p><strong>Motif de la contestation :</strong> " + esc(a.motif) + "</p>" +
+          '<p class="' + (retard ? "fr-erreur" : "gris petit") + '">À traiter avant le ' + date(a.echeance, true) + (retard ? " (délai dépassé)" : "") + "</p>" +
+          '<div class="actions"><button class="pilule" data-garder>Maintenir l\'avis</button><button class="btn" data-retirer>Retirer l\'avis</button></div>';
+        function decider(retirer) {
+          el.querySelectorAll("button").forEach(function (b) { b.disabled = true; });
+          client.rpc("admin_moderer_avis", { p_avis: a.id, p_retirer: retirer }).then(function (r) { if (r.error) throw r.error; chargerAvis(); })
+            .catch(function (e) { console.error(e); alert("La décision n'a pas pu être enregistrée."); });
+        }
+        el.querySelector("[data-garder]").addEventListener("click", function () { decider(false); });
+        el.querySelector("[data-retirer]").addEventListener("click", function () { decider(true); });
+        z.appendChild(el);
+      });
+    }).catch(function (e) { console.error(e); $("liste-avis").innerHTML = '<p class="vide">Impossible de charger les avis.</p>'; });
+  }
+  document.querySelector('[data-vue="avis"]').addEventListener("click", chargerAvis);
+
   // ---------- Identités ----------
   $("f-identites").addEventListener("change", rendreIdentites);
   function rendreIdentites() {

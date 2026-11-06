@@ -92,7 +92,7 @@
     $("fiche").innerHTML =
       statut +
       '<h1 class="fi-titre">' + esc(A.titre) + "</h1>" +
-      '<p class="fi-sous">' + esc(A.ville) + ", " + esc(A.pays) + (A.hote_verifie ? ' · <span class="fi-verifie">Hôte vérifié</span>' : "") + "</p>" +
+      '<p class="fi-sous">' + esc(A.ville) + ", " + esc(A.pays) + (A.hote_verifie ? ' · <span class="fi-verifie">Hôte vérifié</span>' : "") + ' · <a href="#fi-avis" class="fi-note" id="fi-note">★ Nouveau</a></p>' +
       '<div class="fi-photos n' + Math.min(p.length, 5) + '">' + p.slice(0, 5).map(function (u, i) { return '<button type="button" class="fi-photo" data-photo="' + i + '"><img src="' + esc(u) + '" alt="Photo ' + (i + 1) + '"' + (i ? ' loading="lazy"' : "") + "></button>"; }).join("") +
         (p.length > 1 ? '<button type="button" class="fi-toutes" data-photo="0">Afficher les ' + p.length + " photos</button>" : "") + "</div>" +
       '<div class="fi-grille"><div class="fi-gauche">' +
@@ -108,6 +108,7 @@
         texte("Le logement", A.mon_logement) + texte("Accès des voyageurs", A.acces_voyageurs) + texte("Échanges avec l'hôte", A.echanges_voyageurs) + texte("Autres informations à noter", A.autres_infos) +
         liste("Ce que propose ce logement", (A.equipements || []).filter(function (e) { return !/Détecteur|Extincteur|premiers secours|Caméras/.test(e); })) +
         liste("Accessibilité", A.accessibilite) +
+        '<section class="fi-bloc" id="fi-avis"></section>' +
         '<section class="fi-bloc"><h2>Où se situe le logement</h2><p>' + esc(A.ville) + ", " + esc(A.pays) + '</p><div class="fi-carte" id="fi-carte"></div><p class="fi-gris">Pour la sécurité de l\'hôte, la zone affichée est approximative. L\'adresse exacte vous est communiquée après la réservation.</p></section>' +
         '<section class="fi-bloc fi-trois"><div><h3>Règlement intérieur</h3><ul>' + regles.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" + (A.reglement ? "<p>" + nl(A.reglement) + "</p>" : "") + "</div>" +
           "<div><h3>Sécurité et logement</h3><ul>" + secu.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" +
@@ -116,6 +117,7 @@
       '<aside class="fi-reservation" id="reservation"></aside></div>' +
       '<div class="fi-barre-mobile" id="barre-mobile"></div>';
 
+    chargerAvis();
     $("fiche").querySelectorAll("[data-photo]").forEach(function (b) { b.addEventListener("click", function () { ouvrirGalerie(+b.getAttribute("data-photo")); }); });
     rendreReservation();
     carte();
@@ -125,7 +127,13 @@
   var SEJ = { arrivee: params.get("arrivee") || "", depart: params.get("depart") || "", voyageurs: parseInt(params.get("voyageurs"), 10) || 1 };
   function rendreReservation() {
     var z = $("reservation"), n = V.nuits(SEJ.arrivee, SEJ.depart);
-    var c = n ? V.calculSejour(A, n) : null;
+    var c = n ? V.calculSejour(A, n, SEJ.arrivee) : null;
+    var promos = [];
+    if (A.promo_nouvelle_active) promos.push("-20 % : promotion nouvelle annonce");
+    if (A.reduction_semaine) promos.push("-" + A.reduction_semaine + " % dès 7 nuits");
+    if (A.reduction_mois) promos.push("-" + A.reduction_mois + " % dès 28 nuits");
+    if (A.reduction_anticipee) promos.push("-" + A.reduction_anticipee + " % en réservant " + (A.anticipee_jours >= 365 ? "1 an" : Math.round(A.anticipee_jours / 30) + " mois") + " à l'avance");
+    if (A.reduction_derniere_minute) promos.push("-" + A.reduction_derniere_minute + " % pour une arrivée dans moins de " + V.pluriel(A.derniere_minute_jours, "jour", "jours"));
     var min = new Date().toISOString().slice(0, 10);
     var erreur = "";
     if (n && n < (A.nuits_min || 1)) erreur = "Ce logement se loue " + V.pluriel(A.nuits_min, "nuit", "nuits") + " minimum.";
@@ -134,6 +142,7 @@
     var ouvert = ACCES.ouvert && new Date().toISOString().slice(0, 10) >= OUVERTURE;
     z.innerHTML =
       '<p class="fr-prix"><strong>' + esc(V.prix(A.prix_nuit, A.devise)) + "</strong> par nuit</p>" +
+      (promos.length ? '<div class="fr-promos"><strong>🎁 Promotions</strong><ul>' + promos.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul><small>La meilleure s'applique automatiquement.</small></div>" : "") +
       '<div class="fr-champs"><label><span>Arrivée</span><input type="date" name="arrivee" min="' + min + '" value="' + esc(SEJ.arrivee) + '"></label>' +
       '<label><span>Départ</span><input type="date" name="depart" min="' + esc(SEJ.arrivee || min) + '" value="' + esc(SEJ.depart) + '"></label>' +
       '<label class="fr-large"><span>Voyageurs</span><select name="voyageurs">' + Array.from({ length: A.voyageurs }, function (_, i) { return '<option value="' + (i + 1) + '"' + (i + 1 === SEJ.voyageurs ? " selected" : "") + ">" + V.pluriel(i + 1, "voyageur", "voyageurs") + "</option>"; }).join("") + "</select></label></div>" +
@@ -171,6 +180,32 @@
         if (p.statut_verification !== "verifie") { location.href = "verification.html?retour=" + encodeURIComponent(ici); return; }
         alert("Votre identité est vérifiée ✓ La réservation en ligne s'ouvre très bientôt sur cette page.");
       });
+    }).catch(function (e) { console.error(e); });
+  }
+
+  // ---------- Avis des voyageurs ----------
+  var CRITERES = [["proprete", "Propreté"], ["exactitude", "Précision"], ["communication", "Communication"], ["emplacement", "Emplacement"], ["arrivee", "Arrivée"], ["qualite_prix", "Qualité-prix"]];
+  function etoiles(n) { return "★★★★★".slice(0, n) + "☆☆☆☆☆".slice(0, 5 - n); }
+  function chargerAvis() {
+    var z = $("fi-avis"); if (!z || !V.client) return;
+    V.client.rpc("avis_logement", { p_annonce: ID }).then(function (r) {
+      var d = r.data || {}, nb = d.nombre || 0;
+      if (!nb) {
+        z.innerHTML = "<h2>★ Nouveau sur Sundarly</h2><p class=\"fi-gris\">Ce logement n'a pas encore d'avis. Les avis sont laissés uniquement par des voyageurs qui ont vraiment séjourné ici, après leur séjour.</p>";
+        return;
+      }
+      var moy = Number(d.moyenne).toFixed(2).replace(".", ",");
+      $("fi-note").textContent = "★ " + moy + " · " + V.pluriel(nb, "avis", "avis");
+      z.innerHTML = "<h2>★ " + moy + " · " + V.pluriel(nb, "avis", "avis") + "</h2>" +
+        '<div class="av-criteres">' + CRITERES.filter(function (c) { return d.criteres && d.criteres[c[0]] != null; }).map(function (c) {
+          var v = Number(d.criteres[c[0]]);
+          return '<div class="av-critere"><span>' + c[1] + '</span><div class="barre"><span style="width:' + (v / 5 * 100) + '%"></span></div><strong>' + v.toFixed(1).replace(".", ",") + "</strong></div>";
+        }).join("") + "</div>" +
+        '<div class="av-liste">' + (d.liste || []).map(function (a) {
+          return '<article class="av-item"><div class="av-tete"><span class="fi-avatar">' + esc((a.prenom || "V").charAt(0)) + "</span><div><strong>" + esc(a.prenom || "Voyageur") + "</strong><span>" + esc(new Date(a.date).toLocaleDateString("fr-FR", { month: "long", year: "numeric" })) + '</span></div></div><p class="av-etoiles" aria-label="' + a.note + ' sur 5">' + etoiles(a.note) + "</p><p>" + nl(a.commentaire) + "</p>" +
+            (a.reponse ? '<div class="av-reponse"><strong>Réponse de l\'hôte</strong><p>' + nl(a.reponse) + "</p></div>" : "") + "</article>";
+        }).join("") + "</div>" +
+        '<p class="fi-gris">Avis vérifiés : seuls les voyageurs ayant séjourné dans le logement peuvent en laisser un.</p>';
     }).catch(function (e) { console.error(e); });
   }
 

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mes avis – Sundarly</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#D81B60">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/assets/stats.js"></script>
+</head>
+<body>
+
+<header class="entete-publier">
+  <a class="logo-seul" href="/" aria-label="Sundarly, accueil">
+    <svg width="38" height="38" viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="15" r="6" stroke="currentColor" stroke-width="2.5"/><path d="M17 3v3M5 15h3M26 15h3M8.5 6.5l2 2M25.5 6.5l-2 2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M4 27c3-3 6-3 9 0s6 3 9 0 6-3 9 0" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+  </a>
+  <div class="entete-actions"><a class="pilule" href="espace-hote.html">Mon espace</a></div>
+</header>
+
+<main class="espace">
+  <p class="chargement" id="chargement">Chargement…</p>
+  <div id="contenu" hidden>
+    <h1 class="titre-verif">Mes avis</h1>
+    <p class="gris">Après chaque séjour, voyageur et hôte ont 14 jours pour s'évaluer mutuellement. Les deux avis sont publiés en même temps, quand les deux ont écrit le leur (ou à la fin des 14 jours) : personne ne peut adapter son avis à celui de l'autre.</p>
+
+    <section class="carte-espace" id="bloc-ecrire">
+      <h2>À écrire</h2>
+      <div id="a-ecrire"></div>
+    </section>
+
+    <section class="carte-espace">
+      <h2>Avis reçus</h2>
+      <p class="aide-champ">Un avis vous semble injuste (propos insultants, sans rapport avec le séjour, tentative de chantage…) ? Contestez-le : notre équipe l'examine sous 72 h et le retire s'il ne respecte pas nos règles. Vous pouvez aussi y répondre publiquement.</p>
+      <div id="recus"></div>
+    </section>
+
+    <section class="carte-espace">
+      <h2>Avis que j'ai écrits</h2>
+      <div id="ecrits"></div>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/auth.js"></script>
+<script src="assets/avis.js"></script>
+</body>
+</html>

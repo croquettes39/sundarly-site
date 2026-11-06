@@ -1,0 +1,8 @@
+-- Sundarly — promotions, réservations et avis croisés (appliqué le 6 nov. 2026, migration « promotions_reservations_avis »)
+-- annonces : promo_nouvelle (-20 % sur les 3 premières réservations), reduction_anticipee/anticipee_jours,
+--            reduction_derniere_minute/derniere_minute_jours (+ reduction_semaine/reduction_mois existants)
+-- reservations : séjours (utilisés par la réservation en ligne et par les avis)
+-- avis : voyageur -> logement/hôte et hôte -> voyageur, publication double aveugle (les deux écrits ou 14 jours après le départ),
+--        contestation (examen sous 72 h dans l'admin), réponse publique.
+-- Fonctions : deposer_avis, avis_logement, avis_voyageur, mes_avis, contester_avis, repondre_avis,
+--             admin_avis_contestes, admin_moderer_avis, promo_nouvelle_active ; catalogue et fiche_logement mis à jour.

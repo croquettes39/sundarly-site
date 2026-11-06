@@ -94,15 +94,16 @@
     var el = document.createElement("article"); el.className = "carte-logement";
     var photos = (a.photos || []).slice(0, 6);
     var statut = ACCES.admin && a.statut !== "en_ligne" ? '<span class="pastille-statut">' + (a.statut === "validee" ? "Validée · pas encore en ligne" : "En attente de validation") + "</span>" : "";
-    var prixTxt = n ? "<strong>" + esc(V.prix(V.calculSejour(a, n).total, a.devise)) + "</strong> au total" : "<strong>" + esc(V.prix(a.prix_nuit, a.devise)) + "</strong> par nuit";
+    var badge = V.badgePromo(a);
+    var prixTxt = n ? "<strong>" + esc(V.prix(V.calculSejour(a, n, form.elements.arrivee.value).total, a.devise)) + "</strong> au total" : "<strong>" + esc(V.prix(a.prix_nuit, a.devise)) + "</strong> par nuit";
     el.innerHTML =
       '<div class="cl-photos">' +
         '<a class="cl-lien-photo" href="' + lienFiche(a) + '"><div class="cl-piste">' + photos.map(function (u, i) { return '<img src="' + esc(u) + '" alt="" loading="' + (i ? "lazy" : "eager") + '">'; }).join("") + "</div></a>" +
-        statut +
+        statut + (badge && !statut ? '<span class="pastille-promo">' + esc(badge) + "</span>" : "") +
         (photos.length > 1 ? '<button type="button" class="cl-fleche cl-prec" aria-label="Photo précédente">‹</button><button type="button" class="cl-fleche cl-suiv" aria-label="Photo suivante">›</button><div class="cl-points">' + photos.map(function (_, i) { return "<i" + (i ? "" : ' class="actif"') + "></i>"; }).join("") + "</div>" : "") +
       "</div>" +
       '<a class="cl-texte" href="' + lienFiche(a) + '">' +
-        '<span class="cl-lieu">' + esc(a.ville) + ", " + esc(a.pays) + "</span>" +
+        '<span class="cl-ligne1"><span class="cl-lieu">' + esc(a.ville) + ", " + esc(a.pays) + '</span><span class="cl-note">' + esc(V.note(a)) + "</span></span>" +
         '<span class="cl-titre">' + esc(a.titre) + "</span>" +
         '<span class="cl-gris">' + esc(a.type_logement) + " · " + V.pluriel(a.voyageurs, "voyageur", "voyageurs") + " · " + V.pluriel(a.chambres, "chambre", "chambres") + "</span>" +
         '<span class="cl-gris">Hôte : ' + esc(a.hote_prenom || "") + (a.hote_verifie ? ' <span class="cl-verifie">· identité vérifiée</span>' : "") + "</span>" +
