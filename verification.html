@@ -51,6 +51,9 @@
             <option value="permis">Permis de conduire</option>
           </select>
         </label>
+        <label class="champ">Numéro de la pièce d'identité
+          <input type="text" name="numero_piece" required minlength="4" maxlength="40" autocomplete="off" placeholder="Tel qu'il figure sur votre pièce">
+        </label>
         <div class="pieces">
           <label class="piece-zone"><input type="file" name="recto" accept="image/jpeg,image/png,image/webp,application/pdf" class="sr"><strong>Recto</strong><span>Photo nette de la face avant</span><em data-nom></em></label>
           <label class="piece-zone" id="zone-verso"><input type="file" name="verso" accept="image/jpeg,image/png,image/webp,application/pdf" class="sr"><strong>Verso</strong><span>Face arrière (sauf passeport)</span><em data-nom></em></label>

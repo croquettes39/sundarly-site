@@ -1,0 +1,5 @@
+-- Sundarly — contrat de séjour (appliqué le 6 nov. 2026, migration « contrat_sejour »)
+-- profils.numero_piece (demandé à la vérification d'identité, figé une fois l'identité validée)
+-- reservations : paye_le, contrat_limite (48 h après paiement, au plus tard l'arrivée), contrat_accepte_le, contrat_piece, contrat_preuve, motif_annulation
+-- Fonctions : contrat_reservation (voyageur/hôte/admin), accepter_contrat (voyageur), annuler_contrats_expires (tâche pg_cron toutes les 10 min), admin_contrats
+-- Page : /contrat.html?id=<réservation> — modèle : /modeles/contrat-sejour.html

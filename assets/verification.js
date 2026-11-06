@@ -50,6 +50,8 @@
     e.preventDefault(); var f = this;
     var type = f.elements.type_piece.value;
     if (!type) { msg(f, "erreur", "Choisissez le type de pièce."); return; }
+    var numero = (f.elements.numero_piece.value || "").trim().toUpperCase();
+    if (numero.length < 4) { msg(f, "erreur", "Indiquez le numéro de votre pièce d'identité."); return; }
     var aEnvoyer = [["recto", f.elements.recto.files[0]], ["selfie", f.elements.selfie.files[0]]];
     if (type !== "passeport") aEnvoyer.splice(1, 0, ["verso", f.elements.verso.files[0]]);
     var manque = aEnvoyer.filter(function (x) { return !x[1]; }).map(function (x) { return x[0]; });
@@ -66,7 +68,7 @@
       });
     }, Promise.resolve())
       .then(function () {
-        return client.from("profils").update({ type_piece: type, statut_verification: "en_cours", piece_envoyee_le: new Date().toISOString() })
+        return client.from("profils").update({ type_piece: type, numero_piece: numero, statut_verification: "en_cours", piece_envoyee_le: new Date().toISOString() })
           .eq("id", SESSION.user.id).select().single();
       })
       .then(function (r) { if (r.error) throw r.error; PROFIL = r.data; afficher(); window.scrollTo(0, 0); })

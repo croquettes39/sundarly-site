@@ -195,6 +195,23 @@
   }
   document.querySelector('[data-vue="avis"]').addEventListener("click", chargerAvis);
 
+  // ---------- Contrats ----------
+  function chargerContrats() {
+    return client.rpc("admin_contrats").then(function (r) {
+      if (r.error) throw r.error;
+      var l = r.data || [], z = $("liste-contrats");
+      if (!l.length) { z.innerHTML = '<p class="vide">Aucune réservation payée pour le moment.</p>'; return; }
+      z.innerHTML = l.map(function (c) {
+        var etat = c.accepte_le ? '<span class="badge badge-ok">Accepté le ' + date(c.accepte_le, true) + "</span>"
+          : c.statut === "annulee" ? '<span class="badge badge-refus">Annulé · à rembourser</span>'
+          : '<span class="badge badge-cours">En attente · limite ' + date(c.limite, true) + "</span>";
+        return '<div class="carte-espace"><p><strong>' + esc(c.titre) + '</strong></p><p class="gris petit">' + esc(c.voyageur) + " chez " + esc(c.hote) + " · du " + date(c.arrivee) + " au " + date(c.depart) + "</p>" + etat +
+          ' <a class="pilule" href="contrat.html?id=' + encodeURIComponent(c.id) + '" target="_blank" rel="noopener">Voir le contrat</a></div>';
+      }).join("");
+    }).catch(function (e) { console.error(e); $("liste-contrats").innerHTML = '<p class="vide">Impossible de charger les contrats.</p>'; });
+  }
+  document.querySelector('[data-vue="contrats"]').addEventListener("click", chargerContrats);
+
   // ---------- Identités ----------
   $("f-identites").addEventListener("change", rendreIdentites);
   function rendreIdentites() {
@@ -217,6 +234,9 @@
     DOC_ID = id;
     $("docs-titre").textContent = (c.prenom || "") + " " + (c.nom || "");
     $("docs-infos").textContent = (PIECES[c.type_piece] || "Pièce") + " · " + c.email + " · " + (c.telephone || "") + " · envoyée le " + date(c.piece_envoyee_le, true);
+    client.from("profils").select("numero_piece").eq("id", c.id).maybeSingle().then(function (r) {
+      if (r.data && r.data.numero_piece) $("docs-infos").textContent = (PIECES[c.type_piece] || "Pièce") + " n° " + r.data.numero_piece + " · " + c.email + " · " + (c.telephone || "") + " · envoyée le " + date(c.piece_envoyee_le, true) + " — vérifiez que le numéro correspond à la photo";
+    });
     $("docs-grille").innerHTML = '<p class="gris">Chargement des documents…</p>';
     $("docs").hidden = false; document.body.classList.add("bloque");
     client.storage.from("pieces-identite").list(id, { limit: 50, sortBy: { column: "name", order: "desc" } }).then(function (r) {

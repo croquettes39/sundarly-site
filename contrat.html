@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Contrat de séjour – Sundarly</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; background:#F6F1F3; }
+  .barre { position:sticky; top:0; z-index:5; background:#fff; border-bottom:1px solid #EBDDE3; display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px max(16px, env(safe-area-inset-left)); font-family:Poppins, sans-serif; }
+  .barre a, .barre button { font:600 14px Poppins, sans-serif; color:#1F1A1D; text-decoration:none; background:#fff; border:1px solid #EBDDE3; border-radius:999px; padding:9px 16px; cursor:pointer; }
+  .feuille { max-width:820px; margin:20px auto 60px; background:#fff; padding:clamp(18px, 5vw, 48px); border-radius:16px; box-shadow:0 10px 40px rgba(31,26,29,.08); }
+  .etat { max-width:820px; margin:30px auto; padding:0 16px; font-family:Poppins, sans-serif; text-align:center; color:#6B6268; }
+  .bandeau-delai { background:#FFF4D6; color:#5C4000; border-radius:10px; padding:10px 14px; margin:0 0 14px; font-family:Poppins, sans-serif; font-size:14px; }
+  .bandeau-annule { background:#FDECEC; color:#8A1C1C; }
+  .accepter label.champ { display:block; font-weight:600; margin:10px 0 4px; }
+  .accepter input[type=text] { width:100%; max-width:320px; font:inherit; padding:10px 12px; border:1px solid #D9C9D0; border-radius:10px; box-sizing:border-box; }
+  .accepter .case-acc { display:flex; gap:10px; align-items:flex-start; margin:12px 0; cursor:pointer; }
+  .accepter .case-acc input { width:20px; height:20px; accent-color:#D81B60; flex:0 0 auto; margin-top:2px; }
+  .accepter button { font:700 16px Poppins, sans-serif; color:#fff; background:#D81B60; border:0; border-radius:999px; padding:14px 26px; cursor:pointer; width:100%; max-width:460px; }
+  .accepter button:disabled { opacity:.5; cursor:default; }
+  .accepter .erreur { color:#B3261E; font-weight:600; }
+  @media (max-width:640px) {
+    .feuille .parties, .feuille .sejour { grid-template-columns:1fr 1fr !important; }
+    .feuille .parties { grid-template-columns:1fr !important; }
+    .feuille .preuve { grid-template-columns:1fr !important; }
+    .feuille .entete { flex-wrap:wrap; gap:8px; }
+  }
+  @media print {
+    html, body { background:#fff; }
+    .barre, .bandeau-delai, .accepter { display:none !important; }
+    .feuille { box-shadow:none; margin:0; padding:0; max-width:none; border-radius:0; }
+  }
+</style>
+</head>
+<body>
+<div class="barre">
+  <a href="espace-hote.html">← Mon espace</a>
+  <button type="button" id="imprimer" hidden>Télécharger en PDF</button>
+</div>
+<p class="etat" id="etat">Chargement du contrat…</p>
+<div class="feuille" id="feuille" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/auth.js"></script>
+<script src="assets/contrat.js"></script>
+</body>
+</html>

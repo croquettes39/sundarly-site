@@ -45,6 +45,7 @@
       <button type="button" role="tab" aria-selected="false" data-vue="voyageurs">Voyageurs</button>
       <button type="button" role="tab" aria-selected="false" data-vue="statistiques">Statistiques</button>
       <button type="button" role="tab" aria-selected="false" data-vue="avis">Avis contestés</button>
+      <button type="button" role="tab" aria-selected="false" data-vue="contrats">Contrats</button>
     </nav>
 
     <!-- Tableau de bord -->
@@ -81,6 +82,13 @@
       <div class="barre-outils"><h2>Avis contestés</h2></div>
       <p class="gris petit">Un hôte ou un voyageur estime qu'un avis est injuste. Décidez sous 72 h : retirer l'avis s'il ne respecte pas les règles (insultes, hors sujet, chantage, faux séjour…), sinon le maintenir.</p>
       <div id="liste-avis"></div>
+    </section>
+
+    <!-- Contrats de séjour -->
+    <section data-panneau="contrats" hidden>
+      <div class="barre-outils"><h2>Contrats de séjour</h2></div>
+      <p class="gris petit">Après chaque paiement, le voyageur doit accepter le contrat sous 48 h (au plus tard avant son arrivée). Sinon la réservation est annulée automatiquement et doit être remboursée.</p>
+      <div id="liste-contrats"></div>
     </section>
 
     <!-- Identités -->
