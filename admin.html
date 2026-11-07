@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Espace gestion — Marrakech Sunrise Balloon</title>
+<link rel="icon" href="images/logo-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: navy sidebar with sections, light work area; stat tiles, bar chart, editable offer cards */
+:root{
+  --night:#1c2040; --dusk:#3a3463; --gold:#f6c66b; --rose:#d9665f;
+  --bg:#f4f3f8; --surface:#ffffff; --ink:#1d1f33; --muted:#62657e; --line:#e3e0ec; --accent:#c9622f; --accent-ink:#fff; --ok:#1f9e57; --warn:#c98a12; --bad:#c4473f;
+  --display:"Marcellus", Georgia, serif; --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#14162b;--surface:#1d2040;--ink:#efedf6;--muted:#a9a8c2;--line:#2f3258;--accent:#f2994a;--accent-ink:#1c1530;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14162b;--surface:#1d2040;--ink:#efedf6;--muted:#a9a8c2;--line:#2f3258;--accent:#f2994a;--accent-ink:#1c1530;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--body)}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1.2}
+button,input,select,textarea{font:inherit;color:inherit}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:.6em .75em;width:100%}
+textarea{min-height:120px;resize:vertical}
+label{font-size:.82rem;font-weight:600;color:var(--muted);display:grid;gap:5px}
+.btn{display:inline-flex;align-items:center;gap:.4em;border:0;border-radius:999px;padding:.6em 1.1em;font-weight:600;cursor:pointer;background:var(--accent);color:var(--accent-ink);text-decoration:none}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn.danger{background:var(--bad);color:#fff}
+.btn.small{padding:.4em .8em;font-size:.85rem}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.app{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}
+aside{background:var(--night);color:#e9e7f4;padding:24px 16px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh}
+aside .brand{display:flex;align-items:center;gap:10px;margin-bottom:22px;font-family:var(--display);font-size:1.1rem;color:#fff}
+aside .brand img{width:46px;height:auto}
+aside button{background:none;border:0;color:inherit;text-align:start;padding:10px 12px;border-radius:10px;cursor:pointer;opacity:.85;font-weight:500}
+aside button[aria-current="true"]{background:rgba(255,255,255,.1);opacity:1;color:#fff}
+aside .foot{margin-top:auto;font-size:.82rem;opacity:.7;display:grid;gap:8px}
+aside .foot a{color:#fff}
+main{padding:28px max(20px, env(safe-area-inset-right, 0px)) 60px max(20px, env(safe-area-inset-left, 0px));display:grid;gap:22px;align-content:start;min-width:0}
+.head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.head h1{font-size:1.8rem}
+.banner{background:color-mix(in srgb,var(--warn) 14%,transparent);border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);border-radius:12px;padding:12px 16px;font-size:.92rem}
+.banner.ok{background:color-mix(in srgb,var(--ok) 12%,transparent);border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.tile small{color:var(--muted);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}
+.tile b{display:block;font-size:2rem;font-family:var(--display);font-weight:400;font-variant-numeric:tabular-nums;margin-top:4px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:14px;min-width:0}
+.panel h2{font-size:1.25rem}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px}
+.chart{display:flex;align-items:flex-end;gap:6px;height:180px;padding-top:10px;border-bottom:1px solid var(--line)}
+.chart .col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%;min-width:0}
+.chart .bar{width:100%;max-width:34px;background:linear-gradient(var(--accent),color-mix(in srgb,var(--accent) 60%,var(--gold)));border-radius:6px 6px 2px 2px;min-height:2px}
+.chart .v{font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.chart-x{display:flex;gap:6px}.chart-x span{flex:1;min-width:0;text-align:center;font-size:.68rem;color:var(--muted);white-space:nowrap;overflow:hidden}
+@media (max-width:600px){.chart-x span:nth-child(even){visibility:hidden}.chart{gap:3px}.chart .v{font-size:.6rem}main{min-width:0;overflow-x:hidden}.head h1{font-size:1.45rem}}
+.rows{display:grid;gap:8px}
+.row{display:grid;grid-template-columns:110px minmax(0,1fr) 46px;gap:10px;align-items:center;font-size:.9rem}
+.row .track{height:10px;background:var(--bg);border-radius:6px;overflow:hidden}
+.row .fill{height:100%;background:var(--accent);border-radius:6px}
+.row span:last-child{text-align:end;font-variant-numeric:tabular-nums;color:var(--muted)}
+.offers{display:grid;gap:16px}
+.offer{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:grid;grid-template-columns:150px minmax(0,1fr)}
+.offer.hidden-offer{opacity:.6}
+.offer .thumb{background-size:cover;background-position:center;min-height:150px}
+.offer .info{padding:16px 18px;display:grid;gap:10px;min-width:0}
+.offer .top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+.offer h3{font-size:1.2rem}
+.pill{display:inline-block;border-radius:999px;padding:.2em .7em;font-size:.75rem;font-weight:700}
+.pill.on{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+.pill.off{background:color-mix(in srgb,var(--muted) 16%,transparent);color:var(--muted)}
+.pill.new{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.pill.confirmed{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+.pill.cancelled{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+.tile.live{border-color:color-mix(in srgb,var(--ok) 45%,var(--line))}
+.tile .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--ok);margin-inline-end:4px;animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@media (prefers-reduced-motion: reduce){.tile .dot{animation:none}}
+.tile-sub{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}
+.tile-sub a{color:var(--accent);font-weight:700}
+.add-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.add-row select{width:auto}
+.cat-tag{display:block;font:700 .75rem var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.promo-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.88rem;font-weight:600;color:var(--muted)}
+.chip{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:.35em .85em;font-weight:700;font-size:.85rem;cursor:pointer}
+.chip.on{background:var(--bad);border-color:var(--bad);color:#fff}
+.pill.promo{background:var(--bad);color:#fff}
+.meta{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:.9rem}
+.meta b{color:var(--ink);font-variant-numeric:tabular-nums}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.switch{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:.88rem;font-weight:600;color:var(--ink)}
+.switch input{width:auto;accent-color:var(--ok);transform:scale(1.25)}
+.editor{border-top:1px solid var(--line);padding-top:14px;display:grid;gap:14px}
+.f3{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:.35em .9em;cursor:pointer;font-size:.85rem;font-weight:600}
+.tabs button[aria-pressed="true"]{background:var(--night);color:#fff;border-color:var(--night)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:760px;font-size:.9rem}
+th,td{text-align:start;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+td.num{font-variant-numeric:tabular-nums}
+.empty{color:var(--muted);padding:18px 0}
+.confirm{background:color-mix(in srgb,var(--bad) 10%,transparent);border:1px solid color-mix(in srgb,var(--bad) 35%,transparent);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom, 0px));inset-inline-end:max(20px, env(safe-area-inset-right, 0px));background:var(--night);color:#fff;padding:12px 18px;border-radius:12px;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);z-index:50}
+.login{max-width:420px;margin:12vh auto;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px;display:grid;gap:14px}
+pre{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px;overflow-x:auto;font-size:.8rem;max-height:340px}
+@media (max-width:820px){
+  .app{grid-template-columns:1fr}
+  aside{position:static;height:auto;flex-direction:row;flex-wrap:wrap;padding:12px max(16px, env(safe-area-inset-left, 0px));gap:4px}
+  aside .brand{width:100%;margin-bottom:6px}
+  aside .foot{display:none}
+  .offer{grid-template-columns:1fr}.offer .thumb{min-height:120px}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="config.js"></script>
+<script>
+const LANGS = [["en","English"],["fr","Français"],["es","Español"],["de","Deutsch"],["ar","العربية"]];
+const IMAGES = ["images/flight-1.jpg","images/flight-2.jpg","images/g-sunrise.jpg","images/g-star.jpg","images/g-basket.jpg","images/g-view.jpg","images/g-clouds.jpg","images/g-breakfast.jpg","images/g-aerial.jpg","images/g-desert.jpg","images/g-dawn.jpg","images/g-flag.jpg","images/g-inflation.jpg"];
+const h = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const nf = n => new Intl.NumberFormat("fr-FR").format(n);
+const root = document.getElementById("root");
+let TOKEN = null, VIEW = "dash", OFFERS = [], SETTINGS = {}, VISITS = [], REQUESTS = [], ONLINE = [], CAT_VIEW = "all", LIVE_TIMER = null, EDIT = null, EDIT_LANG = "fr", CONFIRM = null;
+try { TOKEN = sessionStorage.getItem("hab_admin_token"); } catch(e){}
+
+function toast(msg){ const d = document.createElement("div"); d.className = "toast"; d.textContent = msg; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); }
+
+/* ---------- données ---------- */
+async function load(){
+  if (DB.on()) {
+    const since = new Date(Date.now() - 30*864e5).toISOString();
+    const [o, s, v, r, p] = await Promise.all([
+      DB.get("offers?select=*&order=sort", TOKEN), DB.get("settings?select=*", TOKEN),
+      DB.get("visits?select=ts,lang,device,ref,path,sid&ts=gte." + since + "&limit=50000", TOKEN), DB.get("requests?select=*&order=ts.desc&limit=500", TOKEN),
+      DB.get("presence?select=sid,path,last_seen&last_seen=gte." + new Date(Date.now() - 3*60e3).toISOString(), TOKEN).catch(() => [])]);
+    ONLINE = p;
+    OFFERS = o.length ? o : DEFAULT_OFFERS.map(x => ({...x}));
+    SETTINGS = { ...DEFAULT_SETTINGS, ...Object.fromEntries(s.map(x => [x.key, x.value])) };
+    VISITS = v; REQUESTS = r;
+  } else {
+    OFFERS = DEMO.get("offers", DEFAULT_OFFERS.map(x => ({...x})));
+    SETTINGS = { ...DEFAULT_SETTINGS, ...DEMO.get("settings", {}) };
+    VISITS = DEMO.get("visits", []); REQUESTS = DEMO.get("requests", []).slice().reverse();
+    ONLINE = Object.values(DEMO.get("presence", {})).filter(x => Date.now() - new Date(x.last_seen).getTime() < 3*60e3);
+  }
+}
+async function saveOffer(o){
+  if (DB.on()) await DB.send("POST", "offers", { ...o, updated_at: new Date().toISOString() }, TOKEN, "resolution=merge-duplicates,return=minimal");
+  else { const i = OFFERS.findIndex(x => x.id === o.id); if (i < 0) OFFERS.push(o); else OFFERS[i] = o; DEMO.set("offers", OFFERS); }
+}
+async function removeOffer(id){
+  if (DB.on()) await DB.send("DELETE", "offers?id=eq." + encodeURIComponent(id), null, TOKEN);
+  OFFERS = OFFERS.filter(o => o.id !== id); if (!DB.on()) DEMO.set("offers", OFFERS);
+}
+async function saveSettings(st){
+  if (DB.on()) await DB.send("POST", "settings", Object.entries(st).map(([key, value]) => ({ key, value: String(value) })), TOKEN, "resolution=merge-duplicates,return=minimal");
+  else DEMO.set("settings", st);
+  SETTINGS = st;
+}
+async function setStatus(id, status){
+  if (DB.on()) await DB.send("PATCH", "requests?id=eq." + id, { status }, TOKEN, "return=minimal");
+  REQUESTS = REQUESTS.map(r => r.id === id ? { ...r, status } : r);
+  if (!DB.on()) DEMO.set("requests", REQUESTS.slice().reverse());
+}
+
+/* ---------- connexion ---------- */
+async function login(email, password){
+  const r = await fetch(SUPABASE.url + "/auth/v1/token?grant_type=password", { method: "POST", headers: { apikey: SUPABASE.anonKey, "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
+  const j = await r.json(); if (!r.ok) throw new Error(j.error_description || j.msg || "Connexion refusée");
+  TOKEN = j.access_token; try { sessionStorage.setItem("hab_admin_token", TOKEN); } catch(e){}
+}
+function logout(){ TOKEN = null; try { sessionStorage.removeItem("hab_admin_token"); } catch(e){} start(); }
+function loginView(err){
+  root.innerHTML = `<form class="login" id="lf"><img src="images/logo.png" alt="" style="width:180px;margin:0 auto;background:#fbf6ee;border-radius:14px;padding:10px">
+    <h1 style="text-align:center;font-size:1.5rem">Espace gestion</h1>
+    <label>E-mail<input id="le" type="email" autocomplete="username" required></label>
+    <label>Mot de passe<input id="lp" type="password" autocomplete="current-password" required></label>
+    ${err ? `<div class="banner" style="border-color:var(--bad)">${h(err)}</div>` : ""}
+    <button class="btn" type="submit">Se connecter</button>
+    <a href="index.html" style="text-align:center;color:var(--muted);font-size:.9rem">← Retour au site</a></form>`;
+  document.getElementById("lf").addEventListener("submit", async e => {
+    e.preventDefault();
+    try { await login(document.getElementById("le").value.trim(), document.getElementById("lp").value); start(); }
+    catch(x){ loginView(x.message === "Invalid login credentials" ? "E-mail ou mot de passe incorrect." : x.message); }
+  });
+}
+
+/* ---------- vues ---------- */
+const NAV = [["dash","Tableau de bord"],["offers","Annonces et excursions"],["sales","Soldes"],["requests","Commandes et demandes"],["settings","Réglages"],["setup","Installation"]];
+function shell(content){
+  root.innerHTML = `<div class="app"><aside>
+      <div class="brand"><img src="images/logo-icon.png" alt="">Gestion</div>
+      ${NAV.map(([k,l]) => `<button data-v="${k}" aria-current="${VIEW===k}">${l}${k==="requests" && REQUESTS.filter(r=>r.status==="new").length ? ` <span class="pill new">${REQUESTS.filter(r=>r.status==="new").length}</span>` : ""}</button>`).join("")}
+      <div class="foot"><a href="index.html" target="_blank" rel="noopener">Voir le site →</a>${DB.on() && TOKEN ? `<button id="lo" style="padding:0;opacity:.9">Se déconnecter</button>` : ""}</div>
+    </aside><main>${DB.on() ? "" : `<div class="banner"><b>Mode démo.</b> La base de données n'est pas encore branchée : vos modifications sont enregistrées seulement dans ce navigateur, et les statistiques ne comptent que les visites faites depuis ce navigateur. Voir « Installation » pour activer le vrai mode.</div>`}${content}</main></div>`;
+  root.querySelectorAll("aside [data-v]").forEach(b => b.addEventListener("click", () => { VIEW = b.dataset.v; EDIT = null; CONFIRM = null; draw(); }));
+  const lo = document.getElementById("lo"); if (lo) lo.addEventListener("click", logout);
+}
+function dayKey(d){ return d.toISOString().slice(0,10); }
+function bars(rows, total){ const max = Math.max(1, ...rows.map(r => r[1])); return `<div class="rows">${rows.length ? rows.map(([k,n]) => `<div class="row"><span>${h(k)}</span><div class="track"><div class="fill" style="width:${n/max*100}%"></div></div><span>${total ? Math.round(n/total*100) + " %" : n}</span></div>`).join("") : `<div class="empty">Pas encore de données.</div>`}</div>`; }
+function countBy(arr, f){ const m = {}; arr.forEach(x => { const k = f(x) || "—"; m[k] = (m[k]||0) + 1; }); return Object.entries(m).sort((a,b) => b[1]-a[1]); }
+
+const PAGE_NAMES = { "/": "Accueil", "/index.html": "Accueil", "/flights.html": "Vols", "/excursions.html": "Excursions", "/your-morning.html": "Votre matinée", "/prices.html": "Tarifs", "/gallery.html": "Galerie", "/about.html": "À propos et avis", "/faq.html": "FAQ", "/booking.html": "Réservation", "/conditions.html": "Conditions" };
+const pageName = p => { const k = "/" + String(p || "/").split("/").pop(); return PAGE_NAMES[k] || PAGE_NAMES[p] || p || "—"; };
+function dash(){
+  const now = Date.now(), day = 864e5, today = dayKey(new Date());
+  const ts = v => new Date(v.ts).getTime();
+  const within = d => VISITS.filter(v => now - ts(v) < d*day);
+  const uniq = arr => new Set(arr.map(v => v.sid || v.ts)).size;
+  const todayRows = VISITS.filter(v => v.ts.slice(0,10) === today);
+  const days = [...Array(14)].map((_, i) => dayKey(new Date(now - (13-i)*day)));
+  const perSets = Object.fromEntries(days.map(d => [d, new Set()])); const perViews = Object.fromEntries(days.map(d => [d, 0]));
+  VISITS.forEach(v => { const k = v.ts.slice(0,10); if (k in perSets) { perSets[k].add(v.sid || v.ts); perViews[k]++; } });
+  const per = Object.fromEntries(days.map(d => [d, perSets[d].size]));
+  const max = Math.max(1, ...Object.values(per));
+  const langName = Object.fromEntries(LANGS);
+  const v30 = within(30);
+  const first30 = Object.values(v30.reduce((m, v) => { const k = v.sid || v.ts; if (!m[k] || v.ts < m[k].ts) m[k] = v; return m; }, {}));
+  const req30 = REQUESTS.filter(r => now - new Date(r.ts).getTime() < 30*day);
+  const newReq = REQUESTS.filter(r => r.status === "new").length;
+  shell(`<div class="head"><h1>Tableau de bord</h1><span style="color:var(--muted);font-size:.85rem">Mise à jour automatique toutes les 30 secondes</span></div>
+    <div class="tiles">
+      <div class="tile live"><small><span class="dot"></span> En ce moment sur le site</small><b>${nf(ONLINE.length)}</b>${ONLINE.length ? `<span class="tile-sub">${h(countBy(ONLINE, x => pageName(x.path)).map(([k, n]) => k + (n > 1 ? " (" + n + ")" : "")).join(" · "))}</span>` : ""}</div>
+      <div class="tile"><small>Visiteurs aujourd'hui</small><b>${nf(uniq(todayRows))}</b><span class="tile-sub">${nf(todayRows.length)} pages vues</span></div>
+      <div class="tile"><small>Visiteurs 7 jours</small><b>${nf(uniq(within(7)))}</b><span class="tile-sub">${nf(within(7).length)} pages vues</span></div>
+      <div class="tile"><small>Visiteurs 30 jours</small><b>${nf(uniq(v30))}</b><span class="tile-sub">${nf(v30.length)} pages vues</span></div>
+      <div class="tile"><small>Commandes / demandes (30 j)</small><b>${nf(req30.length)}</b><span class="tile-sub">${newReq ? `<a href="#" id="go-req">${nf(newReq)} à traiter →</a>` : "Aucune en attente"}</span></div>
+    </div>
+    <div class="panel"><h2>Visiteurs par jour (14 derniers jours)</h2>
+      <div class="chart">${days.map(d => `<div class="col" title="${per[d]} visiteurs · ${perViews[d]} pages vues"><span class="v">${per[d] || ""}</span><div class="bar" style="height:${per[d]/max*100}%"></div></div>`).join("")}</div>
+      <div class="chart-x">${days.map(d => `<span>${d.slice(8,10)}/${d.slice(5,7)}</span>`).join("")}</div></div>
+    <div class="grid2">
+      <div class="panel"><h2>Pages les plus vues (30 j)</h2>${bars(countBy(v30, v => pageName(v.path)).slice(0, 10), 0)}</div>
+      <div class="panel"><h2>Langue choisie</h2>${bars(countBy(first30, v => langName[v.lang] || v.lang), first30.length)}</div>
+      <div class="panel"><h2>Appareil</h2>${bars(countBy(first30, v => v.device === "mobile" ? "Téléphone" : "Ordinateur"), first30.length)}</div>
+      <div class="panel"><h2>Provenance</h2>${bars(countBy(first30, v => v.ref ? v.ref.replace(/^www\./, "") : "Accès direct").slice(0, 8), first30.length)}</div>
+    </div>`);
+  const g = document.getElementById("go-req"); if (g) g.addEventListener("click", e => { e.preventDefault(); VIEW = "requests"; draw(); });
+}
+
+function offersView(){
+  const all = OFFERS.slice().sort((a,b) => (a.sort||0) - (b.sort||0));
+  const list = CAT_VIEW === "all" ? all : all.filter(o => (o.category || "balloon") === CAT_VIEW);
+  const counts = countBy(all, o => o.category || "balloon");
+  shell(`<div class="head"><h1>Annonces et excursions</h1>
+      <div class="add-row"><select id="add-cat" aria-label="Type d'annonce">${Object.entries(CATS).map(([k, c]) => `<option value="${k}">${c.icon} ${h(c.fr)}</option>`).join("")}</select><button class="btn" id="add">+ Ajouter une annonce</button></div></div>
+    <p style="color:var(--muted);margin:0">Les montgolfières apparaissent sur la page Vols, les autres activités (quad, dromadaire, buggy…) sur la page Excursions. Toutes les annonces visibles apparaissent aussi dans les tarifs, le formulaire de réservation et l'assistant chat.</p>
+    <div class="tabs">${[["all", "Toutes (" + all.length + ")"]].concat(counts.map(([k, n]) => [k, (CATS[k] || CATS.other).icon + " " + (CATS[k] || CATS.other).fr + " (" + n + ")"])).map(([k, l]) => `<button type="button" data-catview="${h(k)}" aria-pressed="${CAT_VIEW === k}">${h(l)}</button>`).join("")}</div>
+    <div class="panel" style="gap:10px"><h2>Promotion sur toutes les offres</h2>
+      <div class="promo-row"><span>Appliquer :</span>${PROMOS.map(p => `<button type="button" class="chip" data-all="${p}">${p ? "−" + p + " %" : "Retirer"}</button>`).join("")}
+      <label style="flex-direction:row;display:flex;align-items:center;gap:8px;margin-inline-start:8px">jusqu'au <input id="all-until" type="date" style="width:auto"></label></div>
+      <p style="margin:0;color:var(--muted);font-size:.85rem">Sans date de fin, la réduction reste affichée jusqu'à ce que vous la retiriez. Avec une date, elle disparaît toute seule le lendemain.</p></div>
+    <div class="offers">${list.map((o, i) => offerCard(o, i, list.length)).join("") || `<div class="empty">Aucune annonce dans cette catégorie. Choisissez un type en haut à droite puis « Ajouter une annonce ».</div>`}</div>`);
+  root.querySelectorAll("[data-catview]").forEach(b => b.addEventListener("click", () => { CAT_VIEW = b.dataset.catview; EDIT = null; draw(); }));
+  document.getElementById("add").addEventListener("click", () => {
+    const cat = document.getElementById("add-cat").value, c = CATS[cat];
+    const id = cat + "-" + Date.now().toString(36);
+    const o = { id, category: cat, sort: (Math.max(0, ...OFFERS.map(x => x.sort||0)) + 1), visible: false, time: cat === "balloon" ? "06:00" : "", duration: "", price: 500, child_price: 0, image: IMAGES[2], name: { fr: c.fr, en: c.en }, desc: {}, items: { fr: [], en: [] }, badge: {} };
+    OFFERS.push(o); CAT_VIEW = "all"; EDIT = id; EDIT_LANG = "fr"; draw();
+    toast("Nouvelle annonce créée (masquée). Remplissez-la puis cochez « Afficher sur le site ».");
+  });
+  root.querySelectorAll("[data-act]").forEach(b => b.addEventListener("click", () => offerAction(b.dataset.act, b.dataset.id)));
+  root.querySelectorAll("[data-promo]").forEach(b => b.addEventListener("click", async () => {
+    const o = OFFERS.find(x => x.id === b.dataset.id); o.discount = parseInt(b.dataset.promo); if (!o.discount) o.promo_until = null;
+    try { await saveOffer(o); toast(o.discount ? "Réduction −" + o.discount + " % affichée sur le site" : "Réduction retirée"); } catch(e){ toast("Erreur : " + e.message); }
+    draw();
+  }));
+  root.querySelectorAll("[data-all]").forEach(b => b.addEventListener("click", async () => {
+    const d = parseInt(b.dataset.all), until = document.getElementById("all-until").value || null;
+    try { for (const o of OFFERS) { o.discount = d; o.promo_until = d ? until : null; await saveOffer(o); } toast(d ? "−" + d + " % appliqué à toutes les offres" : "Réductions retirées de toutes les offres"); } catch(e){ toast("Erreur : " + e.message); }
+    draw();
+  }));
+  root.querySelectorAll("[data-feat]").forEach(c => c.addEventListener("change", async () => {
+    const o = OFFERS.find(x => x.id === c.dataset.feat); o.featured = c.checked;
+    try { await saveOffer(o); toast(o.featured ? "Annonce mise en avant : ruban « Offre spéciale » et encadré sur l'accueil" : "Annonce plus mise en avant"); } catch(e){ toast("Erreur : " + e.message); }
+    draw();
+  }));
+  root.querySelectorAll("[data-vis]").forEach(c => c.addEventListener("change", async () => {
+    const o = OFFERS.find(x => x.id === c.dataset.vis); o.visible = c.checked;
+    try { await saveOffer(o); toast(o.visible ? "Offre visible sur le site" : "Offre masquée du site"); } catch(e){ toast("Erreur : " + e.message); }
+    draw();
+  }));
+  const ef = document.getElementById("ef"); if (ef) bindEditor(ef);
+}
+const PROMOS = [0, 10, 20, 30];
+function promoActive(o){ const d = parseInt(o.discount) || 0; if (d <= 0) return 0; if (o.promo_until && o.promo_until < new Date().toISOString().slice(0,10)) return 0; return Math.min(d, 90); }
+function promoPrice(o){ return Math.round(o.price * (1 - promoActive(o) / 100) / 10) * 10; }
+function frDate(d){ try { return new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }); } catch(e){ return d; } }
+function offerCard(o, i, n){
+  const name = o.name.fr || o.name.en || o.id;
+  return `<div class="offer ${o.visible ? "" : "hidden-offer"}"><div class="thumb" style="background-image:url('${h(o.image)}')"></div><div class="info">
+    <div class="top"><h3>${o.featured ? `<span class="pill promo" style="margin-inline-end:6px">⭐ En avant</span>` : ""}<span class="cat-tag">${(CATS[o.category || "balloon"] || CATS.other).icon} ${h((CATS[o.category || "balloon"] || CATS.other).fr)}</span>${h(name)}</h3><span class="pill ${o.visible ? "on" : "off"}">${o.visible ? "Visible" : "Masquée"}</span></div>
+    <div class="meta">${o.time ? `<span>Départ <b>${h(o.time)}</b></span>` : ""}${o.duration ? `<span>Durée <b>${h(o.duration)}</b></span>` : ""}${parseInt(o.child_price) ? `<span>Enfant <b>${nf(o.child_price)} DH</b></span>` : ""}<span>Prix adulte ${promoActive(o) ? `<s>${nf(o.price)} DH</s> <b style="color:var(--bad)">${nf(promoPrice(o))} DH</b> <span class="pill promo">−${promoActive(o)} %</span>` : `<b>${nf(o.price)} DH</b>`}</span><span>Langues <b>${LANGS.filter(([c]) => o.name[c]).length}/5</b></span></div>
+    ${(parseInt(o.discount) || 0) > 0 && !promoActive(o) ? `<div class="banner" style="padding:8px 12px">La réduction de −${h(o.discount)} % est terminée depuis le ${h(frDate(o.promo_until))}. Elle n'est plus affichée sur le site.</div>` : ""}
+    <div class="promo-row"><span>Réduction :</span>${PROMOS.map(p => `<button type="button" class="chip ${(parseInt(o.discount) || 0) === p ? "on" : ""}" data-promo="${p}" data-id="${h(o.id)}">${p ? "−" + p + " %" : "Aucune"}</button>`).join("")}<button type="button" class="chip ${(parseInt(o.discount) || 0) && !PROMOS.includes(parseInt(o.discount)) ? "on" : ""}" data-act="edit" data-id="${h(o.id)}">Autre…</button>${promoActive(o) && o.promo_until ? `<span style="color:var(--muted)">jusqu'au ${h(frDate(o.promo_until))}</span>` : ""}</div>
+    <div class="actions">
+      <label class="switch"><input type="checkbox" data-vis="${h(o.id)}" ${o.visible ? "checked" : ""}> Afficher sur le site</label>
+      <label class="switch"><input type="checkbox" data-feat="${h(o.id)}" ${o.featured ? "checked" : ""}> ⭐ Mettre en avant</label>
+      <button class="btn small" data-act="edit" data-id="${h(o.id)}">Modifier</button>
+      <button class="btn ghost small" data-act="up" data-id="${h(o.id)}" ${i === 0 ? "disabled" : ""}>↑</button>
+      <button class="btn ghost small" data-act="down" data-id="${h(o.id)}" ${i === n-1 ? "disabled" : ""}>↓</button>
+      <button class="btn ghost small" data-act="del" data-id="${h(o.id)}">Supprimer</button>
+    </div>
+    ${CONFIRM === o.id ? `<div class="confirm">Supprimer définitivement « ${h(name)} » ? <button class="btn danger small" data-act="del-yes" data-id="${h(o.id)}">Oui, supprimer</button><button class="btn ghost small" data-act="del-no" data-id="${h(o.id)}">Annuler</button></div>` : ""}
+    ${EDIT === o.id ? editor(o) : ""}
+  </div></div>`;
+}
+function editor(o){
+  const l = EDIT_LANG;
+  return `<form class="editor" id="ef" data-id="${h(o.id)}">
+    <div class="f3">
+      <label>Type d'activité<select id="e-cat">${Object.entries(CATS).map(([k, c]) => `<option value="${k}" ${k === (o.category || "balloon") ? "selected" : ""}>${c.icon} ${h(c.fr)}</option>`).join("")}</select></label>
+      <label>Heure de départ (facultatif)<input id="e-time" value="${h(o.time || "")}" placeholder="04:30 ou 9h / 15h"></label>
+      <label>Durée (facultatif)<input id="e-dur" value="${h(o.duration || "")}" placeholder="2 h, demi-journée…"></label>
+      <label>Prix adulte (DH)<input id="e-price" type="number" min="0" step="10" value="${h(o.price)}"></label>
+      <label>Prix enfant (DH, 0 = sur demande)<input id="e-child" type="number" min="0" step="10" value="${h(parseInt(o.child_price) || 0)}"></label>
+      <label>Réduction (%)<input id="e-disc" type="number" min="0" max="90" step="5" value="${h(parseInt(o.discount) || 0)}" placeholder="0"></label>
+      <label>Fin de la réduction (facultatif)<input id="e-until" type="date" value="${h(o.promo_until || "")}"></label>
+      <label>Photo<select id="e-img">${IMAGES.concat(IMAGES.includes(o.image) ? [] : [o.image]).map(p => `<option value="${h(p)}" ${p === o.image ? "selected" : ""}>${h(p.replace("images/", ""))}</option>`).join("")}</select></label>
+    </div>
+    <label>Ou adresse d'une autre photo (facultatif)<input id="e-imgurl" placeholder="https://… ou images/ma-photo.jpg"></label>
+    <div><div style="font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:6px">Textes — langue :</div>
+      <div class="tabs">${LANGS.map(([c, n]) => `<button type="button" data-l="${c}" aria-pressed="${c === l}">${n}${o.name[c] ? "" : " •"}</button>`).join("")}</div></div>
+    <div class="f3" dir="${l === "ar" ? "rtl" : "ltr"}">
+      <label>Nom de l'offre<input id="e-name" value="${h(o.name[l] || "")}"></label>
+      <label>Badge (facultatif)<input id="e-badge" value="${h((o.badge || {})[l] || "")}" placeholder="Meilleur prix"></label>
+    </div>
+    <label dir="${l === "ar" ? "rtl" : "ltr"}">Description courte (facultatif)<textarea id="e-desc" style="min-height:70px">${h((o.desc || {})[l] || "")}</textarea></label>
+    <label dir="${l === "ar" ? "rtl" : "ltr"}">Ce qui est inclus (une ligne par élément)<textarea id="e-items">${h(((o.items || {})[l] || []).join("\n"))}</textarea></label>
+    <p style="margin:0;color:var(--muted);font-size:.85rem">Une langue sans texte affiche la version anglaise. Le point • signale une langue pas encore remplie.</p>
+    <div class="actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="e-cancel">Fermer</button></div>
+  </form>`;
+}
+function readEditor(o){
+  o.category = document.getElementById("e-cat").value;
+  o.time = document.getElementById("e-time").value.trim();
+  o.duration = document.getElementById("e-dur").value.trim();
+  o.child_price = Math.max(0, parseInt(document.getElementById("e-child").value) || 0);
+  o.price = Math.max(0, parseInt(document.getElementById("e-price").value) || 0);
+  o.discount = Math.min(90, Math.max(0, parseInt(document.getElementById("e-disc").value) || 0));
+  o.promo_until = document.getElementById("e-until").value || null;
+  const url = document.getElementById("e-imgurl").value.trim(); o.image = url || document.getElementById("e-img").value;
+  const l = EDIT_LANG, nm = document.getElementById("e-name").value.trim(), bd = document.getElementById("e-badge").value.trim();
+  o.name = { ...o.name }; o.badge = { ...(o.badge || {}) }; o.items = { ...(o.items || {}) }; o.desc = { ...(o.desc || {}) };
+  const ds = document.getElementById("e-desc").value.trim(); if (ds) o.desc[EDIT_LANG] = ds; else delete o.desc[EDIT_LANG];
+  if (nm) o.name[l] = nm; else delete o.name[l];
+  if (bd) o.badge[l] = bd; else delete o.badge[l];
+  const it = document.getElementById("e-items").value.split("\n").map(x => x.trim()).filter(Boolean);
+  if (it.length) o.items[l] = it; else delete o.items[l];
+}
+function bindEditor(f){
+  const o = OFFERS.find(x => x.id === f.dataset.id);
+  f.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => { readEditor(o); EDIT_LANG = b.dataset.l; draw(); }));
+  document.getElementById("e-cancel").addEventListener("click", () => { EDIT = null; draw(); });
+  f.addEventListener("submit", async e => {
+    e.preventDefault(); readEditor(o);
+    if (!o.name.en && !o.name.fr) { toast("Donnez au moins un nom en français ou en anglais"); return; }
+    try { await saveOffer(o); toast("Offre enregistrée"); EDIT = null; draw(); } catch(x){ toast("Erreur : " + x.message); }
+  });
+}
+async function offerAction(act, id){
+  const list = OFFERS.slice().sort((a,b) => (a.sort||0) - (b.sort||0)); const i = list.findIndex(o => o.id === id);
+  try {
+    if (act === "edit") { EDIT = EDIT === id ? null : id; EDIT_LANG = "fr"; }
+    if (act === "del") CONFIRM = id;
+    if (act === "del-no") CONFIRM = null;
+    if (act === "del-yes") { await removeOffer(id); CONFIRM = null; toast("Offre supprimée"); }
+    if (act === "up" || act === "down") {
+      const j = act === "up" ? i - 1 : i + 1; if (j < 0 || j >= list.length) return;
+      [list[i], list[j]] = [list[j], list[i]]; list.forEach((o, k) => o.sort = k + 1);
+      for (const o of list) await saveOffer(o);
+    }
+  } catch(e){ toast("Erreur : " + e.message); }
+  draw();
+}
+
+function requestsView(){
+  const label = { new: "Nouvelle", confirmed: "Confirmée", cancelled: "Annulée" };
+  shell(`<div class="head"><h1>Commandes et demandes</h1><button class="btn ghost small" id="rf">Actualiser</button></div>
+    <p style="color:var(--muted);margin:0">Chaque demande envoyée depuis le formulaire du site arrive ici, en plus du message WhatsApp.</p>
+    <div class="panel"><div class="table-wrap"><table><thead><tr><th>Reçue le</th><th>Offre</th><th>Date souhaitée</th><th>Pers.</th><th>Client</th><th>Hôtel</th><th>Total</th><th>Statut</th></tr></thead><tbody>
+    ${REQUESTS.map(r => `<tr><td class="num">${h(new Date(r.ts).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" }))}</td><td>${h(r.offer)}</td><td class="num">${h(r.date)}</td><td class="num">${h(r.adults)} + ${h(r.kids)}</td>
+      <td><b>${h(r.name)}</b><br>${h(r.phone)}<br><span style="color:var(--muted)">${h(r.email)}</span>${r.notes ? `<br><i>${h(r.notes)}</i>` : ""}</td><td>${h(r.hotel)}</td><td class="num">${nf(r.total || 0)} DH</td>
+      <td><span class="pill ${h(r.status)}">${label[r.status] || h(r.status)}</span><br><select data-st="${h(r.id)}" style="margin-top:6px;padding:.3em .5em">${Object.entries(label).map(([k, l]) => `<option value="${k}" ${k === r.status ? "selected" : ""}>${l}</option>`).join("")}</select>
+      <br><a href="https://wa.me/${h(String(r.phone || "").replace(/\D/g, ""))}" target="_blank" rel="noopener" style="font-size:.85rem">Répondre sur WhatsApp →</a></td></tr>`).join("") || `<tr><td colspan="8" class="empty">Aucune demande pour l'instant.</td></tr>`}
+    </tbody></table></div></div>`);
+  document.getElementById("rf").addEventListener("click", async () => { await load(); draw(); toast("Données actualisées"); });
+  root.querySelectorAll("[data-st]").forEach(s => s.addEventListener("change", async () => { try { await setStatus(isNaN(s.dataset.st) ? s.dataset.st : Number(s.dataset.st), s.value); toast("Statut mis à jour"); } catch(e){ toast("Erreur : " + e.message); } draw(); }));
+}
+
+/* ---------- soldes (opération sur tout le site) ---------- */
+const SALE_PRESETS = {
+  "Soldes": { en: "Sale", fr: "Soldes", es: "Rebajas", de: "Sale", ar: "تخفيضات" },
+  "Soldes d'hiver": { en: "Winter sale", fr: "Soldes d'hiver", es: "Rebajas de invierno", de: "Winterschlussverkauf", ar: "تخفيضات الشتاء" },
+  "Soldes d'été": { en: "Summer sale", fr: "Soldes d'été", es: "Rebajas de verano", de: "Sommerschlussverkauf", ar: "تخفيضات الصيف" },
+  "Black Friday": { en: "Black Friday", fr: "Black Friday", es: "Black Friday", de: "Black Friday", ar: "الجمعة السوداء" },
+  "Offre du Nouvel An": { en: "New Year offer", fr: "Offre du Nouvel An", es: "Oferta de Año Nuevo", de: "Neujahrsangebot", ar: "عرض رأس السنة" },
+  "Ramadan": { en: "Ramadan offer", fr: "Offre Ramadan", es: "Oferta de Ramadán", de: "Ramadan-Angebot", ar: "عرض رمضان" }
+};
+function getSale(){ try { return JSON.parse(SETTINGS.sale || "{}") || {}; } catch(e){ return {}; } }
+function saleState(sl){
+  const d = new Date().toISOString().slice(0,10);
+  if (!sl.active || !(parseInt(sl.percent) > 0)) return ["off", "Désactivées"];
+  if (sl.start && d < sl.start) return ["soon", "Programmées, début le " + frDate(sl.start)];
+  if (sl.end && d > sl.end) return ["off", "Terminées depuis le " + frDate(sl.end)];
+  return ["on", "En cours sur le site" + (sl.end ? " jusqu'au " + frDate(sl.end) : "")];
+}
+function salesView(){
+  const sl = Object.assign({ active: false, percent: 20, start: "", end: "", cats: [], name: { ...SALE_PRESETS["Soldes"] } }, getSale());
+  const [st, lbl] = saleState(sl);
+  const ex = OFFERS.filter(o => o.visible).slice(0, 4);
+  const inCat = o => !sl.cats.length || sl.cats.includes(o.category || "balloon");
+  const sp = o => Math.round(o.price * (1 - (parseInt(sl.percent) || 0) / 100) / 10) * 10;
+  shell(`<div class="head"><h1>Soldes</h1><span class="pill ${st === "on" ? "on" : st === "soon" ? "new" : "off"}">${h(lbl)}</span></div>
+    <p style="color:var(--muted);margin:0">Les soldes baissent les prix sur tout le site pendant une période. Un bandeau avec un compte à rebours s'affiche en haut de toutes les pages. Si une annonce a déjà sa propre réduction plus forte, c'est la plus forte qui compte.</p>
+    <form class="panel" id="slf">
+      <label class="switch" style="font-size:1rem"><input type="checkbox" id="sl-on" ${sl.active ? "checked" : ""}> Activer les soldes</label>
+      <div class="f3">
+        <label>Réduction (%)<input id="sl-pc" type="number" min="5" max="90" step="5" value="${h(sl.percent)}"></label>
+        <label>Début (facultatif)<input id="sl-start" type="date" value="${h(sl.start || "")}"></label>
+        <label>Fin (facultatif)<input id="sl-end" type="date" value="${h(sl.end || "")}"></label>
+      </div>
+      <div class="promo-row"><span>Pourcentage rapide :</span>${[10, 20, 30, 40, 50].map(p => `<button type="button" class="chip ${parseInt(sl.percent) === p ? "on" : ""}" data-pc="${p}">−${p} %</button>`).join("")}</div>
+      <div><div style="font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:6px">Nom des soldes (affiché sur le site) — modèle :</div>
+        <div class="tabs">${Object.keys(SALE_PRESETS).map(k => `<button type="button" data-preset="${h(k)}">${h(k)}</button>`).join("")}</div></div>
+      <div class="f3">${LANGS.map(([c, n]) => `<label dir="${c === "ar" ? "rtl" : "ltr"}">${n}<input id="sl-n-${c}" value="${h((sl.name || {})[c] || "")}"></label>`).join("")}</div>
+      <div><div style="font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:6px">Activités concernées (rien de coché = toutes) :</div>
+        <div class="promo-row">${Object.entries(CATS).map(([k, c]) => `<label class="switch"><input type="checkbox" class="sl-cat" value="${k}" ${sl.cats.includes(k) ? "checked" : ""}> ${c.icon} ${h(c.fr)}</label>`).join("")}</div></div>
+      <div class="actions"><button class="btn" type="submit">Enregistrer les soldes</button>${sl.active ? `<button class="btn ghost" type="button" id="sl-stop">Arrêter les soldes maintenant</button>` : ""}</div>
+    </form>
+    <div class="panel"><h2>Aperçu des prix pendant les soldes</h2>
+      ${ex.length ? `<div class="rows">${ex.map(o => `<div class="row" style="grid-template-columns:minmax(0,1fr) auto"><span>${h(o.name.fr || o.name.en)}</span><span>${inCat(o) ? `<s>${nf(o.price)} DH</s> <b style="color:var(--bad)">${nf(sp(o))} DH</b>` : `${nf(o.price)} DH <i>(non concernée)</i>`}</span></div>`).join("")}</div>` : `<div class="empty">Aucune annonce visible.</div>`}
+    </div>`);
+  const f = document.getElementById("slf");
+  f.querySelectorAll("[data-pc]").forEach(b => b.addEventListener("click", () => { document.getElementById("sl-pc").value = b.dataset.pc; f.querySelectorAll("[data-pc]").forEach(x => x.classList.toggle("on", x === b)); }));
+  f.querySelectorAll("[data-preset]").forEach(b => b.addEventListener("click", () => { const p = SALE_PRESETS[b.dataset.preset]; LANGS.forEach(([c]) => document.getElementById("sl-n-" + c).value = p[c]); }));
+  const read = () => ({ active: document.getElementById("sl-on").checked, percent: Math.min(90, Math.max(0, parseInt(document.getElementById("sl-pc").value) || 0)),
+    start: document.getElementById("sl-start").value, end: document.getElementById("sl-end").value,
+    cats: [...f.querySelectorAll(".sl-cat:checked")].map(x => x.value), name: Object.fromEntries(LANGS.map(([c]) => [c, document.getElementById("sl-n-" + c).value.trim()]).filter(x => x[1])) });
+  const save = async v => {
+    if (v.start && v.end && v.end < v.start) { toast("La date de fin est avant la date de début"); return; }
+    try { await saveSettings({ ...SETTINGS, sale: JSON.stringify(v) }); toast(v.active ? "Soldes enregistrées : " + saleState(v)[1] : "Soldes désactivées"); } catch(x){ toast("Erreur : " + x.message); }
+    draw();
+  };
+  f.addEventListener("submit", e => { e.preventDefault(); save(read()); });
+  const stop = document.getElementById("sl-stop"); if (stop) stop.addEventListener("click", () => save({ ...read(), active: false }));
+}
+
+function settingsView(){
+  shell(`<div class="head"><h1>Réglages</h1></div>
+    <form class="panel" id="sf"><div class="f3">
+      <label>Numéro WhatsApp (chiffres seulement)<input id="s-wa" value="${h(SETTINGS.whatsapp)}" placeholder="212773836323"></label>
+      <label>Numéro affiché<input id="s-ph" value="${h(SETTINGS.phoneDisplay)}" placeholder="+212 773 836 323"></label>
+      <label>Taux € (1 € = … DH)<input id="s-eur" value="${h(SETTINGS.eurRate)}" placeholder="10.8"></label></div>
+      <label>Lien de la fiche Google (avis)<input id="s-g" value="${h(SETTINGS.googleReviewsUrl)}"></label>
+      <div class="actions"><button class="btn" type="submit">Enregistrer</button></div></form>`);
+  document.getElementById("sf").addEventListener("submit", async e => {
+    e.preventDefault();
+    const st = { ...SETTINGS, whatsapp: document.getElementById("s-wa").value.replace(/\D/g, ""), phoneDisplay: document.getElementById("s-ph").value.trim(), eurRate: document.getElementById("s-eur").value.trim().replace(",", "."), googleReviewsUrl: document.getElementById("s-g").value.trim() };
+    try { await saveSettings(st); toast("Réglages enregistrés"); } catch(x){ toast("Erreur : " + x.message); }
+  });
+}
+
+function setupView(){
+  shell(`<div class="head"><h1>Installation de la base de données</h1></div>
+    <div class="banner ${DB.on() ? "ok" : ""}">${DB.on() ? "<b>Base de données branchée.</b> Le site et cet espace utilisent les vraies données." : "<b>Mode démo actif.</b> Suivez ces étapes une seule fois (10 minutes, gratuit)."}</div>
+    <div class="panel"><h2>Étapes</h2><ol style="margin:0;padding-inline-start:20px;display:grid;gap:8px">
+      <li>Créer un compte gratuit sur <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a>, puis un nouveau projet.</li>
+      <li>Dans le projet : <b>SQL Editor</b> → coller le contenu du fichier <code>supabase-setup.sql</code> → <b>Run</b>.</li>
+      <li><b>Authentication → Users → Add user</b> : créer l'e-mail et le mot de passe du gérant (c'est son identifiant pour cet espace).</li>
+      <li><b>Project Settings → API</b> : copier « Project URL » et la clé « anon public » dans le fichier <code>config.js</code> (bloc SUPABASE).</li>
+      <li>Renvoyer <code>config.js</code> sur l'hébergement. L'espace gestion demandera alors l'e-mail et le mot de passe.</li></ol></div>
+    <div class="panel"><h2>Bon à savoir</h2><p style="margin:0">Les visiteurs sont comptés une fois par visite, sans cookie publicitaire et sans adresse IP. Seul le gérant connecté peut lire les statistiques et les demandes.</p></div>`);
+}
+
+function draw(){
+  clearInterval(LIVE_TIMER);
+  if (VIEW === "dash" || VIEW === "requests") LIVE_TIMER = setInterval(async () => { if (EDIT || document.hidden) return; try { await load(); ({ dash, requests: requestsView })[VIEW](); } catch(e){} }, 30000);
+  ({ dash, sales: salesView, offers: offersView, requests: requestsView, settings: settingsView, setup: setupView })[VIEW](); }
+async function start(){
+  if (DB.on() && !TOKEN) return loginView();
+  try { await load(); } catch(e){ if (DB.on()) { TOKEN = null; return loginView("Session expirée, reconnectez-vous."); } }
+  draw();
+}
+start();
+</script>
+</body>
+</html>
