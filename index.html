@@ -65,6 +65,7 @@ header.top{position:sticky;top:env(safe-area-inset-top, 0px);z-index:50;backgrou
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-size:1.15rem;white-space:nowrap}
 .top nav{display:flex;gap:18px;margin-inline-start:auto;font-size:.92rem}
 .top nav a{text-decoration:none;opacity:.85}
+.top nav a[aria-current="page"]{opacity:1;font-weight:600}
 .top nav a:hover{opacity:1}
 .dd{position:relative}
 .dd-btn{background:none;border:0;color:inherit;font:inherit;opacity:.85;cursor:pointer;display:flex;align-items:center;gap:6px;padding:0}
@@ -335,6 +336,31 @@ main.sub>section:first-child{padding-top:56px}
 .foot-nav{display:flex;flex-wrap:wrap;gap:8px 18px}
 .foot-nav a{color:#e9e7f4;text-decoration:none;opacity:.85}
 .foot-nav a:hover{opacity:1;text-decoration:underline}
+
+/* Reviews marquee */
+.rv-sec{background:linear-gradient(135deg,var(--night),var(--dusk));color:#fff;padding:64px 0;overflow:hidden}
+.rv-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:28px}
+.rv-head .eyebrow{color:var(--gold)}
+.rv-head h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin-top:6px}
+.rv-score{display:flex;align-items:center;gap:10px;font-weight:600}
+.rv-score .st{color:var(--gold);letter-spacing:2px;font-size:1.15rem}
+.rv-score b{font-size:1.6rem;font-family:var(--display);font-weight:400}
+.rv-marquee{position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.rv-track{display:flex;gap:18px;width:max-content;animation:rvscroll var(--rv-dur,60s) linear infinite}
+.rv-marquee:hover .rv-track,.rv-marquee:focus-within .rv-track{animation-play-state:paused}
+[dir="rtl"] .rv-track{animation-name:rvscroll-rtl}
+@keyframes rvscroll{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 9px))}}
+@keyframes rvscroll-rtl{from{transform:translateX(0)}to{transform:translateX(calc(50% + 9px))}}
+.rv-card{width:min(340px,80vw);flex:0 0 auto;background:#fff;color:#1d1f33;border-radius:18px;padding:20px 22px;display:flex;flex-direction:column;gap:10px;box-shadow:0 14px 30px -18px rgba(0,0,0,.5)}
+.rv-card .st{color:#e2a73a;letter-spacing:2px}
+.rv-card p{font-size:.95rem;line-height:1.55;display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.rv-card .who{display:flex;align-items:center;gap:10px;font-size:.88rem}
+.rv-card .av{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;flex:0 0 auto}
+.rv-card .who small{display:block;color:#6a6d85}
+.rv-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.rv-actions .btn-ghost{color:#fff}
+.rv-empty{opacity:.88;max-width:56ch}
+@media (prefers-reduced-motion: reduce){.rv-track{animation:none}.rv-marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none}}
 </style>
 </head>
 <body><header class="top">
@@ -344,9 +370,10 @@ main.sub>section:first-child{padding-top:56px}
     <nav id="nav">
       <div class="dd"><button type="button" class="dd-btn" aria-expanded="false" data-i="nav_offers">Offers</button>
         <div class="dd-menu"><a href="#flights" data-i="nav_flights">Flights</a><a href="excursions.html" data-i="nav_excursions">Excursions</a><a href="your-morning.html" data-i="nav_morning">Your morning</a><a href="prices.html" data-i="nav_prices">Prices</a></div></div>
-      <a href="gallery.html" data-i="nav_gallery">Gallery</a>
+      <a href="gallery.html" data-i="nav_gallery">Photo album</a>
+      <a href="about.html" data-i="nav_about">About us</a>
       <div class="dd"><button type="button" class="dd-btn" aria-expanded="false" data-i="nav_info">Info</button>
-        <div class="dd-menu"><a href="#about" data-i="nav_about">About</a><a href="faq.html" data-i="nav_faq">FAQ</a><a href="conditions.html" data-i="nav_conditions">Conditions</a></div></div>
+        <div class="dd-menu"><a href="faq.html" data-i="nav_faq">FAQ</a><a href="conditions.html" data-i="nav_conditions">Conditions</a></div></div>
     </nav>
     <div class="lang" role="group" aria-label="Language" id="lang"></div>
     <a class="btn btn-primary book-top" href="booking.html" data-i="cta_book">Book your flight</a>
@@ -402,6 +429,20 @@ main.sub>section:first-child{padding-top:56px}
         <div><a class="btn btn-primary js-google" href="#" target="_blank" rel="noopener" data-i="reviews_btn">See reviews on Google</a></div>
       </div>
     </div>
+  </section>
+  <section class="rv-sec" id="avis" aria-labelledby="rvTitle">
+    <div class="wrap">
+      <div class="rv-head">
+        <div><span class="eyebrow" data-i="rv_eyebrow">Google reviews</span><h2 id="rvTitle" data-i="rv_title">Discover our reviews</h2></div>
+        <div class="rv-score"><b id="rvRate">4.9</b><span class="st" aria-hidden="true">★★★★★</span><span id="rvScore"></span></div>
+      </div>
+      <p class="rv-empty" id="rvEmpty" data-i="rv_empty" hidden>Read what our travellers say about their flight on our Google page.</p>
+    </div>
+    <div class="rv-marquee" id="rvMarquee" hidden><div class="rv-track" id="rvTrack"></div></div>
+    <div class="wrap"><div class="rv-actions">
+      <a class="btn btn-primary js-google" href="#" target="_blank" rel="noopener" data-i="reviews_btn">See reviews on Google</a>
+      <a class="btn btn-ghost js-google" href="#" target="_blank" rel="noopener" data-i="rv_leave">Leave a review</a>
+    </div></div>
   </section>
   <section class="cta-band">
     <div class="wrap cta-inner">
@@ -470,18 +511,20 @@ const CONFIG = {
   phoneDisplay: DEFAULT_SETTINGS.phoneDisplay,
   eurRate: parseFloat(DEFAULT_SETTINGS.eurRate),
   googleReviewsUrl: DEFAULT_SETTINGS.googleReviewsUrl,
+  googleRating: "4.9", googleCount: "208",
   defaultLang: "en"
 };
 let OFFERS = DEFAULT_OFFERS.slice();
 
 const T = {
 en:{
+rv_eyebrow:"Google reviews",rv_title:"Discover our reviews",rv_score:"on Google · {n} reviews",rv_score0:"on Google",rv_leave:"Leave a review",rv_google:"Google review",rv_empty:"Read what our travellers say about their flight on our Google page.",
 featured_lbl:"Special offer",featured_sub:"Our featured flight right now, at a reduced price. Places are limited each morning.",featured_cta:"Book this offer",
 sale_default:"Sale",sale_left:"Ends in {t}",sale_cta:"See the offers",sale_close:"Close",u_d:"d",u_h:"h",u_m:"min",
 nav_excursions:"Excursions",exc_eyebrow:"More adventures",exc_title:"Excursions & activities",exc_sub:"Quad biking, camel rides, buggies and day trips around Marrakech. Book them on their own or combine them with your balloon flight.",exc_empty:"New excursions are coming soon. Ask us on WhatsApp for the activities available right now.",all_cats:"All",duration_lbl:"Duration:",book_exc:"Book this excursion",
 promo_label:"Special offer",promo_until:"until {d}",
 chat_mic:"Speak",chat_listening:"Listening… speak now",chat_voice_on:"Voice on",chat_voice_off:"Voice off",chat_nohear:"I couldn't hear you. Tap the microphone and try again.",
-nav_offers:"Offers",nav_info:"Info",nav_flights:"Flights",nav_morning:"Your morning",nav_prices:"Prices",nav_gallery:"Gallery",nav_about:"About",nav_faq:"FAQ",nav_conditions:"Conditions",
+nav_offers:"Offers",nav_info:"Info",nav_flights:"Flights",nav_morning:"Your morning",nav_prices:"Prices",nav_gallery:"Photo album",nav_about:"About us",nav_faq:"FAQ",nav_conditions:"Conditions",
 cta_book:"Book your flight",cta_wa:"Ask on WhatsApp",
 hero_eyebrow:"Marrakech · Atlas foothills · Sunrise",
 hero_title:"Watch the sun rise over the Atlas from a balloon basket",
@@ -549,12 +592,13 @@ chat_fallback:"I'm not sure I understood. You can ask about prices, times, weath
 chat_open_form:"Open the booking form",chat_open_wa:"Open WhatsApp"
 },
 fr:{
+rv_eyebrow:"Avis Google",rv_title:"Découvrez nos avis",rv_score:"sur Google · {n} avis",rv_score0:"sur Google",rv_leave:"Laisser un avis",rv_google:"Avis Google",rv_empty:"Découvrez ce que nos voyageurs disent de leur vol sur notre page Google.",
 featured_lbl:"Offre spéciale",featured_sub:"Notre vol mis en avant en ce moment, à prix réduit. Les places sont limitées chaque matin.",featured_cta:"Profiter de l'offre",
 sale_default:"Soldes",sale_left:"Fin dans {t}",sale_cta:"Voir les offres",sale_close:"Fermer",u_d:" j",u_h:" h",u_m:" min",
 nav_excursions:"Excursions",exc_eyebrow:"Encore plus d'aventures",exc_title:"Excursions et activités",exc_sub:"Quad, balade à dromadaire, buggy et excursions à la journée autour de Marrakech. À réserver seules ou avec votre vol en montgolfière.",exc_empty:"De nouvelles excursions arrivent bientôt. Demandez-nous sur WhatsApp les activités disponibles en ce moment.",all_cats:"Toutes",duration_lbl:"Durée :",book_exc:"Réserver cette excursion",
 promo_label:"Offre spéciale",promo_until:"jusqu'au {d}",
 chat_mic:"Parler",chat_listening:"Je vous écoute… parlez maintenant",chat_voice_on:"Voix activée",chat_voice_off:"Voix coupée",chat_nohear:"Je n'ai pas entendu. Touchez le micro et réessayez.",
-nav_offers:"Offres",nav_info:"Infos",nav_flights:"Vols",nav_morning:"Votre matinée",nav_prices:"Tarifs",nav_gallery:"Galerie",nav_about:"À propos",nav_faq:"FAQ",nav_conditions:"Conditions",
+nav_offers:"Offres",nav_info:"Infos",nav_flights:"Vols",nav_morning:"Votre matinée",nav_prices:"Tarifs",nav_gallery:"Album photos",nav_about:"Qui sommes-nous",nav_faq:"FAQ",nav_conditions:"Conditions",
 cta_book:"Réserver mon vol",cta_wa:"Écrire sur WhatsApp",
 hero_eyebrow:"Marrakech · Contreforts de l'Atlas · Lever du soleil",
 hero_title:"Voir le soleil se lever sur l'Atlas depuis une nacelle",
@@ -622,12 +666,13 @@ chat_fallback:"Je n'ai pas bien compris. Vous pouvez me demander les tarifs, les
 chat_open_form:"Ouvrir le formulaire",chat_open_wa:"Ouvrir WhatsApp"
 },
 es:{
+rv_eyebrow:"Opiniones de Google",rv_title:"Descubre nuestras opiniones",rv_score:"en Google · {n} opiniones",rv_score0:"en Google",rv_leave:"Dejar una opinión",rv_google:"Opinión de Google",rv_empty:"Descubre lo que dicen nuestros viajeros de su vuelo en nuestra página de Google.",
 featured_lbl:"Oferta especial",featured_sub:"Nuestro vuelo destacado ahora mismo, a precio reducido. Las plazas son limitadas cada mañana.",featured_cta:"Aprovechar la oferta",
 sale_default:"Rebajas",sale_left:"Termina en {t}",sale_cta:"Ver las ofertas",sale_close:"Cerrar",u_d:" d",u_h:" h",u_m:" min",
 nav_excursions:"Excursiones",exc_eyebrow:"Más aventuras",exc_title:"Excursiones y actividades",exc_sub:"Quad, paseos en camello, buggy y excursiones de un día alrededor de Marrakech. Resérvalas solas o junto con tu vuelo en globo.",exc_empty:"Pronto llegarán nuevas excursiones. Pregúntanos por WhatsApp las actividades disponibles ahora.",all_cats:"Todas",duration_lbl:"Duración:",book_exc:"Reservar esta excursión",
 promo_label:"Oferta especial",promo_until:"hasta el {d}",
 chat_mic:"Hablar",chat_listening:"Te escucho… habla ahora",chat_voice_on:"Voz activada",chat_voice_off:"Voz desactivada",chat_nohear:"No te he oído. Toca el micrófono e inténtalo de nuevo.",
-nav_offers:"Ofertas",nav_info:"Información",nav_flights:"Vuelos",nav_morning:"Tu mañana",nav_prices:"Precios",nav_gallery:"Galería",nav_about:"Nosotros",nav_faq:"Preguntas",nav_conditions:"Condiciones",
+nav_offers:"Ofertas",nav_info:"Información",nav_flights:"Vuelos",nav_morning:"Tu mañana",nav_prices:"Precios",nav_gallery:"Álbum",nav_about:"Quiénes somos",nav_faq:"Preguntas",nav_conditions:"Condiciones",
 cta_book:"Reservar mi vuelo",cta_wa:"Escribir por WhatsApp",
 hero_eyebrow:"Marrakech · Faldas del Atlas · Amanecer",
 hero_title:"Mira el amanecer sobre el Atlas desde la cesta de un globo",
@@ -695,12 +740,13 @@ chat_fallback:"No estoy seguro de haberte entendido. Puedes preguntar por precio
 chat_open_form:"Abrir el formulario",chat_open_wa:"Abrir WhatsApp"
 },
 de:{
+rv_eyebrow:"Google-Bewertungen",rv_title:"Entdecken Sie unsere Bewertungen",rv_score:"auf Google · {n} Bewertungen",rv_score0:"auf Google",rv_leave:"Bewertung schreiben",rv_google:"Google-Bewertung",rv_empty:"Lesen Sie auf unserer Google-Seite, was unsere Gäste über ihre Fahrt sagen.",
 featured_lbl:"Sonderangebot",featured_sub:"Unser hervorgehobener Flug, jetzt zum reduzierten Preis. Die Plätze sind jeden Morgen begrenzt.",featured_cta:"Angebot buchen",
 sale_default:"Sale",sale_left:"Endet in {t}",sale_cta:"Angebote ansehen",sale_close:"Schließen",u_d:" T",u_h:" Std",u_m:" Min",
 nav_excursions:"Ausflüge",exc_eyebrow:"Noch mehr Abenteuer",exc_title:"Ausflüge und Aktivitäten",exc_sub:"Quad, Kamelritt, Buggy und Tagesausflüge rund um Marrakesch. Einzeln buchbar oder zusammen mit Ihrer Ballonfahrt.",exc_empty:"Neue Ausflüge folgen bald. Fragen Sie uns per WhatsApp nach den aktuell verfügbaren Aktivitäten.",all_cats:"Alle",duration_lbl:"Dauer:",book_exc:"Diesen Ausflug buchen",
 promo_label:"Sonderangebot",promo_until:"bis {d}",
 chat_mic:"Sprechen",chat_listening:"Ich höre zu… sprechen Sie jetzt",chat_voice_on:"Stimme an",chat_voice_off:"Stimme aus",chat_nohear:"Ich habe Sie nicht gehört. Tippen Sie auf das Mikrofon und versuchen Sie es erneut.",
-nav_offers:"Angebote",nav_info:"Infos",nav_flights:"Flüge",nav_morning:"Ihr Morgen",nav_prices:"Preise",nav_gallery:"Galerie",nav_about:"Über uns",nav_faq:"FAQ",nav_conditions:"Bedingungen",
+nav_offers:"Angebote",nav_info:"Infos",nav_flights:"Flüge",nav_morning:"Ihr Morgen",nav_prices:"Preise",nav_gallery:"Fotoalbum",nav_about:"Über uns",nav_faq:"FAQ",nav_conditions:"Bedingungen",
 cta_book:"Flug buchen",cta_wa:"Per WhatsApp fragen",
 hero_eyebrow:"Marrakesch · Atlas-Vorland · Sonnenaufgang",
 hero_title:"Den Sonnenaufgang über dem Atlas im Ballonkorb erleben",
@@ -768,12 +814,13 @@ chat_fallback:"Das habe ich nicht ganz verstanden. Fragen Sie nach Preisen, Zeit
 chat_open_form:"Formular öffnen",chat_open_wa:"WhatsApp öffnen"
 },
 ar:{
+rv_eyebrow:"تقييمات Google",rv_title:"اكتشف آراء عملائنا",rv_score:"على Google · {n} تقييم",rv_score0:"على Google",rv_leave:"اترك تقييمك",rv_google:"تقييم Google",rv_empty:"اكتشف ما يقوله مسافرونا عن رحلتهم على صفحتنا في Google.",
 featured_lbl:"عرض خاص",featured_sub:"رحلتنا المميزة حاليًا بسعر مخفّض. الأماكن محدودة كل صباح.",featured_cta:"استفد من العرض",
 sale_default:"تخفيضات",sale_left:"ينتهي خلال {t}",sale_cta:"شاهد العروض",sale_close:"إغلاق",u_d:" ي",u_h:" س",u_m:" د",
 nav_excursions:"الرحلات",exc_eyebrow:"مغامرات أخرى",exc_title:"الرحلات والأنشطة",exc_sub:"الدراجات الرباعية وركوب الجمال والباجي ورحلات يومية حول مراكش. احجزها وحدها أو مع رحلة المنطاد.",exc_empty:"رحلات جديدة قريبًا. اسألنا على واتساب عن الأنشطة المتاحة الآن.",all_cats:"الكل",duration_lbl:"المدة:",book_exc:"احجز هذه الرحلة",
 promo_label:"عرض خاص",promo_until:"حتى {d}",
 chat_mic:"تحدث",chat_listening:"أستمع إليك… تحدث الآن",chat_voice_on:"الصوت مفعّل",chat_voice_off:"الصوت متوقف",chat_nohear:"لم أسمعك. اضغط على الميكروفون وحاول مرة أخرى.",
-nav_offers:"العروض",nav_info:"معلومات",nav_flights:"الرحلات",nav_morning:"صباحك",nav_prices:"الأسعار",nav_gallery:"الصور",nav_about:"من نحن",nav_faq:"الأسئلة",nav_conditions:"الشروط",
+nav_offers:"العروض",nav_info:"معلومات",nav_flights:"الرحلات",nav_morning:"صباحك",nav_prices:"الأسعار",nav_gallery:"ألبوم الصور",nav_about:"من نحن",nav_faq:"الأسئلة",nav_conditions:"الشروط",
 cta_book:"احجز رحلتك",cta_wa:"راسلنا على واتساب",
 hero_eyebrow:"مراكش · سفوح الأطلس · شروق الشمس",
 hero_title:"شاهد شروق الشمس فوق جبال الأطلس من سلة المنطاد",
@@ -942,6 +989,7 @@ function render(){
   document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
   if (window.PAGE_TITLES && PAGE_TITLES[lang]) document.title = PAGE_TITLES[lang];
   document.querySelectorAll("[data-i]").forEach(el => { el.textContent = t(el.dataset.i); });
+  if (typeof renderReviews === "function") renderReviews();
   renderOffers(); renderSaleBar();
   document.querySelectorAll(".js-phone").forEach(e => e.textContent = CONFIG.phoneDisplay);
   document.querySelectorAll(".js-wa").forEach(a => a.href = waLink(t("wa_hello")));
@@ -1142,6 +1190,8 @@ function applySettings(st){
   if (st.whatsapp) CONFIG.whatsapp = String(st.whatsapp).replace(/\D/g, "");
   if (st.phoneDisplay) CONFIG.phoneDisplay = st.phoneDisplay;
   if (st.googleReviewsUrl) CONFIG.googleReviewsUrl = st.googleReviewsUrl;
+  if (st.googleRating) CONFIG.googleRating = st.googleRating;
+  if (st.googleCount !== undefined) CONFIG.googleCount = st.googleCount;
   if (st.eurRate) CONFIG.eurRate = parseFloat(st.eurRate) || CONFIG.eurRate;
   if (st.sale) { try { SALE = typeof st.sale === "string" ? JSON.parse(st.sale) : st.sale; } catch(e){ SALE = null; } }
 }
@@ -1177,7 +1227,36 @@ function logRequest(row){
 
 document.getElementById("year").textContent = new Date().getFullYear();
 render(); preselect();
-loadData().then(preselect);
+
+/* ---------- Google reviews marquee ---------- */
+var REVIEWS_ALL;
+function renderReviews(){
+  const tr = document.getElementById("rvTrack"); if (!tr) return;
+  const rate = String(CONFIG.googleRating || "4.9"), cnt = String(CONFIG.googleCount || "");
+  const rateTxt = lang === "en" || lang === "ar" ? rate : rate.replace(".", ",");
+  document.getElementById("rvRate").textContent = rateTxt;
+  document.getElementById("rvScore").textContent = t(cnt ? "rv_score" : "rv_score0").replace("{n}", cnt);
+  const all = REVIEWS_ALL || [];
+  let list = all.filter(r => !r.lang || r.lang === lang);
+  if (list.length < 3) list = all;
+  const mq = document.getElementById("rvMarquee"), em = document.getElementById("rvEmpty");
+  if (!list.length) { mq.hidden = true; em.hidden = false; return; }
+  mq.hidden = false; em.hidden = true;
+  const esc = x => String(x ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const card = (r, dup) => `<article class="rv-card"${dup ? ' aria-hidden="true"' : ""}><div class="st" aria-label="${r.rating}/5">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</div><p>${esc(r.text)}</p><div class="who"><span class="av" aria-hidden="true">${esc((r.name || "?").trim().charAt(0).toUpperCase())}</span><span><b>${esc(r.name)}</b><small>${esc(t("rv_google"))}${r.date ? " · " + esc(r.date) : ""}</small></span></div></article>`;
+  let base = list; while (base.length < 6) base = base.concat(list);
+  tr.innerHTML = base.map(r => card(r, false)).join("") + base.map(r => card(r, true)).join("");
+  tr.style.setProperty("--rv-dur", Math.max(30, base.length * 7) + "s");
+}
+async function loadReviews(){
+  if (!document.getElementById("rvTrack")) return;
+  try {
+    if (DB.on()) REVIEWS_ALL = await DB.get("reviews?select=name,rating,text,date,lang&visible=eq.true&order=sort,id");
+    else REVIEWS_ALL = DEMO.get("reviews", []).filter(r => r.visible !== false);
+  } catch(e){ REVIEWS_ALL = []; }
+  renderReviews();
+}
+loadData().then(preselect).then(loadReviews);
 logVisit();
 </script>
 

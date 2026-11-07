@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>About Us &amp; Google Reviews – Marrakech Sunrise Balloon</title>
-<meta name="description" content="A local team in Marrakech working with a licensed balloon operator. Rated 4.9/5 by 208 travellers on Google.">
+<title>About Us – Marrakech Sunrise Balloon</title>
+<meta name="description" content="Who we are: a local team in Marrakech organising sunrise balloon flights with a licensed partner operator. Our commitments, our way of working and our Google reviews.">
 <meta name="keywords" content="Marrakech hot air balloon, hot air balloon ride Marrakech, Marrakech balloon flight at sunrise, montgolfière Marrakech, vol en montgolfière à Marrakech, hot air balloon, mongolfière">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,14 +12,14 @@
 <link rel="canonical" href="https://marrakechsunriseballoon.com/about.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Marrakech Sunrise Balloon">
-<meta property="og:title" content="About Us &amp; Google Reviews – Marrakech Sunrise Balloon">
-<meta property="og:description" content="A local team in Marrakech working with a licensed balloon operator. Rated 4.9/5 by 208 travellers on Google.">
+<meta property="og:title" content="About Us – Marrakech Sunrise Balloon">
+<meta property="og:description" content="Who we are: a local team in Marrakech organising sunrise balloon flights with a licensed partner operator. Our commitments, our way of working and our Google reviews.">
 <meta property="og:url" content="https://marrakechsunriseballoon.com/about.html">
 <meta property="og:image" content="https://marrakechsunriseballoon.com/images/promo-en-land.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="images/logo-icon.png">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Marrakech Sunrise Balloon", "item": "https://marrakechsunriseballoon.com/"}, {"@type": "ListItem", "position": 2, "name": "About Us & Google Reviews", "item": "https://marrakechsunriseballoon.com/about.html"}]}</script>
-<script>window.PAGE_TITLES = {"en": "About Us & Google Reviews – Marrakech Sunrise Balloon", "fr": "À propos et avis Google – Marrakech Sunrise Balloon", "es": "Sobre nosotros y reseñas de Google – Marrakech Sunrise Balloon", "de": "Über uns & Google-Bewertungen – Marrakech Sunrise Balloon", "ar": "من نحن وتقييمات Google – Marrakech Sunrise Balloon"};</script>
+<script>window.PAGE_TITLES = {"en": "About Us – Marrakech Sunrise Balloon", "fr": "Qui sommes-nous – Marrakech Sunrise Balloon", "es": "Quiénes somos – Marrakech Sunrise Balloon", "de": "Über uns – Marrakech Sunrise Balloon", "ar": "من نحن – Marrakech Sunrise Balloon"};</script>
 <style>
 /* Layout: promo video hero (landscape on desktop, vertical on phones), then calm light sections; two flight cards side by side; floating WhatsApp + chat assistant */
 :root{
@@ -63,6 +63,7 @@ header.top{position:sticky;top:env(safe-area-inset-top, 0px);z-index:50;backgrou
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-size:1.15rem;white-space:nowrap}
 .top nav{display:flex;gap:18px;margin-inline-start:auto;font-size:.92rem}
 .top nav a{text-decoration:none;opacity:.85}
+.top nav a[aria-current="page"]{opacity:1;font-weight:600}
 .top nav a:hover{opacity:1}
 .dd{position:relative}
 .dd-btn{background:none;border:0;color:inherit;font:inherit;opacity:.85;cursor:pointer;display:flex;align-items:center;gap:6px;padding:0}
@@ -333,6 +334,53 @@ main.sub>section:first-child{padding-top:56px}
 .foot-nav{display:flex;flex-wrap:wrap;gap:8px 18px}
 .foot-nav a{color:#e9e7f4;text-decoration:none;opacity:.85}
 .foot-nav a:hover{opacity:1;text-decoration:underline}
+
+/* Reviews marquee */
+.rv-sec{background:linear-gradient(135deg,var(--night),var(--dusk));color:#fff;padding:64px 0;overflow:hidden}
+.rv-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:28px}
+.rv-head .eyebrow{color:var(--gold)}
+.rv-head h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin-top:6px}
+.rv-score{display:flex;align-items:center;gap:10px;font-weight:600}
+.rv-score .st{color:var(--gold);letter-spacing:2px;font-size:1.15rem}
+.rv-score b{font-size:1.6rem;font-family:var(--display);font-weight:400}
+.rv-marquee{position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.rv-track{display:flex;gap:18px;width:max-content;animation:rvscroll var(--rv-dur,60s) linear infinite}
+.rv-marquee:hover .rv-track,.rv-marquee:focus-within .rv-track{animation-play-state:paused}
+[dir="rtl"] .rv-track{animation-name:rvscroll-rtl}
+@keyframes rvscroll{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 9px))}}
+@keyframes rvscroll-rtl{from{transform:translateX(0)}to{transform:translateX(calc(50% + 9px))}}
+.rv-card{width:min(340px,80vw);flex:0 0 auto;background:#fff;color:#1d1f33;border-radius:18px;padding:20px 22px;display:flex;flex-direction:column;gap:10px;box-shadow:0 14px 30px -18px rgba(0,0,0,.5)}
+.rv-card .st{color:#e2a73a;letter-spacing:2px}
+.rv-card p{font-size:.95rem;line-height:1.55;display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.rv-card .who{display:flex;align-items:center;gap:10px;font-size:.88rem}
+.rv-card .av{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;flex:0 0 auto}
+.rv-card .who small{display:block;color:#6a6d85}
+.rv-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.rv-actions .btn-ghost{color:#fff}
+.rv-empty{opacity:.88;max-width:56ch}
+@media (prefers-reduced-motion: reduce){.rv-track{animation:none}.rv-marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none}}
+
+/* Qui sommes-nous */
+.qs-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:44px;align-items:center}
+.qs-hero p{color:var(--muted);font-size:1.05rem;margin-top:14px;max-width:60ch}
+.qs-hero p.lead{color:var(--ink);font-size:1.15rem}
+.qs-photo{border-radius:24px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px -30px rgba(28,32,64,.55)}
+.qs-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.qs-nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:48px}
+.qs-nums div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
+.qs-nums b{direction:ltr;unicode-bidi:isolate;text-align:start;display:block;font-family:var(--display);font-weight:400;font-size:2rem;color:var(--accent);line-height:1.1}
+.qs-nums span{color:var(--muted);font-size:.92rem}
+.qs-block{padding:56px 0 0}
+.qs-block h2{font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:22px}
+.qs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.qs-grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.qs-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;gap:8px;align-content:start}
+.qs-card .ic{font-size:1.6rem}
+.qs-card b{font-size:1.05rem}
+.qs-card span{color:var(--muted);font-size:.95rem}
+main.sub>section.qs-last{padding-bottom:64px}
+@media (max-width:900px){.qs-hero{grid-template-columns:1fr}.qs-photo{aspect-ratio:16/10}.qs-grid,.qs-grid.four{grid-template-columns:1fr 1fr}.qs-nums{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.qs-grid,.qs-grid.four{grid-template-columns:1fr}}
 </style>
 </head>
 <body><header class="top">
@@ -342,9 +390,10 @@ main.sub>section:first-child{padding-top:56px}
     <nav id="nav">
       <div class="dd"><button type="button" class="dd-btn" aria-expanded="false" data-i="nav_offers">Offers</button>
         <div class="dd-menu"><a href="flights.html" data-i="nav_flights">Flights</a><a href="excursions.html" data-i="nav_excursions">Excursions</a><a href="your-morning.html" data-i="nav_morning">Your morning</a><a href="prices.html" data-i="nav_prices">Prices</a></div></div>
-      <a href="gallery.html" data-i="nav_gallery">Gallery</a>
+      <a href="gallery.html" data-i="nav_gallery">Photo album</a>
+      <a href="about.html" data-i="nav_about" aria-current="page">About us</a>
       <div class="dd"><button type="button" class="dd-btn" aria-expanded="false" data-i="nav_info">Info</button>
-        <div class="dd-menu"><a href="#about" data-i="nav_about">About</a><a href="faq.html" data-i="nav_faq">FAQ</a><a href="conditions.html" data-i="nav_conditions">Conditions</a></div></div>
+        <div class="dd-menu"><a href="faq.html" data-i="nav_faq">FAQ</a><a href="conditions.html" data-i="nav_conditions">Conditions</a></div></div>
     </nav>
     <div class="lang" role="group" aria-label="Language" id="lang"></div>
     <a class="btn btn-primary book-top" href="booking.html" data-i="cta_book">Book your flight</a>
@@ -353,25 +402,51 @@ main.sub>section:first-child{padding-top:56px}
 </header>
 
 <main id="top" class="sub">
-<section id="about">
-    <div class="wrap two">
-      <div class="about">
-        <div class="sec-head" style="margin-bottom:18px"><span class="eyebrow" data-i="about_eyebrow">About us</span><h1 class="page-h1" data-i="about_title">A local team, a licensed partner operator</h1></div>
-        <p data-i="about_p1">Marrakech Sunrise Balloon organises sunrise balloon flights for travellers staying in Marrakech. We handle your booking, your pickup and your questions from start to finish.</p>
-        <p data-i="about_p2">Flights are operated by our partner balloon operator, with qualified pilots and a ground crew that follows the balloon to the landing site.</p>
-        <ul class="facts">
-          <li><b data-i="fact1_t">Direct booking</b><span data-i="fact1_p">You talk to us directly on WhatsApp, with no middleman.</span></li>
-          <li><b data-i="fact2_t">Safety first</b><span data-i="fact2_p">The pilot decides on every flight according to the weather.</span></li>
-          <li><b data-i="fact3_t">Everything included</b><span data-i="fact3_p">Transfers, welcome drink, breakfast and certificate.</span></li>
-        </ul>
+<section id="about" class="qs-last">
+    <div class="wrap">
+      <div class="qs-hero">
+        <div>
+          <span class="eyebrow" data-i="qs_eyebrow">About us</span>
+          <h1 class="page-h1" data-i="qs_title">A local team, passionate about the Marrakech sky</h1>
+          <p class="lead" data-i="qs_lead"></p>
+          <p data-i="qs_p2"></p>
+        </div>
+        <div class="qs-photo"><img src="images/g-basket.jpg" alt="" data-ia="qs_img_alt" loading="eager" width="800" height="1000"></div>
       </div>
-      <div class="reviews" id="reviews">
-        <div class="stars" aria-hidden="true">★★★★★</div>
-        <h2 data-i="reviews_title">Read our travellers' reviews</h2>
-        <p data-i="reviews_p">We only publish real reviews. You can read all of them, and leave your own, on our Google page.</p>
-        <div><a class="btn btn-primary js-google" href="#" target="_blank" rel="noopener" data-i="reviews_btn">See reviews on Google</a></div>
+      <div class="qs-nums">
+        <div><b>2</b><span data-i="qs_n1"></span></div>
+        <div><b>40–60</b><span data-i="qs_n2"></span></div>
+        <div><b>5</b><span data-i="qs_n3"></span></div>
+        <div><b class="js-rate">4,9</b><span data-i="qs_n4"></span></div>
       </div>
+      <div class="qs-block"><h2 data-i="qs_what"></h2>
+        <div class="qs-grid">
+          <div class="qs-card"><span class="ic" aria-hidden="true">🗓️</span><b data-i="qs_w1t"></b><span data-i="qs_w1p"></span></div>
+          <div class="qs-card"><span class="ic" aria-hidden="true">🎈</span><b data-i="qs_w2t"></b><span data-i="qs_w2p"></span></div>
+          <div class="qs-card"><span class="ic" aria-hidden="true">☕</span><b data-i="qs_w3t"></b><span data-i="qs_w3p"></span></div>
+        </div></div>
+      <div class="qs-block"><h2 data-i="qs_values"></h2>
+        <div class="qs-grid four">
+          <div class="qs-card"><span class="ic" aria-hidden="true">🛡️</span><b data-i="qs_v1t"></b><span data-i="qs_v1p"></span></div>
+          <div class="qs-card"><span class="ic" aria-hidden="true">💬</span><b data-i="qs_v3t"></b><span data-i="qs_v3p"></span></div>
+          <div class="qs-card"><span class="ic" aria-hidden="true">🏷️</span><b data-i="qs_v2t"></b><span data-i="qs_v2p"></span></div>
+          <div class="qs-card"><span class="ic" aria-hidden="true">⭐</span><b data-i="qs_v4t"></b><span data-i="qs_v4p"></span></div>
+        </div></div>
     </div>
+  </section>
+  <section class="rv-sec" id="avis" aria-labelledby="rvTitle">
+    <div class="wrap">
+      <div class="rv-head">
+        <div><span class="eyebrow" data-i="rv_eyebrow">Google reviews</span><h2 id="rvTitle" data-i="rv_title">Discover our reviews</h2></div>
+        <div class="rv-score"><b id="rvRate">4.9</b><span class="st" aria-hidden="true">★★★★★</span><span id="rvScore"></span></div>
+      </div>
+      <p class="rv-empty" id="rvEmpty" data-i="rv_empty" hidden>Read what our travellers say about their flight on our Google page.</p>
+    </div>
+    <div class="rv-marquee" id="rvMarquee" hidden><div class="rv-track" id="rvTrack"></div></div>
+    <div class="wrap"><div class="rv-actions">
+      <a class="btn btn-primary js-google" href="#" target="_blank" rel="noopener" data-i="reviews_btn">See reviews on Google</a>
+      <a class="btn btn-ghost js-google" href="#" target="_blank" rel="noopener" data-i="rv_leave">Leave a review</a>
+    </div></div>
   </section>
   <section class="cta-band">
     <div class="wrap cta-inner">
@@ -440,18 +515,21 @@ const CONFIG = {
   phoneDisplay: DEFAULT_SETTINGS.phoneDisplay,
   eurRate: parseFloat(DEFAULT_SETTINGS.eurRate),
   googleReviewsUrl: DEFAULT_SETTINGS.googleReviewsUrl,
+  googleRating: "4.9", googleCount: "208",
   defaultLang: "en"
 };
 let OFFERS = DEFAULT_OFFERS.slice();
 
 const T = {
 en:{
+qs_eyebrow:"About us",qs_title:"A local team, passionate about the Marrakech sky",qs_lead:"Marrakech Sunrise Balloon organises sunrise hot air balloon flights for travellers staying in Marrakech. We take care of everything, from your first message to the drop-off at your accommodation.",qs_p2:"Flights are operated by our partner balloon operator, with qualified pilots and a ground crew that follows the balloon all the way to the landing site. Our role: organise your morning, answer your questions and make sure everything goes smoothly.",qs_what:"What we do",qs_w1t:"We organise everything",qs_w1p:"Booking, pickup at your accommodation, transfer to the take-off site and return: you have a single contact from start to finish.",qs_w2t:"Flights with a licensed partner operator",qs_w2p:"Qualified pilots, equipment checked before every flight and a ground crew that follows the balloon.",qs_w3t:"A complete morning",qs_w3p:"Welcome with tea or coffee, a 40 to 60 minute flight, Moroccan breakfast and a flight certificate.",qs_values:"Our commitments",qs_v1t:"Safety before everything",qs_v1p:"The pilot decides on every flight according to the weather. If conditions are not right, the flight is moved to another day.",qs_v2t:"Clear prices",qs_v2p:"The price shown includes transfers, the flight, breakfast and the certificate. No surprises on the day.",qs_v3t:"Direct contact",qs_v3p:"You talk to us directly on WhatsApp, in English, French, Spanish, German or Arabic.",qs_v4t:"Genuine reviews",qs_v4p:"We only show real reviews left by our travellers on Google.",qs_n1:"departures every morning",qs_n2:"minutes in the air",qs_n3:"languages spoken",qs_n4:"on Google",qs_img_alt:"Balloon basket above the Marrakech plain at sunrise",
+rv_eyebrow:"Google reviews",rv_title:"Discover our reviews",rv_score:"on Google · {n} reviews",rv_score0:"on Google",rv_leave:"Leave a review",rv_google:"Google review",rv_empty:"Read what our travellers say about their flight on our Google page.",
 featured_lbl:"Special offer",featured_sub:"Our featured flight right now, at a reduced price. Places are limited each morning.",featured_cta:"Book this offer",
 sale_default:"Sale",sale_left:"Ends in {t}",sale_cta:"See the offers",sale_close:"Close",u_d:"d",u_h:"h",u_m:"min",
 nav_excursions:"Excursions",exc_eyebrow:"More adventures",exc_title:"Excursions & activities",exc_sub:"Quad biking, camel rides, buggies and day trips around Marrakech. Book them on their own or combine them with your balloon flight.",exc_empty:"New excursions are coming soon. Ask us on WhatsApp for the activities available right now.",all_cats:"All",duration_lbl:"Duration:",book_exc:"Book this excursion",
 promo_label:"Special offer",promo_until:"until {d}",
 chat_mic:"Speak",chat_listening:"Listening… speak now",chat_voice_on:"Voice on",chat_voice_off:"Voice off",chat_nohear:"I couldn't hear you. Tap the microphone and try again.",
-nav_offers:"Offers",nav_info:"Info",nav_flights:"Flights",nav_morning:"Your morning",nav_prices:"Prices",nav_gallery:"Gallery",nav_about:"About",nav_faq:"FAQ",nav_conditions:"Conditions",
+nav_offers:"Offers",nav_info:"Info",nav_flights:"Flights",nav_morning:"Your morning",nav_prices:"Prices",nav_gallery:"Photo album",nav_about:"About us",nav_faq:"FAQ",nav_conditions:"Conditions",
 cta_book:"Book your flight",cta_wa:"Ask on WhatsApp",
 hero_eyebrow:"Marrakech · Atlas foothills · Sunrise",
 hero_title:"Watch the sun rise over the Atlas from a balloon basket",
@@ -519,12 +597,14 @@ chat_fallback:"I'm not sure I understood. You can ask about prices, times, weath
 chat_open_form:"Open the booking form",chat_open_wa:"Open WhatsApp"
 },
 fr:{
+qs_eyebrow:"Qui sommes-nous",qs_title:"Une équipe locale, passionnée par le ciel de Marrakech",qs_lead:"Marrakech Sunrise Balloon organise des vols en montgolfière au lever du soleil pour les voyageurs qui séjournent à Marrakech. Nous nous occupons de tout, de votre premier message jusqu'au retour à votre logement.",qs_p2:"Les vols sont assurés par notre opérateur partenaire, avec des pilotes qualifiés et une équipe au sol qui suit le ballon jusqu'au lieu d'atterrissage. Notre rôle : organiser votre matinée, répondre à vos questions et veiller à ce que tout se passe bien.",qs_what:"Ce que nous faisons",qs_w1t:"Nous organisons tout",qs_w1p:"Réservation, prise en charge à votre logement, transfert jusqu'au site de décollage et retour : un seul interlocuteur du début à la fin.",qs_w2t:"Des vols avec un opérateur partenaire agréé",qs_w2p:"Des pilotes qualifiés, un matériel vérifié avant chaque vol et une équipe au sol qui suit le ballon.",qs_w3t:"Une matinée complète",qs_w3p:"Accueil avec thé ou café, vol de 40 à 60 minutes, petit-déjeuner marocain et certificat de vol.",qs_values:"Nos engagements",qs_v1t:"La sécurité avant tout",qs_v1p:"Le pilote décide de chaque vol en fonction de la météo. Si les conditions ne sont pas bonnes, le vol est reporté à un autre jour.",qs_v2t:"Des prix clairs",qs_v2p:"Le prix affiché comprend les transferts, le vol, le petit-déjeuner et le certificat. Aucune surprise le jour J.",qs_v3t:"Un contact direct",qs_v3p:"Vous échangez directement avec nous sur WhatsApp, en français, anglais, espagnol, allemand ou arabe.",qs_v4t:"Des avis authentiques",qs_v4p:"Nous n'affichons que de vrais avis laissés par nos voyageurs sur Google.",qs_n1:"départs chaque matin",qs_n2:"minutes dans les airs",qs_n3:"langues parlées",qs_n4:"sur Google",qs_img_alt:"Nacelle de montgolfière au-dessus de la plaine de Marrakech au lever du soleil",
+rv_eyebrow:"Avis Google",rv_title:"Découvrez nos avis",rv_score:"sur Google · {n} avis",rv_score0:"sur Google",rv_leave:"Laisser un avis",rv_google:"Avis Google",rv_empty:"Découvrez ce que nos voyageurs disent de leur vol sur notre page Google.",
 featured_lbl:"Offre spéciale",featured_sub:"Notre vol mis en avant en ce moment, à prix réduit. Les places sont limitées chaque matin.",featured_cta:"Profiter de l'offre",
 sale_default:"Soldes",sale_left:"Fin dans {t}",sale_cta:"Voir les offres",sale_close:"Fermer",u_d:" j",u_h:" h",u_m:" min",
 nav_excursions:"Excursions",exc_eyebrow:"Encore plus d'aventures",exc_title:"Excursions et activités",exc_sub:"Quad, balade à dromadaire, buggy et excursions à la journée autour de Marrakech. À réserver seules ou avec votre vol en montgolfière.",exc_empty:"De nouvelles excursions arrivent bientôt. Demandez-nous sur WhatsApp les activités disponibles en ce moment.",all_cats:"Toutes",duration_lbl:"Durée :",book_exc:"Réserver cette excursion",
 promo_label:"Offre spéciale",promo_until:"jusqu'au {d}",
 chat_mic:"Parler",chat_listening:"Je vous écoute… parlez maintenant",chat_voice_on:"Voix activée",chat_voice_off:"Voix coupée",chat_nohear:"Je n'ai pas entendu. Touchez le micro et réessayez.",
-nav_offers:"Offres",nav_info:"Infos",nav_flights:"Vols",nav_morning:"Votre matinée",nav_prices:"Tarifs",nav_gallery:"Galerie",nav_about:"À propos",nav_faq:"FAQ",nav_conditions:"Conditions",
+nav_offers:"Offres",nav_info:"Infos",nav_flights:"Vols",nav_morning:"Votre matinée",nav_prices:"Tarifs",nav_gallery:"Album photos",nav_about:"Qui sommes-nous",nav_faq:"FAQ",nav_conditions:"Conditions",
 cta_book:"Réserver mon vol",cta_wa:"Écrire sur WhatsApp",
 hero_eyebrow:"Marrakech · Contreforts de l'Atlas · Lever du soleil",
 hero_title:"Voir le soleil se lever sur l'Atlas depuis une nacelle",
@@ -592,12 +672,14 @@ chat_fallback:"Je n'ai pas bien compris. Vous pouvez me demander les tarifs, les
 chat_open_form:"Ouvrir le formulaire",chat_open_wa:"Ouvrir WhatsApp"
 },
 es:{
+qs_eyebrow:"Quiénes somos",qs_title:"Un equipo local, apasionado por el cielo de Marrakech",qs_lead:"Marrakech Sunrise Balloon organiza vuelos en globo al amanecer para viajeros alojados en Marrakech. Nos ocupamos de todo, desde tu primer mensaje hasta el regreso a tu alojamiento.",qs_p2:"Los vuelos los realiza nuestro operador asociado, con pilotos cualificados y un equipo de tierra que sigue al globo hasta el lugar de aterrizaje. Nuestro papel: organizar tu mañana, responder a tus preguntas y asegurarnos de que todo salga bien.",qs_what:"Lo que hacemos",qs_w1t:"Lo organizamos todo",qs_w1p:"Reserva, recogida en tu alojamiento, traslado al lugar de despegue y regreso: un solo contacto de principio a fin.",qs_w2t:"Vuelos con un operador asociado autorizado",qs_w2p:"Pilotos cualificados, equipo revisado antes de cada vuelo y un equipo de tierra que sigue al globo.",qs_w3t:"Una mañana completa",qs_w3p:"Bienvenida con té o café, vuelo de 40 a 60 minutos, desayuno marroquí y certificado de vuelo.",qs_values:"Nuestros compromisos",qs_v1t:"La seguridad ante todo",qs_v1p:"El piloto decide cada vuelo según el tiempo. Si las condiciones no son buenas, el vuelo se pasa a otro día.",qs_v2t:"Precios claros",qs_v2p:"El precio indicado incluye traslados, vuelo, desayuno y certificado. Sin sorpresas el día del vuelo.",qs_v3t:"Contacto directo",qs_v3p:"Hablas directamente con nosotros por WhatsApp, en español, inglés, francés, alemán o árabe.",qs_v4t:"Opiniones auténticas",qs_v4p:"Solo mostramos opiniones reales dejadas por nuestros viajeros en Google.",qs_n1:"salidas cada mañana",qs_n2:"minutos en el aire",qs_n3:"idiomas",qs_n4:"en Google",qs_img_alt:"Barquilla de globo sobre la llanura de Marrakech al amanecer",
+rv_eyebrow:"Opiniones de Google",rv_title:"Descubre nuestras opiniones",rv_score:"en Google · {n} opiniones",rv_score0:"en Google",rv_leave:"Dejar una opinión",rv_google:"Opinión de Google",rv_empty:"Descubre lo que dicen nuestros viajeros de su vuelo en nuestra página de Google.",
 featured_lbl:"Oferta especial",featured_sub:"Nuestro vuelo destacado ahora mismo, a precio reducido. Las plazas son limitadas cada mañana.",featured_cta:"Aprovechar la oferta",
 sale_default:"Rebajas",sale_left:"Termina en {t}",sale_cta:"Ver las ofertas",sale_close:"Cerrar",u_d:" d",u_h:" h",u_m:" min",
 nav_excursions:"Excursiones",exc_eyebrow:"Más aventuras",exc_title:"Excursiones y actividades",exc_sub:"Quad, paseos en camello, buggy y excursiones de un día alrededor de Marrakech. Resérvalas solas o junto con tu vuelo en globo.",exc_empty:"Pronto llegarán nuevas excursiones. Pregúntanos por WhatsApp las actividades disponibles ahora.",all_cats:"Todas",duration_lbl:"Duración:",book_exc:"Reservar esta excursión",
 promo_label:"Oferta especial",promo_until:"hasta el {d}",
 chat_mic:"Hablar",chat_listening:"Te escucho… habla ahora",chat_voice_on:"Voz activada",chat_voice_off:"Voz desactivada",chat_nohear:"No te he oído. Toca el micrófono e inténtalo de nuevo.",
-nav_offers:"Ofertas",nav_info:"Información",nav_flights:"Vuelos",nav_morning:"Tu mañana",nav_prices:"Precios",nav_gallery:"Galería",nav_about:"Nosotros",nav_faq:"Preguntas",nav_conditions:"Condiciones",
+nav_offers:"Ofertas",nav_info:"Información",nav_flights:"Vuelos",nav_morning:"Tu mañana",nav_prices:"Precios",nav_gallery:"Álbum",nav_about:"Quiénes somos",nav_faq:"Preguntas",nav_conditions:"Condiciones",
 cta_book:"Reservar mi vuelo",cta_wa:"Escribir por WhatsApp",
 hero_eyebrow:"Marrakech · Faldas del Atlas · Amanecer",
 hero_title:"Mira el amanecer sobre el Atlas desde la cesta de un globo",
@@ -665,12 +747,14 @@ chat_fallback:"No estoy seguro de haberte entendido. Puedes preguntar por precio
 chat_open_form:"Abrir el formulario",chat_open_wa:"Abrir WhatsApp"
 },
 de:{
+qs_eyebrow:"Über uns",qs_title:"Ein lokales Team mit Leidenschaft für den Himmel über Marrakesch",qs_lead:"Marrakech Sunrise Balloon organisiert Ballonfahrten bei Sonnenaufgang für Reisende in Marrakesch. Wir kümmern uns um alles, von Ihrer ersten Nachricht bis zur Rückfahrt zu Ihrer Unterkunft.",qs_p2:"Die Fahrten werden von unserem Partner-Ballonunternehmen durchgeführt, mit qualifizierten Piloten und einem Bodenteam, das dem Ballon bis zum Landeplatz folgt. Unsere Aufgabe: Ihren Morgen organisieren, Ihre Fragen beantworten und dafür sorgen, dass alles reibungslos läuft.",qs_what:"Was wir tun",qs_w1t:"Wir organisieren alles",qs_w1p:"Buchung, Abholung an Ihrer Unterkunft, Transfer zum Startplatz und zurück: ein einziger Ansprechpartner von Anfang bis Ende.",qs_w2t:"Fahrten mit einem zugelassenen Partner",qs_w2p:"Qualifizierte Piloten, vor jeder Fahrt geprüfte Ausrüstung und ein Bodenteam, das dem Ballon folgt.",qs_w3t:"Ein kompletter Morgen",qs_w3p:"Empfang mit Tee oder Kaffee, 40 bis 60 Minuten Fahrt, marokkanisches Frühstück und Flugzertifikat.",qs_values:"Unsere Versprechen",qs_v1t:"Sicherheit zuerst",qs_v1p:"Der Pilot entscheidet jede Fahrt je nach Wetter. Wenn die Bedingungen nicht stimmen, wird die Fahrt auf einen anderen Tag verschoben.",qs_v2t:"Klare Preise",qs_v2p:"Der angegebene Preis umfasst Transfers, Fahrt, Frühstück und Zertifikat. Keine Überraschungen am Tag selbst.",qs_v3t:"Direkter Kontakt",qs_v3p:"Sie schreiben uns direkt per WhatsApp, auf Deutsch, Englisch, Französisch, Spanisch oder Arabisch.",qs_v4t:"Echte Bewertungen",qs_v4p:"Wir zeigen nur echte Bewertungen unserer Gäste auf Google.",qs_n1:"Starts jeden Morgen",qs_n2:"Minuten in der Luft",qs_n3:"Sprachen",qs_n4:"auf Google",qs_img_alt:"Ballonkorb über der Ebene von Marrakesch bei Sonnenaufgang",
+rv_eyebrow:"Google-Bewertungen",rv_title:"Entdecken Sie unsere Bewertungen",rv_score:"auf Google · {n} Bewertungen",rv_score0:"auf Google",rv_leave:"Bewertung schreiben",rv_google:"Google-Bewertung",rv_empty:"Lesen Sie auf unserer Google-Seite, was unsere Gäste über ihre Fahrt sagen.",
 featured_lbl:"Sonderangebot",featured_sub:"Unser hervorgehobener Flug, jetzt zum reduzierten Preis. Die Plätze sind jeden Morgen begrenzt.",featured_cta:"Angebot buchen",
 sale_default:"Sale",sale_left:"Endet in {t}",sale_cta:"Angebote ansehen",sale_close:"Schließen",u_d:" T",u_h:" Std",u_m:" Min",
 nav_excursions:"Ausflüge",exc_eyebrow:"Noch mehr Abenteuer",exc_title:"Ausflüge und Aktivitäten",exc_sub:"Quad, Kamelritt, Buggy und Tagesausflüge rund um Marrakesch. Einzeln buchbar oder zusammen mit Ihrer Ballonfahrt.",exc_empty:"Neue Ausflüge folgen bald. Fragen Sie uns per WhatsApp nach den aktuell verfügbaren Aktivitäten.",all_cats:"Alle",duration_lbl:"Dauer:",book_exc:"Diesen Ausflug buchen",
 promo_label:"Sonderangebot",promo_until:"bis {d}",
 chat_mic:"Sprechen",chat_listening:"Ich höre zu… sprechen Sie jetzt",chat_voice_on:"Stimme an",chat_voice_off:"Stimme aus",chat_nohear:"Ich habe Sie nicht gehört. Tippen Sie auf das Mikrofon und versuchen Sie es erneut.",
-nav_offers:"Angebote",nav_info:"Infos",nav_flights:"Flüge",nav_morning:"Ihr Morgen",nav_prices:"Preise",nav_gallery:"Galerie",nav_about:"Über uns",nav_faq:"FAQ",nav_conditions:"Bedingungen",
+nav_offers:"Angebote",nav_info:"Infos",nav_flights:"Flüge",nav_morning:"Ihr Morgen",nav_prices:"Preise",nav_gallery:"Fotoalbum",nav_about:"Über uns",nav_faq:"FAQ",nav_conditions:"Bedingungen",
 cta_book:"Flug buchen",cta_wa:"Per WhatsApp fragen",
 hero_eyebrow:"Marrakesch · Atlas-Vorland · Sonnenaufgang",
 hero_title:"Den Sonnenaufgang über dem Atlas im Ballonkorb erleben",
@@ -738,12 +822,14 @@ chat_fallback:"Das habe ich nicht ganz verstanden. Fragen Sie nach Preisen, Zeit
 chat_open_form:"Formular öffnen",chat_open_wa:"WhatsApp öffnen"
 },
 ar:{
+qs_eyebrow:"من نحن",qs_title:"فريق محلي شغوف بسماء مراكش",qs_lead:"تنظم Marrakech Sunrise Balloon رحلات بالمنطاد عند الشروق للمسافرين المقيمين في مراكش. نتكفل بكل شيء، من رسالتك الأولى حتى عودتك إلى مكان إقامتك.",qs_p2:"تُنفَّذ الرحلات من طرف شريكنا المشغّل للمناطيد، مع طيارين مؤهلين وفريق أرضي يتبع المنطاد حتى مكان الهبوط. دورنا: تنظيم صباحك، والإجابة عن أسئلتك، والحرص على أن يمر كل شيء على ما يرام.",qs_what:"ماذا نقدم",qs_w1t:"نتكفل بكل التنظيم",qs_w1p:"الحجز، والنقل من مكان إقامتك إلى موقع الإقلاع والعودة: شخص واحد تتواصل معه من البداية إلى النهاية.",qs_w2t:"رحلات مع مشغّل شريك معتمد",qs_w2p:"طيارون مؤهلون، ومعدات تُفحص قبل كل رحلة، وفريق أرضي يتبع المنطاد.",qs_w3t:"صباح متكامل",qs_w3p:"استقبال بالشاي أو القهوة، رحلة من 40 إلى 60 دقيقة، فطور مغربي وشهادة طيران.",qs_values:"التزاماتنا",qs_v1t:"السلامة أولاً",qs_v1p:"يقرر الطيار كل رحلة حسب الطقس. إذا لم تكن الظروف مناسبة، تؤجَّل الرحلة إلى يوم آخر.",qs_v2t:"أسعار واضحة",qs_v2p:"يشمل السعر المعروض النقل والرحلة والفطور والشهادة. لا مفاجآت يوم الرحلة.",qs_v3t:"تواصل مباشر",qs_v3p:"تتواصل معنا مباشرة عبر واتساب، بالعربية أو الفرنسية أو الإنجليزية أو الإسبانية أو الألمانية.",qs_v4t:"آراء حقيقية",qs_v4p:"لا نعرض إلا آراء حقيقية تركها مسافرونا على Google.",qs_n1:"انطلاقتان كل صباح",qs_n2:"دقيقة في الجو",qs_n3:"لغات",qs_n4:"على Google",qs_img_alt:"سلة منطاد فوق سهل مراكش عند الشروق",
+rv_eyebrow:"تقييمات Google",rv_title:"اكتشف آراء عملائنا",rv_score:"على Google · {n} تقييم",rv_score0:"على Google",rv_leave:"اترك تقييمك",rv_google:"تقييم Google",rv_empty:"اكتشف ما يقوله مسافرونا عن رحلتهم على صفحتنا في Google.",
 featured_lbl:"عرض خاص",featured_sub:"رحلتنا المميزة حاليًا بسعر مخفّض. الأماكن محدودة كل صباح.",featured_cta:"استفد من العرض",
 sale_default:"تخفيضات",sale_left:"ينتهي خلال {t}",sale_cta:"شاهد العروض",sale_close:"إغلاق",u_d:" ي",u_h:" س",u_m:" د",
 nav_excursions:"الرحلات",exc_eyebrow:"مغامرات أخرى",exc_title:"الرحلات والأنشطة",exc_sub:"الدراجات الرباعية وركوب الجمال والباجي ورحلات يومية حول مراكش. احجزها وحدها أو مع رحلة المنطاد.",exc_empty:"رحلات جديدة قريبًا. اسألنا على واتساب عن الأنشطة المتاحة الآن.",all_cats:"الكل",duration_lbl:"المدة:",book_exc:"احجز هذه الرحلة",
 promo_label:"عرض خاص",promo_until:"حتى {d}",
 chat_mic:"تحدث",chat_listening:"أستمع إليك… تحدث الآن",chat_voice_on:"الصوت مفعّل",chat_voice_off:"الصوت متوقف",chat_nohear:"لم أسمعك. اضغط على الميكروفون وحاول مرة أخرى.",
-nav_offers:"العروض",nav_info:"معلومات",nav_flights:"الرحلات",nav_morning:"صباحك",nav_prices:"الأسعار",nav_gallery:"الصور",nav_about:"من نحن",nav_faq:"الأسئلة",nav_conditions:"الشروط",
+nav_offers:"العروض",nav_info:"معلومات",nav_flights:"الرحلات",nav_morning:"صباحك",nav_prices:"الأسعار",nav_gallery:"ألبوم الصور",nav_about:"من نحن",nav_faq:"الأسئلة",nav_conditions:"الشروط",
 cta_book:"احجز رحلتك",cta_wa:"راسلنا على واتساب",
 hero_eyebrow:"مراكش · سفوح الأطلس · شروق الشمس",
 hero_title:"شاهد شروق الشمس فوق جبال الأطلس من سلة المنطاد",
@@ -912,6 +998,9 @@ function render(){
   document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
   if (window.PAGE_TITLES && PAGE_TITLES[lang]) document.title = PAGE_TITLES[lang];
   document.querySelectorAll("[data-i]").forEach(el => { el.textContent = t(el.dataset.i); });
+  if (typeof renderReviews === "function") renderReviews();
+  document.querySelectorAll("[data-ia]").forEach(el => { el.alt = t(el.dataset.ia); });
+  document.querySelectorAll(".js-rate").forEach(el => { const r = String(CONFIG.googleRating || "4.9"); el.textContent = (lang === "en" || lang === "ar") ? r : r.replace(".", ","); });
   renderOffers(); renderSaleBar();
   document.querySelectorAll(".js-phone").forEach(e => e.textContent = CONFIG.phoneDisplay);
   document.querySelectorAll(".js-wa").forEach(a => a.href = waLink(t("wa_hello")));
@@ -1112,6 +1201,8 @@ function applySettings(st){
   if (st.whatsapp) CONFIG.whatsapp = String(st.whatsapp).replace(/\D/g, "");
   if (st.phoneDisplay) CONFIG.phoneDisplay = st.phoneDisplay;
   if (st.googleReviewsUrl) CONFIG.googleReviewsUrl = st.googleReviewsUrl;
+  if (st.googleRating) CONFIG.googleRating = st.googleRating;
+  if (st.googleCount !== undefined) CONFIG.googleCount = st.googleCount;
   if (st.eurRate) CONFIG.eurRate = parseFloat(st.eurRate) || CONFIG.eurRate;
   if (st.sale) { try { SALE = typeof st.sale === "string" ? JSON.parse(st.sale) : st.sale; } catch(e){ SALE = null; } }
 }
@@ -1147,7 +1238,36 @@ function logRequest(row){
 
 document.getElementById("year").textContent = new Date().getFullYear();
 render(); preselect();
-loadData().then(preselect);
+
+/* ---------- Google reviews marquee ---------- */
+var REVIEWS_ALL;
+function renderReviews(){
+  const tr = document.getElementById("rvTrack"); if (!tr) return;
+  const rate = String(CONFIG.googleRating || "4.9"), cnt = String(CONFIG.googleCount || "");
+  const rateTxt = lang === "en" || lang === "ar" ? rate : rate.replace(".", ",");
+  document.getElementById("rvRate").textContent = rateTxt;
+  document.getElementById("rvScore").textContent = t(cnt ? "rv_score" : "rv_score0").replace("{n}", cnt);
+  const all = REVIEWS_ALL || [];
+  let list = all.filter(r => !r.lang || r.lang === lang);
+  if (list.length < 3) list = all;
+  const mq = document.getElementById("rvMarquee"), em = document.getElementById("rvEmpty");
+  if (!list.length) { mq.hidden = true; em.hidden = false; return; }
+  mq.hidden = false; em.hidden = true;
+  const esc = x => String(x ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const card = (r, dup) => `<article class="rv-card"${dup ? ' aria-hidden="true"' : ""}><div class="st" aria-label="${r.rating}/5">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</div><p>${esc(r.text)}</p><div class="who"><span class="av" aria-hidden="true">${esc((r.name || "?").trim().charAt(0).toUpperCase())}</span><span><b>${esc(r.name)}</b><small>${esc(t("rv_google"))}${r.date ? " · " + esc(r.date) : ""}</small></span></div></article>`;
+  let base = list; while (base.length < 6) base = base.concat(list);
+  tr.innerHTML = base.map(r => card(r, false)).join("") + base.map(r => card(r, true)).join("");
+  tr.style.setProperty("--rv-dur", Math.max(30, base.length * 7) + "s");
+}
+async function loadReviews(){
+  if (!document.getElementById("rvTrack")) return;
+  try {
+    if (DB.on()) REVIEWS_ALL = await DB.get("reviews?select=name,rating,text,date,lang&visible=eq.true&order=sort,id");
+    else REVIEWS_ALL = DEMO.get("reviews", []).filter(r => r.visible !== false);
+  } catch(e){ REVIEWS_ALL = []; }
+  renderReviews();
+}
+loadData().then(preselect).then(loadReviews);
 logVisit();
 </script>
 

@@ -143,12 +143,30 @@ async function load(){
     OFFERS = o.length ? o : DEFAULT_OFFERS.map(x => ({...x}));
     SETTINGS = { ...DEFAULT_SETTINGS, ...Object.fromEntries(s.map(x => [x.key, x.value])) };
     VISITS = v; REQUESTS = r;
+    REVIEWS = await DB.get("reviews?select=*&order=sort,id", TOKEN).catch(() => []);
   } else {
     OFFERS = DEMO.get("offers", DEFAULT_OFFERS.map(x => ({...x})));
     SETTINGS = { ...DEFAULT_SETTINGS, ...DEMO.get("settings", {}) };
     VISITS = DEMO.get("visits", []); REQUESTS = DEMO.get("requests", []).slice().reverse();
     ONLINE = Object.values(DEMO.get("presence", {})).filter(x => Date.now() - new Date(x.last_seen).getTime() < 3*60e3);
+    REVIEWS = DEMO.get("reviews", []);
   }
+}
+let REVIEWS = [], REV_EDIT = null;
+async function saveReview(rv){
+  if (DB.on()) {
+    const body = { name: rv.name, rating: rv.rating, text: rv.text, date: rv.date, lang: rv.lang, visible: rv.visible, sort: rv.sort };
+    if (rv.id) await DB.send("PATCH", "reviews?id=eq." + rv.id, body, TOKEN, "return=minimal");
+    else await DB.send("POST", "reviews", body, TOKEN, "return=minimal");
+    REVIEWS = await DB.get("reviews?select=*&order=sort,id", TOKEN);
+  } else {
+    if (!rv.id) { rv.id = Date.now(); REVIEWS.push(rv); } else REVIEWS = REVIEWS.map(x => x.id === rv.id ? rv : x);
+    DEMO.set("reviews", REVIEWS);
+  }
+}
+async function removeReview(id){
+  if (DB.on()) await DB.send("DELETE", "reviews?id=eq." + id, null, TOKEN);
+  REVIEWS = REVIEWS.filter(x => x.id !== id); if (!DB.on()) DEMO.set("reviews", REVIEWS);
 }
 async function saveOffer(o){
   if (DB.on()) await DB.send("POST", "offers", { ...o, updated_at: new Date().toISOString() }, TOKEN, "resolution=merge-duplicates,return=minimal");
@@ -194,7 +212,7 @@ function loginView(err){
 }
 
 /* ---------- vues ---------- */
-const NAV = [["dash","Tableau de bord"],["offers","Annonces et excursions"],["sales","Soldes"],["requests","Commandes et demandes"],["settings","Réglages"],["setup","Installation"]];
+const NAV = [["dash","Tableau de bord"],["offers","Annonces et excursions"],["sales","Soldes"],["requests","Commandes et demandes"],["reviews","Avis clients"],["settings","Réglages"],["setup","Installation"]];
 function shell(content){
   root.innerHTML = `<div class="app"><aside>
       <div class="brand"><img src="images/logo-icon.png" alt="">Gestion</div>
@@ -208,7 +226,7 @@ function dayKey(d){ return d.toISOString().slice(0,10); }
 function bars(rows, total){ const max = Math.max(1, ...rows.map(r => r[1])); return `<div class="rows">${rows.length ? rows.map(([k,n]) => `<div class="row"><span>${h(k)}</span><div class="track"><div class="fill" style="width:${n/max*100}%"></div></div><span>${total ? Math.round(n/total*100) + " %" : n}</span></div>`).join("") : `<div class="empty">Pas encore de données.</div>`}</div>`; }
 function countBy(arr, f){ const m = {}; arr.forEach(x => { const k = f(x) || "—"; m[k] = (m[k]||0) + 1; }); return Object.entries(m).sort((a,b) => b[1]-a[1]); }
 
-const PAGE_NAMES = { "/": "Accueil", "/index.html": "Accueil", "/flights.html": "Vols", "/excursions.html": "Excursions", "/your-morning.html": "Votre matinée", "/prices.html": "Tarifs", "/gallery.html": "Galerie", "/about.html": "À propos et avis", "/faq.html": "FAQ", "/booking.html": "Réservation", "/conditions.html": "Conditions" };
+const PAGE_NAMES = { "/": "Accueil", "/index.html": "Accueil", "/flights.html": "Vols", "/excursions.html": "Excursions", "/your-morning.html": "Votre matinée", "/prices.html": "Tarifs", "/gallery.html": "Album photos", "/about.html": "Qui sommes-nous", "/faq.html": "FAQ", "/booking.html": "Réservation", "/conditions.html": "Conditions" };
 const pageName = p => { const k = "/" + String(p || "/").split("/").pop(); return PAGE_NAMES[k] || PAGE_NAMES[p] || p || "—"; };
 function dash(){
   const now = Date.now(), day = 864e5, today = dayKey(new Date());
@@ -469,6 +487,49 @@ function settingsView(){
   });
 }
 
+function reviewsView(){
+  const stars = n => "★".repeat(n) + "☆".repeat(5 - n);
+  const e = REV_EDIT;
+  const form = e ? `<form class="panel" id="rf"><h2>${e.id ? "Modifier l'avis" : "Ajouter un avis"}</h2>
+      <div class="f3"><label>Prénom ou nom du client<input id="r-name" value="${h(e.name)}" required maxlength="60" placeholder="Ex. : Sophie L."></label>
+      <label>Note<select id="r-rating">${[5,4,3,2,1].map(n => `<option value="${n}" ${n == e.rating ? "selected" : ""}>${stars(n)} (${n})</option>`).join("")}</select></label>
+      <label>Date (facultatif)<input id="r-date" value="${h(e.date)}" placeholder="Ex. : octobre 2026"></label></div>
+      <label>Texte de l'avis (copiez-le depuis votre fiche Google)<textarea id="r-text" rows="5" required maxlength="1200">${h(e.text)}</textarea></label>
+      <div class="f3"><label>Langue de l'avis<select id="r-lang"><option value="">Toutes les langues du site</option>${LANGS.map(([k,l]) => `<option value="${k}" ${k === e.lang ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+      <label>Ordre d'affichage<input id="r-sort" type="number" value="${h(e.sort ?? 0)}"></label>
+      <label style="flex-direction:row;align-items:center;gap:8px"><input id="r-vis" type="checkbox" ${e.visible !== false ? "checked" : ""} style="width:auto"> Visible sur le site</label></div>
+      <div class="actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="r-cancel">Annuler</button></div></form>` : "";
+  const list = REVIEWS.length ? REVIEWS.map(r => `<div class="panel" style="display:grid;gap:6px">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b>${h(r.name)} <span style="color:#e2a73a">${stars(r.rating)}</span></b>
+      <span style="color:var(--muted);font-size:.85rem">${h(r.date || "")}${r.visible === false ? " · masqué" : ""}</span></div>
+      <p style="margin:0">${h(r.text)}</p>
+      <div class="actions" style="justify-content:flex-start"><button class="btn ghost" data-re="${r.id}">Modifier</button><button class="btn ghost" data-rd="${r.id}">Supprimer</button></div></div>`).join("")
+    : `<div class="panel empty">Aucun avis pour l'instant. Ouvrez votre fiche Google, copiez quelques avis et ajoutez-les ici avec le bouton ci-dessus : ils défileront en bas de la page d'accueil et de la page « Qui sommes-nous ».</div>`;
+  shell(`<div class="head"><h1>Avis clients</h1><button class="btn" id="r-add">+ Ajouter un avis</button></div>
+    <form class="panel" id="gf"><h2>Note Google affichée</h2><div class="f3">
+      <label>Note moyenne<input id="g-rate" value="${h(SETTINGS.googleRating || "4.9")}" placeholder="4.9"></label>
+      <label>Nombre d'avis<input id="g-count" value="${h(SETTINGS.googleCount || "")}" placeholder="208"></label>
+      <label>Lien de la fiche Google<input id="g-url" value="${h(SETTINGS.googleReviewsUrl)}"></label></div>
+      <div class="actions"><button class="btn" type="submit">Enregistrer la note</button></div></form>
+    ${form}${list}`);
+  document.getElementById("r-add").addEventListener("click", () => { REV_EDIT = { name: "", rating: 5, text: "", date: "", lang: "", visible: true, sort: REVIEWS.length + 1 }; reviewsView(); });
+  document.getElementById("gf").addEventListener("submit", async ev => { ev.preventDefault();
+    const st = { ...SETTINGS, googleRating: document.getElementById("g-rate").value.trim().replace(",", "."), googleCount: document.getElementById("g-count").value.replace(/\D/g, ""), googleReviewsUrl: document.getElementById("g-url").value.trim() };
+    try { await saveSettings(st); toast("Note enregistrée"); } catch(x){ toast("Erreur : " + x.message); } });
+  root.querySelectorAll("[data-re]").forEach(b => b.addEventListener("click", () => { REV_EDIT = { ...REVIEWS.find(r => String(r.id) === b.dataset.re) }; reviewsView(); window.scrollTo(0, 0); }));
+  root.querySelectorAll("[data-rd]").forEach(b => b.addEventListener("click", async () => {
+    if (b.dataset.sure !== "1") { b.dataset.sure = "1"; b.textContent = "Confirmer la suppression"; return; }
+    try { await removeReview(Number(b.dataset.rd)); toast("Avis supprimé"); reviewsView(); } catch(x){ toast("Erreur : " + x.message); } }));
+  const f = document.getElementById("rf");
+  if (f) {
+    document.getElementById("r-cancel").addEventListener("click", () => { REV_EDIT = null; reviewsView(); });
+    f.addEventListener("submit", async ev => { ev.preventDefault();
+      const rv = { ...e, name: document.getElementById("r-name").value.trim(), rating: Number(document.getElementById("r-rating").value), text: document.getElementById("r-text").value.trim(),
+        date: document.getElementById("r-date").value.trim(), lang: document.getElementById("r-lang").value || null, sort: Number(document.getElementById("r-sort").value) || 0, visible: document.getElementById("r-vis").checked };
+      try { await saveReview(rv); REV_EDIT = null; toast("Avis enregistré"); reviewsView(); } catch(x){ toast("Erreur : " + x.message); } });
+  }
+}
+
 function setupView(){
   shell(`<div class="head"><h1>Installation de la base de données</h1></div>
     <div class="banner ${DB.on() ? "ok" : ""}">${DB.on() ? "<b>Base de données branchée.</b> Le site et cet espace utilisent les vraies données." : "<b>Mode démo actif.</b> Suivez ces étapes une seule fois (10 minutes, gratuit)."}</div>
@@ -484,7 +545,7 @@ function setupView(){
 function draw(){
   clearInterval(LIVE_TIMER);
   if (VIEW === "dash" || VIEW === "requests") LIVE_TIMER = setInterval(async () => { if (EDIT || document.hidden) return; try { await load(); ({ dash, requests: requestsView })[VIEW](); } catch(e){} }, 30000);
-  ({ dash, sales: salesView, offers: offersView, requests: requestsView, settings: settingsView, setup: setupView })[VIEW](); }
+  ({ dash, sales: salesView, offers: offersView, requests: requestsView, reviews: reviewsView, settings: settingsView, setup: setupView })[VIEW](); }
 async function start(){
   if (DB.on() && !TOKEN) return loginView();
   try { await load(); } catch(e){ if (DB.on()) { TOKEN = null; return loginView("Session expirée, reconnectez-vous."); } }
