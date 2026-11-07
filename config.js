@@ -7,8 +7,8 @@
       Tant que ces deux champs sont vides, le site et l’espace de gestion
       fonctionnent en MODE DÉMO : les modifications restent dans le navigateur. */
 const SUPABASE = {
-  url: "",      // ex. "https://abcdefgh.supabase.co"
-  anonKey: ""   // clé "anon public" (Project Settings > API)
+  url: "https://ttncsymsinkxcjncudwc.supabase.co",
+  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0bmNzeW1zaW5reGNqbmN1ZHdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwNTQxNTksImV4cCI6MjEwOTYzMDE1OX0.wIyjA4aDaorVw7fhxiDvuHVMFPUjR-Sx3Q9BsTVTw78"  // clé publique (sans danger dans le site)
 };
 
 /* 2) Réglages par défaut (modifiables ensuite depuis l’espace de gestion) */
