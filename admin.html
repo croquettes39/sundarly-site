@@ -180,13 +180,14 @@ function loginView(err){
   root.innerHTML = `<form class="login" id="lf"><img src="images/logo.png" alt="" style="width:180px;margin:0 auto;background:#fbf6ee;border-radius:14px;padding:10px">
     <h1 style="text-align:center;font-size:1.5rem">Espace gestion</h1>
     <label>E-mail<input id="le" type="email" autocomplete="username" required></label>
-    <label>Mot de passe<input id="lp" type="password" autocomplete="current-password" required></label>
+    <label>Mot de passe<span style="display:flex;gap:8px"><input id="lp" type="password" autocomplete="off" required style="flex:1"><button type="button" id="lpv" class="btn" style="padding:0 14px" aria-label="Afficher le mot de passe">👁</button></span></label>
     ${err ? `<div class="banner" style="border-color:var(--bad)">${h(err)}</div>` : ""}
     <button class="btn" type="submit">Se connecter</button>
     <a href="index.html" style="text-align:center;color:var(--muted);font-size:.9rem">← Retour au site</a></form>`;
+  document.getElementById("lpv").addEventListener("click", () => { const i = document.getElementById("lp"); i.type = i.type === "password" ? "text" : "password"; });
   document.getElementById("lf").addEventListener("submit", async e => {
     e.preventDefault();
-    try { await login(document.getElementById("le").value.trim(), document.getElementById("lp").value); start(); }
+    try { await login(document.getElementById("le").value.trim().toLowerCase(), document.getElementById("lp").value.trim()); start(); }
     catch(x){ loginView(x.message === "Invalid login credentials" ? "E-mail ou mot de passe incorrect." : x.message); }
   });
 }
