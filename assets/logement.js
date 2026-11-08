@@ -7,7 +7,6 @@
   var params = new URLSearchParams(location.search);
   var ID = params.get("id") || "";
   var A = null, ACCES = null;
-  var OUVERTURE = "2026-11-20";
 
   var ANNULATION = {
     souple: ["Souple", "Annulation gratuite jusqu'à 24 h avant l'arrivée : remboursement intégral."],
@@ -123,7 +122,7 @@
     carte();
   }
 
-  // ---------- Réservation (calcul du prix, réservations ouvertes le 20 novembre) ----------
+  // ---------- Réservation (calcul du prix) ----------
   var SEJ = { arrivee: params.get("arrivee") || "", depart: params.get("depart") || "", voyageurs: parseInt(params.get("voyageurs"), 10) || 1 };
   function rendreReservation() {
     var z = $("reservation"), n = V.nuits(SEJ.arrivee, SEJ.depart);
@@ -139,8 +138,8 @@
     if (n && n < (A.nuits_min || 1)) erreur = "Ce logement se loue " + V.pluriel(A.nuits_min, "nuit", "nuits") + " minimum.";
     else if (n && A.nuits_max && n > A.nuits_max) erreur = "Ce logement se loue " + A.nuits_max + " nuits maximum.";
     if (SEJ.voyageurs > A.voyageurs) erreur = "Ce logement accueille " + V.pluriel(A.voyageurs, "voyageur", "voyageurs") + " maximum.";
-    // Réservations ouvertes le 20 novembre (l'administratrice peut tester avant)
-    var ouvert = (ACCES.ouvert && new Date().toISOString().slice(0, 10) >= OUVERTURE) || ACCES.admin;
+    // Réservations ouvertes dès que le site est ouvert (l'administratrice peut toujours tester)
+    var ouvert = ACCES.ouvert || ACCES.admin;
     z.innerHTML =
       '<p class="fr-prix"><strong>' + esc(V.prix(A.prix_nuit, A.devise)) + "</strong> par nuit</p>" +
       (promos.length ? '<div class="fr-promos"><strong>🎁 Promotions</strong><ul>' + promos.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul><small>La meilleure s'applique automatiquement.</small></div>" : "") +
@@ -148,7 +147,7 @@
       '<label><span>Départ</span><input type="date" name="depart" min="' + esc(SEJ.arrivee || min) + '" value="' + esc(SEJ.depart) + '"></label>' +
       '<label class="fr-large"><span>Voyageurs</span><select name="voyageurs">' + Array.from({ length: A.voyageurs }, function (_, i) { return '<option value="' + (i + 1) + '"' + (i + 1 === SEJ.voyageurs ? " selected" : "") + ">" + V.pluriel(i + 1, "voyageur", "voyageurs") + "</option>"; }).join("") + "</select></label>" +
         (A.animaux ? '<label class="fr-large fr-animal"><input type="checkbox" name="animal"' + (SEJ.animal ? " checked" : "") + "><span>Je viens avec un animal" + (A.frais_animaux ? " (+" + esc(V.prix(A.frais_animaux, A.devise)) + ")" : " (gratuit)") + "</span></label>" : '<p class="fr-large fr-animal-non">🐾 Animaux non acceptés</p>') + "</div>" +
-      '<button type="button" class="btn btn-large" id="btn-reserver"' + (ouvert && n && !erreur ? "" : " disabled") + ">" + (ouvert ? (n ? "Réserver" : "Choisissez vos dates") : "Réservations ouvertes le 20 novembre") + "</button>" +
+      '<button type="button" class="btn btn-large" id="btn-reserver"' + (ouvert && n && !erreur ? "" : " disabled") + ">" + (ouvert ? (n ? "Réserver" : "Choisissez vos dates") : "Réservations bientôt disponibles") + "</button>" +
       (erreur ? '<p class="fr-erreur">' + esc(erreur) + "</p>" : "") +
       '<p class="mention-verif">🔒 Identité vérifiée obligatoire pour réserver</p>' +
       (c && !erreur ? '<p class="fr-note">Vous ne payez rien pour le moment</p><dl class="fr-detail">' +

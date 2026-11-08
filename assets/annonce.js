@@ -56,7 +56,7 @@
   var MODES = { accueil: "Accueil en personne", boite_cles: "Boîte à clés sécurisée", serrure_code: "Serrure à code", gardien: "Gardien / concierge", autre: "Autre" };
   var STATUTS = {
     en_attente: ["En cours de vérification", "badge-cours", "Notre équipe vérifie votre annonce avant sa mise en ligne. Vous pouvez continuer à la compléter."],
-    validee: ["Validée", "badge-ok", "Votre annonce est validée : elle sera réservable dès l'ouverture des réservations, le 20 novembre 2026."],
+    validee: ["Validée", "badge-ok", "Votre annonce est validée : elle est réservable de suite, avec 0 % de commission pendant les trois premières réservations."],
     en_ligne: ["En ligne", "badge-ok", "Votre annonce est visible par les voyageurs."],
     refusee: ["À corriger", "badge-refus", "Votre annonce doit être corrigée (nous vous avons écrit par e-mail). Dès que vous la modifiez, elle repart en vérification."],
     archivee: ["Masquée", "badge-attente", "Votre annonce est masquée : les voyageurs ne la voient plus."]
@@ -598,7 +598,7 @@
       (a.reduction_semaine ? '<p class="gris">-' + a.reduction_semaine + " % à partir de 7 nuits</p>" : "") +
       (a.reduction_mois ? '<p class="gris">-' + a.reduction_mois + " % à partir de 28 nuits</p>" : "") +
       '<p class="gris">' + pluriel(a.nuits_min || 1, "nuit", "nuits") + " minimum</p>" +
-      '<button type="button" class="btn btn-large" disabled>Réserver dès le 20 novembre</button>' +
+      '<button type="button" class="btn btn-large" disabled>Réserver</button>' +
       '<p class="ap-sans-frais">Aucun frais de service pour le voyageur</p></aside></div>';
     $("apercu").hidden = false; document.body.classList.add("bloque");
     $("apercu").scrollTop = 0;

@@ -52,13 +52,13 @@ NOTE = "Vos documents sont envoyés de façon chiffrée et ne sont jamais montr�
 def relance(prenom):
     intro = f'''<p style="margin:0 0 16px;font:16px/25px Arial,sans-serif;color:{ENCRE}">Merci d'avoir rejoint Sundarly ! Votre compte est prêt, il ne manque plus qu'une chose : <strong>la vérification de votre identité</strong>.</p>
    <p style="margin:0 0 16px;font:16px/25px Arial,sans-serif;color:{ENCRE}">Chez Sundarly, chaque hôte et chaque voyageur est vérifié. C'est ce qui permet à notre communauté d'accueillir et de voyager en toute confiance, sans faux profils ni arnaques. <strong>Sans cette étape, vous ne pourrez ni publier d'annonce ni réserver un logement.</strong></p>
-   <p style="margin:0 0 6px;font:16px/25px Arial,sans-serif;color:{ENCRE}">Les réservations ouvrent le <strong>20 novembre</strong> : faites-le dès maintenant pour être prêt(e) le jour J, et profitez de <strong>0 % de commission sur vos 3 premières réservations</strong>.</p>'''
+   <p style="margin:0 0 6px;font:16px/25px Arial,sans-serif;color:{ENCRE}">Les réservations sont ouvertes : faites-le dès maintenant pour réserver de suite, et profitez de <strong>0 % de commission sur vos 3 premières réservations</strong>.</p>'''
     etapes = ["Connectez-vous à votre compte Sundarly.", "Choisissez votre pièce d'identité et prenez-la en photo (recto, et verso si besoin).", "Ajoutez un selfie, visage bien visible. Notre équipe valide en général sous 48 h."]
     return email(prenom, "{p}, plus qu'une étape avant d'accueillir vos premiers voyageurs", intro, "Vérifier mon identité", f"{SITE}/verification.html?retour=espace-hote.html", etapes, NOTE)
 
 def activer(prenom):
     intro = f'''<p style="margin:0 0 16px;font:16px/25px Arial,sans-serif;color:{ENCRE}">Vous avez commencé à créer votre compte Sundarly, mais votre adresse e-mail n'a pas encore été confirmée : votre compte n'est donc pas encore actif.</p>
-   <p style="margin:0 0 6px;font:16px/25px Arial,sans-serif;color:{ENCRE}">Inscrivez-vous à nouveau avec <strong>la même adresse e-mail</strong> : vous recevrez un nouveau lien de confirmation. Ensuite, il ne restera qu'à vérifier votre identité, <strong>obligatoire pour publier une annonce ou réserver</strong>. Les réservations ouvrent le <strong>20 novembre</strong>.</p>'''
+   <p style="margin:0 0 6px;font:16px/25px Arial,sans-serif;color:{ENCRE}">Inscrivez-vous à nouveau avec <strong>la même adresse e-mail</strong> : vous recevrez un nouveau lien de confirmation. Ensuite, il ne restera qu'à vérifier votre identité, <strong>obligatoire pour publier une annonce ou réserver</strong>. Vous pouvez réserver de suite, avec <strong>0 % de commission pendant les trois premières réservations</strong>.</p>'''
     etapes = ["Cliquez sur le bouton ci-dessous et inscrivez-vous avec cette adresse e-mail.", "Ouvrez l'e-mail de confirmation reçu (pensez aux spams) et cliquez sur le lien.", "Vérifiez votre identité : une pièce d'identité et un selfie, en 2 minutes."]
     return email(prenom, "Activez votre compte Sundarly", intro, "Activer mon compte", f"{SITE}/compte.html?mode=inscription", etapes, NOTE)
 
