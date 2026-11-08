@@ -52,26 +52,39 @@
 </header>
 
 <main>
-  <section class="heros">
+  <section class="heros heros-recherche">
     <div class="conteneur">
-      <span class="etiquette">Europe · Maroc · Tunisie</span>
       <h1>La location courte durée <em>autrement.</em></h1>
-      <p class="accroche">Plus de liberté. Moins de frais. Plus de transparence.</p>
-      <p class="chapeau">Découvrez une nouvelle façon de louer et de réserver vos hébergements : villas, appartements, riads, maisons et chambres chez l'habitant. Le prix affiché est le prix que vous payez.</p>
+      <p class="accroche-courte">Villas, riads, appartements… <strong>Aucun frais de service</strong> : le prix affiché est le prix que vous payez.</p>
+      <form class="barre-recherche" action="logements.html" method="get" role="search">
+        <label class="br-champ br-dest"><span>Destination</span><input type="text" name="q" placeholder="Rechercher une destination" autocomplete="off" list="br-villes"></label>
+        <label class="br-champ"><span>Arrivée</span><input type="date" name="arrivee" aria-label="Date d'arrivée"></label>
+        <label class="br-champ"><span>Départ</span><input type="date" name="depart" aria-label="Date de départ"></label>
+        <label class="br-champ br-voy"><span>Voyageurs</span><input type="number" name="voyageurs" min="1" max="50" placeholder="Ajouter" inputmode="numeric"></label>
+        <button type="submit" class="br-bouton" aria-label="Rechercher"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>Rechercher</span></button>
+        <datalist id="br-villes"></datalist>
+      </form>
+    </div>
+  </section>
 
-<div class="deux-choix">
+  <section class="section rangees-section">
+    <div class="conteneur" id="rangees" aria-live="polite"></div>
+  </section>
+
+  <section class="section section-pale" id="bienvenue">
+    <div class="conteneur">
+      <div class="deux-choix">
         <a class="choix-carte choix-hote" href="publier.html">
           <span class="choix-etiquette">Vous avez un logement ?</span>
-          <strong>Inscrivez-le dès maintenant</strong>
-          <span>Villa, appartement, riad, chambre… Il sera réservable dès le 20 novembre. <b>0 % de commission</b> sur vos 3 premières réservations.</span>
+          <strong>Inscrivez-le gratuitement</strong>
+          <span>Villa, appartement, riad, chambre… <b>Seulement 10 % de commission</b>, et <b>0 %</b> sur vos 3 premières réservations.</span>
           <span class="btn">Publier mon logement</span>
         </a>
-        <a class="choix-carte choix-voyageur" href="logements.html">
+        <div class="choix-carte choix-voyageur">
           <span class="choix-etiquette">Vous voyagez ?</span>
-          <strong>Découvrez nos logements</strong>
-          <span>Villas, riads, appartements… Réservables dès le 20 novembre, <b>sans aucun frais de service</b>. Laissez aussi votre e-mail ci-dessous pour recevoir une offre de bienvenue.</span>
-          <span class="btn btn-contour">Voir les logements</span>
-        </a>
+          <strong>Recevez une offre de bienvenue</strong>
+          <span>Laissez votre e-mail : nous vous envoyons une offre pour votre premier séjour sur Sundarly.</span>
+        </div>
       </div>
       <form class="attente" data-formulaire="liste_attente" novalidate>
         <label>
@@ -83,11 +96,10 @@
           <input type="text" name="destination" placeholder="Marrakech, Djerba, Nice, Lisbonne…" maxlength="120">
         </label>
         <div class="piege" aria-hidden="true"><label>Ne pas remplir<input type="text" name="site_web" tabindex="-1" autocomplete="off"></label></div>
-        <button class="btn" type="submit">Être prévenu</button>
+        <button class="btn" type="submit">Recevoir l'offre</button>
       </form>
       <p class="message" role="status" aria-live="polite"></p>
-      <p class="note-form">Un seul e-mail au lancement, avec une offre de bienvenue. Pas de spam, désinscription en un clic.</p>
-
+      <p class="note-form">Pas de spam, désinscription en un clic.</p>
     </div>
   </section>
 
@@ -208,9 +220,12 @@
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="assets/devise.js"></script>
 <script src="assets/config.js"></script>
+<script src="assets/auth.js"></script>
 <script src="assets/app.js"></script>
+<script src="assets/voyageurs-commun.js"></script>
+<script src="assets/accueil.js"></script>
 </body>
 </html>
