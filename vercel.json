@@ -41,6 +41,10 @@
     {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
+    },
+    {
+      "source": "/informations",
+      "destination": "/hotes.html"
     }
   ]
 }
