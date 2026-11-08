@@ -16,6 +16,7 @@ module.exports = async function (req, res) {
     url(SITE + "/", aujourdhui, "daily", "1.0"),
     url(SITE + "/logements", aujourdhui, "daily", "0.9"),
     url(SITE + "/hotes", aujourdhui, "weekly", "0.9"),
+    url(SITE + "/pourquoi-sundarly", aujourdhui, "weekly", "0.9"),
     url(SITE + "/locations-vacances", aujourdhui, "weekly", "0.8"),
     url(SITE + "/conditions-generales", null, "yearly", "0.2")
   ];
