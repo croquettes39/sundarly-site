@@ -79,20 +79,20 @@ def tete(titre, desc, url, jsonld, robots=""):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/style.css?v=20261108a">
 <script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>
 <script>window.va=window.va||function(){{(window.vaq=window.vaq||[]).push(arguments)}};</script>
 <script defer src="/_vercel/insights/script.js"></script>
-<script defer src="/assets/stats.js"></script>
+<script defer src="/assets/stats.js?v=20261108a"></script>
 </head>'''
 
 SCRIPTS = '''<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="/assets/devise.js"></script>
-<script src="/assets/config.js"></script>
-<script src="/assets/auth.js"></script>
-<script src="/assets/app.js"></script>
-<script src="/assets/voyageurs-commun.js"></script>
-<script src="/assets/destination.js"></script>'''
+<script src="/assets/devise.js?v=20261108a"></script>
+<script src="/assets/config.js?v=20261108a"></script>
+<script src="/assets/auth.js?v=20261108a"></script>
+<script src="/assets/app.js?v=20261108a"></script>
+<script src="/assets/voyageurs-commun.js?v=20261108a"></script>
+<script src="/assets/destination.js?v=20261108a"></script>'''
 
 def faq(d):
     q = []
