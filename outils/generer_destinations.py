@@ -25,7 +25,7 @@ def entete():
       <label class="choix-devise"><span class="sr">Devise</span><select data-choix-devise aria-label="Devise d'affichage"><option value="EUR">€ EUR</option><option value="MAD">DH MAD</option><option value="CHF">CHF</option></select></label>
       <a href="/locations-vacances">Destinations</a>
       <a href="/compte" data-lien-compte>Connexion</a>
-      <a class="btn" href="/hotes">Devenir hôte</a>
+      <a class="btn" href="/publier">Devenir hôte</a>
     </nav>
   </div>
 </header>'''
@@ -40,7 +40,7 @@ def pied():
       <div>
         <a class="logo" href="/" style="font-size:22px"><span>sundarly</span></a>
         <p>Locations de vacances entre particuliers en Europe, au Maroc et en Tunisie. Aucun frais de service pour les voyageurs.</p>
-        <a href="/hotes">Devenir hôte</a>
+        <a href="/publier">Devenir hôte</a>
         <a href="/logements">Tous les logements</a>
       </div>
       {cols}
@@ -204,7 +204,7 @@ def page(d):
     <div class="conteneur">
       <div class="bandeau-hote-dest">
         <div><h2>Vous avez un logement {e(a_la(q))} ?</h2><p>Publiez-le gratuitement et gardez 90 % de vos revenus : 10 % de commission seulement, sur les nuits. 0 % sur vos 3 premières réservations.</p></div>
-        <a class="btn" href="/hotes">Devenir hôte</a>
+        <a class="btn" href="/publier">Devenir hôte</a>
       </div>
       <h2 style="margin-top:56px">Destinations à découvrir</h2>
       <div class="grille-dest-liens">{proches}</div>

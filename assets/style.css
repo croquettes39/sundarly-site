@@ -889,3 +889,7 @@ html,body{overflow-x:clip}
 }
 .zones-heros span{display:inline-flex;align-items:center;gap:7px}
 .drapeau{width:22px;height:15px;border-radius:3px;flex:0 0 auto;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+/* Accès direct à la publication (page hôtes) */
+.appel-heros{margin:28px 0 0;display:flex;justify-content:center}
+.appel-heros .btn{font-size:18px;padding:16px 32px}
+.note-heros{margin:12px 0 0;text-align:center;font-size:15px;color:var(--gris-texte)}
