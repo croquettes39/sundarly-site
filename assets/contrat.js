@@ -87,13 +87,24 @@
         bandeau = '<p class="bandeau-delai">⏳ <strong>Paiement en cours de vérification…</strong> Cette page se met à jour automatiquement.</p>';
         if (ESSAIS++ < 8) setTimeout(function () { (SESSION_STRIPE ? confirmerPaiement() : Promise.resolve()).then(charger); }, 3000);
       } else if (annule) bandeau = '<p class="bandeau-delai bandeau-annule"><strong>Réservation annulée.</strong> ' + esc(c.motif_annulation || "") + "</p>";
-      else if (!c.accepte_le && limite) bandeau = '<p class="bandeau-delai">' + (c.role === "voyageur" ? "<strong>Dernière étape :</strong> lisez et acceptez ce contrat avant le <strong>" + esc(dateHeure(limite)) + "</strong>. Sans acceptation, votre réservation sera annulée et intégralement remboursée." : "En attente de l'acceptation du voyageur (avant le " + esc(dateHeure(limite)) + ").") + "</p>";
+      else if (!c.accepte_le && limite) bandeau = '<p class="bandeau-delai">' + (c.role === "voyageur" ? "<strong>Dernière étape obligatoire :</strong> votre réservation n'est confirmée qu'après la signature de ce contrat. Il vous reste <strong data-chrono>5:00</strong> pour le signer en bas de la page, sinon la réservation sera annulée et remboursée." : "En attente de la signature du voyageur (avant " + esc(dateHeure(limite)) + ").") + "</p>";
       if (c.paye_le && !c.accepte_le && !annule && SESSION_STRIPE && c.role === "voyageur") bandeau = '<p class="bandeau-delai" style="background:#E8F6EE;color:#14532D">✓ <strong>Paiement reçu, merci !</strong> Il reste une étape : acceptez le contrat ci-dessous pour confirmer définitivement votre réservation.</p>' + bandeau;
       if (c.accepte_le && SESSION_STRIPE) bandeau = '<p class="bandeau-delai" style="background:#E8F6EE;color:#14532D">✓ <strong>Réservation confirmée !</strong> Retrouvez-la à tout moment dans « Mes réservations ».</p>';
       if (bandeau) f.insertAdjacentHTML("afterbegin", bandeau);
       if (!c.accepte_le) {
         if (c.role === "voyageur" && !annule && c.paye_le) sig.replaceWith(formulaire(c));
         else sig.innerHTML = "<h3>Acceptation électronique du voyageur</h3><p>" + (annule ? "Contrat non accepté." : "Pas encore accepté par le voyageur.") + "</p>";
+      }
+      // Compte à rebours des 5 minutes pour signer
+      clearInterval(window.__chrono);
+      var ch = f.querySelector("[data-chrono]");
+      if (ch && limite) {
+        var maj = function () {
+          var r = Math.max(0, Math.round((limite - Date.now()) / 1000));
+          ch.textContent = Math.floor(r / 60) + ":" + String(r % 60).padStart(2, "0");
+          if (r === 0) { clearInterval(window.__chrono); setTimeout(charger, 65000); }
+        };
+        maj(); window.__chrono = setInterval(maj, 1000);
       }
       $("imprimer").hidden = !c.accepte_le;
       $("etat").hidden = true; f.hidden = false;
