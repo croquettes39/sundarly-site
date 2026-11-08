@@ -887,3 +887,5 @@ html,body{overflow-x:clip}
   .puces-dest::-webkit-scrollbar{display:none}
   .puces-dest a{flex:0 0 auto;font-size:13px}
 }
+.zones-heros span{display:inline-flex;align-items:center;gap:7px}
+.drapeau{width:22px;height:15px;border-radius:3px;flex:0 0 auto;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
