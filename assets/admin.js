@@ -212,6 +212,58 @@
   }
   document.querySelector('[data-vue="contrats"]').addEventListener("click", chargerContrats);
 
+  // ---------- Paiements ----------
+  var SYMB = { EUR: "€", MAD: "DH", CHF: "CHF" };
+  function argent(v, d) { return Number(v || 0).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " " + (SYMB[d] || d); }
+  function chargerPaiements() {
+    return client.rpc("admin_versements").then(function (r) {
+      if (r.error) throw r.error;
+      var d = r.data || {};
+      var rb = d.a_rembourser || [], av = d.a_verser || [], vs = d.verses || [];
+      $("liste-rembourser").innerHTML = rb.length ? "" : '<p class="vide">Rien à rembourser.</p>';
+      rb.forEach(function (x) {
+        var el = document.createElement("div"); el.className = "versement";
+        el.innerHTML = "<strong>" + esc(x.titre) + '</strong><p class="gris petit">' + esc(x.voyageur) + " · " + esc(x.motif || "") + "</p><p>Montant payé : <strong>" + argent(x.total, x.devise) + '</strong></p><p class="fr-erreur" data-err></p><button class="btn" type="button">Rembourser ' + argent(x.total, x.devise) + "</button>";
+        el.querySelector("button").addEventListener("click", function () {
+          var b = this; if (!confirmer("Rembourser " + argent(x.total, x.devise) + " à " + x.voyageur + " ?", b)) return;
+          b.disabled = true; b.textContent = "Remboursement…";
+          client.auth.getSession().then(function (s) {
+            return fetch("/api/rembourser", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + s.data.session.access_token }, body: JSON.stringify({ reservation: x.id }) });
+          }).then(function (r) { return r.json(); }).then(function (res) {
+            if (res.ok) chargerPaiements(); else { el.querySelector("[data-err]").textContent = res.erreur || "Échec du remboursement"; b.disabled = false; b.textContent = "Réessayer"; }
+          });
+        });
+        $("liste-rembourser").appendChild(el);
+      });
+      $("liste-verser").innerHTML = av.length ? "" : '<p class="vide">Aucun versement en attente.</p>';
+      av.forEach(function (x) {
+        var bq = x.banque || {};
+        var el = document.createElement("div"); el.className = "versement";
+        el.innerHTML = "<strong>" + esc(x.titre) + '</strong><p class="gris petit">Hôte : ' + esc(x.hote) + " · séjour du " + date(x.arrivee) + " au " + date(x.depart) + "</p>" +
+          "<p>Payé par le voyageur : " + argent(x.total, x.devise) + " · commission " + x.taux + " % : " + argent(x.commission, x.devise) + "<br><strong style=\"font-size:18px\">À verser : " + argent(x.montant_hote, x.devise) + "</strong></p>" +
+          (bq.numero ? "<dl><dt>Titulaire</dt><dd>" + esc(bq.titulaire) + "</dd><dt>IBAN / RIB</dt><dd>" + esc(bq.numero) + "</dd><dt>BIC</dt><dd>" + esc(bq.bic || "—") + "</dd><dt>Banque</dt><dd>" + esc((bq.banque || "") + " " + (bq.pays || "")) + "</dd></dl>" : '<p class="fr-erreur">Coordonnées bancaires manquantes : demandez-les à l\'hôte.</p>') +
+          (x.pret ? '<button class="btn" type="button">Marquer comme versé</button>' : '<p class="badge badge-cours">À verser à partir du ' + date(new Date(new Date(x.arrivee).getTime() + 864e5).toISOString().slice(0, 10)) + "</p>");
+        var b = el.querySelector("button");
+        if (b) b.addEventListener("click", function () {
+          if (!confirmer("Confirmer que le virement de " + argent(x.montant_hote, x.devise) + " a été fait ?", b)) return;
+          b.disabled = true;
+          client.rpc("admin_marquer_verse", { p_reservation: x.id, p_note: null }).then(function (r) { if (r.error) throw r.error; chargerPaiements(); })
+            .catch(function (e) { console.error(e); b.disabled = false; });
+        });
+        $("liste-verser").appendChild(el);
+      });
+      $("liste-verses").innerHTML = vs.length ? vs.map(function (x) { return '<p class="petit">' + date(x.verse_le, true) + " · " + esc(x.titre) + " · <strong>" + argent(x.montant_hote, x.devise) + "</strong></p>"; }).join("") : '<p class="vide">Aucun versement récent.</p>';
+    }).catch(function (e) { console.error(e); $("liste-verser").innerHTML = '<p class="vide">Impossible de charger les paiements.</p>'; });
+  }
+  // Double clic pour confirmer (pas de fenêtre de dialogue)
+  function confirmer(question, b) {
+    if (b.dataset.armer === "1") { b.dataset.armer = ""; return true; }
+    b.dataset.armer = "1"; b.dataset.texte = b.textContent; b.textContent = "Cliquez encore pour confirmer";
+    b.title = question; setTimeout(function () { if (b.dataset.armer === "1") { b.dataset.armer = ""; b.textContent = b.dataset.texte; } }, 5000);
+    return false;
+  }
+  document.querySelector('[data-vue="versements"]').addEventListener("click", chargerPaiements);
+
   // ---------- Identités ----------
   $("f-identites").addEventListener("change", rendreIdentites);
   function rendreIdentites() {

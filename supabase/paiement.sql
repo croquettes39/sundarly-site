@@ -1,0 +1,6 @@
+-- Sundarly — paiement Stripe (appliqué le 8 nov. 2026, migration « paiement_stripe »)
+-- creer_reservation : prix calculé par la base (devis_sejour), disponibilité, identité, ouverture le 20/11 (admin exemptée)
+-- Commission : 10 % sur les nuits (hors ménage et animaux) ; 0 % sur les 3 premières réservations des 100 premiers hôtes
+-- serveur_* : fonctions appelées par /api (clé partagée SUNDARLY_CLE_SERVEUR stockée dans cles_serveur)
+-- Tâches pg_cron : libération des réservations non payées (30 min), séjours terminés, contrats expirés
+-- admin_versements / admin_marquer_verse : remboursements et virements aux hôtes (24 h après l'arrivée)

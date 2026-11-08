@@ -46,6 +46,7 @@
       <button type="button" role="tab" aria-selected="false" data-vue="statistiques">Statistiques</button>
       <button type="button" role="tab" aria-selected="false" data-vue="avis">Avis contestés</button>
       <button type="button" role="tab" aria-selected="false" data-vue="contrats">Contrats</button>
+      <button type="button" role="tab" aria-selected="false" data-vue="versements">Paiements</button>
     </nav>
 
     <!-- Tableau de bord -->
@@ -89,6 +90,18 @@
       <div class="barre-outils"><h2>Contrats de séjour</h2></div>
       <p class="gris petit">Après chaque paiement, le voyageur doit accepter le contrat sous 48 h (au plus tard avant son arrivée). Sinon la réservation est annulée automatiquement et doit être remboursée.</p>
       <div id="liste-contrats"></div>
+    </section>
+
+    <!-- Paiements : remboursements et versements aux hôtes -->
+    <section data-panneau="versements" hidden>
+      <div class="barre-outils"><h2>À rembourser</h2></div>
+      <p class="gris petit">Réservations payées puis annulées (contrat non accepté, annulation…). Le bouton rembourse le voyageur intégralement, directement sur sa carte via Stripe.</p>
+      <div id="liste-rembourser"></div>
+      <div class="barre-outils"><h2>À verser aux hôtes</h2></div>
+      <p class="gris petit">Comme sur Airbnb, l'hôte est payé 24 h après l'arrivée du voyageur. Faites le virement du montant indiqué sur son compte, puis cliquez sur « Marquer comme versé ».</p>
+      <div id="liste-verser"></div>
+      <div class="barre-outils"><h2>Derniers versements (60 jours)</h2></div>
+      <div id="liste-verses"></div>
     </section>
 
     <!-- Identités -->

@@ -83,17 +83,28 @@
       var sig = f.querySelector(".signature");
       var annule = c.statut === "annulee", limite = c.limite ? new Date(c.limite) : null;
       var bandeau = "";
-      if (annule) bandeau = '<p class="bandeau-delai bandeau-annule"><strong>Réservation annulée.</strong> ' + esc(c.motif_annulation || "") + "</p>";
+      if (!c.paye_le && !annule) {
+        bandeau = '<p class="bandeau-delai">⏳ <strong>Paiement en cours de vérification…</strong> Cette page se met à jour automatiquement.</p>';
+        if (ESSAIS++ < 8) setTimeout(function () { (SESSION_STRIPE ? confirmerPaiement() : Promise.resolve()).then(charger); }, 3000);
+      } else if (annule) bandeau = '<p class="bandeau-delai bandeau-annule"><strong>Réservation annulée.</strong> ' + esc(c.motif_annulation || "") + "</p>";
       else if (!c.accepte_le && limite) bandeau = '<p class="bandeau-delai">' + (c.role === "voyageur" ? "<strong>Dernière étape :</strong> lisez et acceptez ce contrat avant le <strong>" + esc(dateHeure(limite)) + "</strong>. Sans acceptation, votre réservation sera annulée et intégralement remboursée." : "En attente de l'acceptation du voyageur (avant le " + esc(dateHeure(limite)) + ").") + "</p>";
+      if (c.paye_le && !c.accepte_le && !annule && SESSION_STRIPE && c.role === "voyageur") bandeau = '<p class="bandeau-delai" style="background:#E8F6EE;color:#14532D">✓ <strong>Paiement reçu, merci !</strong> Il reste une étape : acceptez le contrat ci-dessous pour confirmer définitivement votre réservation.</p>' + bandeau;
+      if (c.accepte_le && SESSION_STRIPE) bandeau = '<p class="bandeau-delai" style="background:#E8F6EE;color:#14532D">✓ <strong>Réservation confirmée !</strong> Retrouvez-la à tout moment dans « Mes réservations ».</p>';
       if (bandeau) f.insertAdjacentHTML("afterbegin", bandeau);
       if (!c.accepte_le) {
-        if (c.role === "voyageur" && !annule) sig.replaceWith(formulaire(c));
+        if (c.role === "voyageur" && !annule && c.paye_le) sig.replaceWith(formulaire(c));
         else sig.innerHTML = "<h3>Acceptation électronique du voyageur</h3><p>" + (annule ? "Contrat non accepté." : "Pas encore accepté par le voyageur.") + "</p>";
       }
       $("imprimer").hidden = !c.accepte_le;
       $("etat").hidden = true; f.hidden = false;
     }).catch(function (e) { console.error(e); $("etat").textContent = "Impossible de charger le contrat. Rechargez la page."; });
   }
+  // Retour de Stripe : on fait vérifier le paiement par le serveur
+  var SESSION_STRIPE = new URLSearchParams(location.search).get("session"), ESSAIS = 0;
+  function confirmerPaiement() {
+    return fetch("/api/confirmer", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ session: SESSION_STRIPE }) })
+      .then(function (r) { return r.json(); }).catch(function () { return {}; });
+  }
   $("imprimer").addEventListener("click", function () { window.print(); });
-  A.exiger("contrat.html?id=" + ID).then(charger);
+  A.exiger("contrat.html?id=" + ID).then(function () { return SESSION_STRIPE ? confirmerPaiement() : null; }).then(charger);
 })();

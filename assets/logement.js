@@ -139,7 +139,8 @@
     if (n && n < (A.nuits_min || 1)) erreur = "Ce logement se loue " + V.pluriel(A.nuits_min, "nuit", "nuits") + " minimum.";
     else if (n && A.nuits_max && n > A.nuits_max) erreur = "Ce logement se loue " + A.nuits_max + " nuits maximum.";
     if (SEJ.voyageurs > A.voyageurs) erreur = "Ce logement accueille " + V.pluriel(A.voyageurs, "voyageur", "voyageurs") + " maximum.";
-    var ouvert = ACCES.ouvert && new Date().toISOString().slice(0, 10) >= OUVERTURE;
+    // Réservations ouvertes le 20 novembre (l'administratrice peut tester avant)
+    var ouvert = (ACCES.ouvert && new Date().toISOString().slice(0, 10) >= OUVERTURE) || ACCES.admin;
     z.innerHTML =
       '<p class="fr-prix"><strong>' + esc(V.prix(A.prix_nuit, A.devise)) + "</strong> par nuit</p>" +
       (promos.length ? '<div class="fr-promos"><strong>🎁 Promotions</strong><ul>' + promos.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul><small>La meilleure s'applique automatiquement.</small></div>" : "") +
@@ -176,13 +177,26 @@
     var ici = "logement.html?id=" + ID;
     var A2 = window.SundarlyAuth;
     if (!A2 || !A2.client) return;
+    var b = $("btn-reserver"), zoneErr = document.querySelector("#reservation .fr-erreur-paiement");
+    function erreur(t) {
+      if (!zoneErr) { zoneErr = document.createElement("p"); zoneErr.className = "fr-erreur fr-erreur-paiement"; b.insertAdjacentElement("afterend", zoneErr); }
+      zoneErr.textContent = t; b.disabled = false; b.textContent = "Réserver";
+    }
     A2.session().then(function (s) {
       if (!s) { location.href = "compte.html?mode=inscription&retour=" + encodeURIComponent(ici); return; }
       return A2.profil(s).then(function (p) {
-        if (p.statut_verification !== "verifie") { location.href = "verification.html?retour=" + encodeURIComponent(ici); return; }
-        alert("Votre identité est vérifiée ✓ La réservation en ligne s'ouvre très bientôt sur cette page.");
+        if (p.statut_verification !== "verifie" && !ACCES.admin) { location.href = "verification.html?retour=" + encodeURIComponent(ici); return; }
+        b.disabled = true; b.textContent = "Redirection vers le paiement sécurisé…";
+        return fetch("/api/reserver", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: "Bearer " + s.access_token },
+          body: JSON.stringify({ annonce: ID, arrivee: SEJ.arrivee, depart: SEJ.depart, voyageurs: SEJ.voyageurs || 1, animal: !!SEJ.animal })
+        }).then(function (r) { return r.json(); }).then(function (d) {
+          if (d && d.url) location.href = d.url;
+          else erreur((d && d.erreur) || "La réservation n'a pas pu être créée. Réessayez.");
+        });
       });
-    }).catch(function (e) { console.error(e); });
+    }).catch(function (e) { console.error(e); erreur("Connexion impossible. Vérifiez votre connexion internet et réessayez."); });
   }
 
   // ---------- Avis des voyageurs ----------
