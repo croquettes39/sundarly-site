@@ -874,3 +874,16 @@ html,body{overflow-x:clip}
   .bandeau-hotes{font-size:13px;padding:8px 12px}
 }
 @media (max-width:760px){.ac-badge{font-size:11px;padding:4px 8px;top:8px;left:8px}.ac-titre{font-size:14px}}
+/* Accueil : zones couvertes et destinations */
+.zones-heros{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.zones-heros span{background:#fff;border:1px solid #F5C2D6;border-radius:999px;padding:6px 14px;font-weight:700;font-size:15px;color:var(--encre)}
+.puces-dest{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:18px auto 0;max-width:900px}
+.puces-dest a{background:rgba(255,255,255,.75);border:1px solid var(--ligne);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600;color:var(--encre);text-decoration:none}
+.puces-dest a:hover{border-color:var(--rose);color:var(--rose)}
+@media (max-width:760px){
+  .zones-heros{gap:6px;margin-bottom:10px}
+  .zones-heros span{font-size:13px;padding:5px 11px}
+  .puces-dest{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;margin-top:12px;padding-bottom:2px}
+  .puces-dest::-webkit-scrollbar{display:none}
+  .puces-dest a{flex:0 0 auto;font-size:13px}
+}
