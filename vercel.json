@@ -39,6 +39,10 @@
   ],
   "rewrites": [
     {
+      "source": "/logement/:slug",
+      "destination": "/logement"
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
     },

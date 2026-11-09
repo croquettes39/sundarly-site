@@ -90,10 +90,10 @@ def tete(titre, desc, url, jsonld, robots=""):
 SCRIPTS = '''<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="/assets/devise.js?v=20261108a"></script>
 <script src="/assets/config.js?v=20261108a"></script>
-<script src="/assets/auth.js?v=20261108a"></script>
-<script src="/assets/app.js?v=20261108a"></script>
+<script src="/assets/auth.js?v=20261109a"></script>
+<script src="/assets/app.js?v=20261109a"></script>
 <script src="/assets/voyageurs-commun.js?v=20261108a"></script>
-<script src="/assets/destination.js?v=20261108a"></script>'''
+<script src="/assets/destination.js?v=20261109a"></script>'''
 
 def faq(d):
     q = []

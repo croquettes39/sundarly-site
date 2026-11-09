@@ -30,7 +30,7 @@ module.exports = async function (req, res) {
     if (r.ok) {
       const annonces = await r.json();
       (annonces || []).forEach(function (a) {
-        lignes.push(url(SITE + "/logement?id=" + a.id, (a.created_at || "").slice(0, 10) || null, "weekly", "0.7"));
+        lignes.push(url(SITE + "/logement" + (a.slug ? "/" + a.slug : "?id=" + a.id), (a.created_at || "").slice(0, 10) || null, "weekly", "0.7"));
       });
     }
   } catch (e) { /* le plan du site reste valide même sans les logements */ }

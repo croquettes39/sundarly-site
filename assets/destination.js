@@ -14,8 +14,8 @@
     document.getElementById("vide-dest").hidden = liste.length > 0;
     g.innerHTML = liste.map(function (a) {
       var photo = a.photos && a.photos[0] ? '<img src="' + esc(a.photos[0]) + '" alt="' + esc(a.titre) + '" loading="lazy">' : "";
-      return '<article class="carte-logement"><a class="cl-photos" href="/logement?id=' + a.id + '" style="display:block">' + photo + "</a>" +
-        '<a class="cl-texte" href="/logement?id=' + a.id + '"><span class="cl-lieu">' + esc(a.ville) + ", " + esc(a.pays) + '</span><span class="cl-titre">' + esc(a.titre) + "</span>" +
+      return '<article class="carte-logement"><a class="cl-photos" href="' + (a.slug ? "/logement/" + a.slug : "/logement?id=" + a.id) + '" style="display:block">' + photo + "</a>" +
+        '<a class="cl-texte" href="' + (a.slug ? "/logement/" + a.slug : "/logement?id=" + a.id) + '"><span class="cl-lieu">' + esc(a.ville) + ", " + esc(a.pays) + '</span><span class="cl-titre">' + esc(a.titre) + "</span>" +
         '<span class="cl-gris">' + esc(a.type_logement) + " · " + V.pluriel(a.voyageurs, "voyageur", "voyageurs") + "</span>" +
         '<span class="cl-prix"><strong>' + esc(V.prix(a.prix_nuit, a.devise)) + "</strong> par nuit</span></a></article>";
     }).join("");

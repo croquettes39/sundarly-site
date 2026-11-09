@@ -18,7 +18,7 @@
   function exiger(retour) {
     return session().then(function (s) {
       if (!s) {
-        window.location.replace("compte.html?retour=" + encodeURIComponent(retour || "espace-hote.html"));
+        window.location.replace("/compte.html?retour=" + encodeURIComponent(retour || "espace-hote.html"));
         return new Promise(function () {});
       }
       return s;

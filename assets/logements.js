@@ -73,9 +73,10 @@
   }
 
   function lienFiche(a) {
-    var p = new URLSearchParams({ id: a.id });
+    var p = new URLSearchParams(a.slug ? {} : { id: a.id });
     ["arrivee", "depart", "voyageurs"].forEach(function (n) { if (form.elements[n].value) p.set(n, form.elements[n].value); });
-    return "logement.html?" + p;
+    var q = p.toString();
+    return a.slug ? "/logement/" + a.slug + (q ? "?" + q : "") : "/logement?" + q;
   }
 
   function afficher() {

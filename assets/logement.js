@@ -6,6 +6,8 @@
   function nl(s) { return esc(s).replace(/\n/g, "<br>"); }
   var params = new URLSearchParams(location.search);
   var ID = params.get("id") || "";
+  // adresse lisible : /logement/<nom-du-logement>
+  var SLUG = (location.pathname.match(/^\/logement\/([a-z0-9-]+)\/?$/i) || [])[1] || "";
   var A = null, ACCES = null;
 
   var ANNULATION = {
@@ -14,18 +16,31 @@
     stricte: ["Stricte", "Remboursement de 50 % jusqu'à 7 jours avant l'arrivée, aucun remboursement ensuite."]
   };
 
-  if (!/^[0-9a-f-]{36}$/i.test(ID)) { indisponible(); return; }
+  if (!SLUG && !/^[0-9a-f-]{36}$/i.test(ID)) { indisponible(); return; }
   // garde la recherche pour le lien « Tous les logements »
-  (function () { var p = new URLSearchParams(location.search); p.delete("id"); if (p.toString()) $("lien-retour").href = "logements.html?" + p; })();
+  (function () { var p = new URLSearchParams(location.search); p.delete("id"); if (p.toString()) $("lien-retour").href = "/logements?" + p; })();
 
   V.acces().then(function (acc) {
     ACCES = acc;
     if (!acc.ouvert && !acc.admin) { indisponible(); return; }
     if (acc.admin && !acc.ouvert) $("bandeau-apercu").hidden = false;
-    return client.rpc("fiche_logement", { annonce: ID }).then(function (r) {
-      if (r.error) throw r.error;
-      if (!r.data) { indisponible(); return; }
-      A = r.data; rendre();
+    var trouver = SLUG
+      ? client.rpc("annonce_par_slug", { p_slug: SLUG.toLowerCase() }).then(function (r) { if (r.error) throw r.error; return r.data || ""; })
+      : Promise.resolve(ID);
+    return trouver.then(function (id) {
+      if (!id) { indisponible(); return; }
+      ID = id;
+      return client.rpc("fiche_logement", { annonce: ID }).then(function (r) {
+        if (r.error) throw r.error;
+        if (!r.data) { indisponible(); return; }
+        A = r.data;
+        // ancien lien ?id= : on affiche l'adresse lisible dans la barre (en gardant dates et voyageurs)
+        if (A.slug && !SLUG && window.history && history.replaceState) {
+          var q = new URLSearchParams(location.search); q.delete("id");
+          history.replaceState(null, "", "/logement/" + A.slug + (q.toString() ? "?" + q : "") + location.hash);
+        }
+        rendre();
+      });
     });
   }).catch(function (e) { console.error(e); $("chargement").textContent = "Impossible de charger ce logement pour le moment."; });
 
@@ -41,7 +56,7 @@
     el.setAttribute("content", valeur);
   }
   function seo() {
-    var url = "https://www.sundarly.com/logement?id=" + A.id;
+    var url = "https://www.sundarly.com/logement" + (A.slug ? "/" + A.slug : "?id=" + A.id);
     var titre = A.titre + " – " + A.type_logement + " à " + A.ville + " | Sundarly";
     var desc = (A.type_logement + " à " + A.ville + ", " + A.pays + " · " + V.pluriel(A.voyageurs, "voyageur", "voyageurs") + ", " + V.pluriel(A.chambres, "chambre", "chambres") + ". " + String(A.description || "").replace(/\s+/g, " ")).slice(0, 155);
     document.title = titre;
@@ -182,9 +197,9 @@
       zoneErr.textContent = t; b.disabled = false; b.textContent = "Réserver";
     }
     A2.session().then(function (s) {
-      if (!s) { location.href = "compte.html?mode=inscription&retour=" + encodeURIComponent(ici); return; }
+      if (!s) { location.href = "/compte.html?mode=inscription&retour=" + encodeURIComponent(ici); return; }
       return A2.profil(s).then(function (p) {
-        if (p.statut_verification !== "verifie" && !ACCES.admin) { location.href = "verification.html?retour=" + encodeURIComponent(ici); return; }
+        if (p.statut_verification !== "verifie" && !ACCES.admin) { location.href = "/verification.html?retour=" + encodeURIComponent(ici); return; }
         b.disabled = true; b.textContent = "Redirection vers le paiement sécurisé…";
         return fetch("/api/reserver", {
           method: "POST",

@@ -19,7 +19,7 @@
 
   function carte(a) {
     var badge = V.badgePromo(a) || (a.nb_avis && a.note_moyenne >= 4.8 ? "Coup de cœur voyageurs" : "");
-    return '<a class="ac-carte" href="logement.html?id=' + encodeURIComponent(a.id) + '">' +
+    return '<a class="ac-carte" href="' + (a.slug ? "/logement/" + a.slug : "/logement?id=" + encodeURIComponent(a.id)) + '">' +
       '<div class="ac-photo"><img src="' + esc(a.photos && a.photos[0]) + '" alt="" loading="lazy">' +
       (badge ? '<span class="ac-badge">' + esc(badge) + "</span>" : "") +
       '<button type="button" class="ac-coeur' + (FAV[a.id] ? " actif" : "") + '" data-fav="' + esc(a.id) + '" aria-label="Ajouter aux favoris" aria-pressed="' + (FAV[a.id] ? "true" : "false") + '">' + COEUR + "</button></div>" +

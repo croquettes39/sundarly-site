@@ -16,6 +16,7 @@ Site statique HTML/CSS/JS (pas de framework, pas de build) + fonctions serveur V
 - `assets/voyageurs-commun.js` (`window.SundarlyVoyage`) : prix, devises (EUR par défaut, MAD au Maroc, CHF en Suisse), promotions, notes.
 - `assets/auth.js` (`window.SundarlyAuth`) : session, profil, `exiger()`.
 - Pages : accueil façon Airbnb (`index.html` + `assets/accueil.js` : recherche, rangées par ville, favoris locaux), `logements`, `logement` (fiche + réservation), `publier`, `annonce` (édition hôte), `espace-hote`, `verification`, `reservations`, `avis`, `contrat`, `admin`, pages SEO `locations-vacances/*` (générées par `outils/generer_destinations.py`).
+- **Adresses lisibles** : chaque annonce a un `slug` (créé automatiquement à l'insertion, stable, modifiable seulement par l'admin) → `/logement/<slug>` (réécriture dans `vercel.json`, résolu par `annonce_par_slug`). Les anciens liens `/logement?id=…` marchent toujours et affichent l'adresse lisible. `logement.html` utilise des chemins absolus (`/assets/…`) à cause de cette réécriture.
 - Statistiques maison : `assets/stats.js` → `api/visite.js` → table `visites` ; onglet Statistiques de l'admin (+ Vercel Analytics).
 - Le site public est **ouvert** (`reglages.site_ouvert = 'oui'`). Réservations bloquées jusqu'au **20 novembre 2026** (sauf admin pour tester).
 

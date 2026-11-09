@@ -143,6 +143,6 @@
   try {
     var connecte = Object.keys(localStorage).some(function (k) { return /^sb-.*-auth-token$/.test(k); });
     if (!connecte) return;
-    document.querySelectorAll("[data-lien-compte]").forEach(function (a) { a.textContent = "Mon espace"; a.href = "espace-hote.html"; });
+    document.querySelectorAll("[data-lien-compte]").forEach(function (a) { a.textContent = "Mon espace"; a.href = "/espace-hote.html"; });
   } catch (e) {}
 })();
