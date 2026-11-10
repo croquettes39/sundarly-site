@@ -95,7 +95,12 @@
     regles.push(A.animaux ? "Animaux acceptés" + (A.frais_animaux ? " (frais : " + V.prix(A.frais_animaux, A.devise) + " par séjour)" : ", sans frais") : "Animaux non acceptés");
     regles.push(A.fumeurs ? "Logement fumeur" : "Non-fumeur");
     regles.push(A.fetes ? "Fêtes autorisées" : "Pas de fêtes ni d'événements");
-    if (A.nuits_min > 1) regles.push(V.pluriel(A.nuits_min, "nuit", "nuits") + " minimum");
+    var saison = A.nuits_min_ete || A.nuits_max_ete;
+    var duree = function (mi, ma) { mi = mi || 1; return ma ? "de " + mi + " à " + ma + " nuits" : V.pluriel(mi, "nuit", "nuits") + " minimum"; };
+    if (saison) {
+      regles.push("Séjour " + duree(A.nuits_min, A.nuits_max) + " (automne, hiver et printemps)");
+      regles.push("Séjour " + duree(A.nuits_min_ete || A.nuits_min, A.nuits_max_ete || A.nuits_max) + " en été (arrivée de juin à août)");
+    } else if (A.nuits_min > 1 || A.nuits_max) regles.push("Séjour " + duree(A.nuits_min, A.nuits_max));
     var secu = (A.securite || []).slice();
     (A.equipements || []).forEach(function (e) { if (/Détecteur|Extincteur|premiers secours|Caméras/.test(e) && secu.indexOf(e) < 0) secu.push(e); });
     if (!secu.some(function (x) { return /monoxyde/.test(x); })) secu.push("Aucune indication de la présence d'un détecteur de monoxyde de carbone");
@@ -150,8 +155,12 @@
     if (A.reduction_derniere_minute) promos.push("-" + A.reduction_derniere_minute + " % pour une arrivée dans moins de " + V.pluriel(A.derniere_minute_jours, "jour", "jours"));
     var min = new Date().toISOString().slice(0, 10);
     var erreur = "";
-    if (n && n < (A.nuits_min || 1)) erreur = "Ce logement se loue " + V.pluriel(A.nuits_min, "nuit", "nuits") + " minimum.";
-    else if (n && A.nuits_max && n > A.nuits_max) erreur = "Ce logement se loue " + A.nuits_max + " nuits maximum.";
+    var ete = n && (A.nuits_min_ete || A.nuits_max_ete) && [5, 6, 7].indexOf(new Date(SEJ.arrivee + "T12:00:00").getMonth()) >= 0;
+    var nMin = ete ? (A.nuits_min_ete || A.nuits_min || 1) : (A.nuits_min || 1);
+    var nMax = ete ? (A.nuits_max_ete || A.nuits_max) : A.nuits_max;
+    var quand = ete ? " en été (arrivée de juin à août)" : "";
+    if (n && n < nMin) erreur = "Ce logement se loue " + V.pluriel(nMin, "nuit", "nuits") + " minimum" + quand + ".";
+    else if (n && nMax && n > nMax) erreur = "Ce logement se loue " + nMax + " nuits maximum" + quand + ".";
     if (SEJ.voyageurs > A.voyageurs) erreur = "Ce logement accueille " + V.pluriel(A.voyageurs, "voyageur", "voyageurs") + " maximum.";
     // Réservations ouvertes dès que le site est ouvert (l'administratrice peut toujours tester)
     var ouvert = ACCES.ouvert || ACCES.admin;
