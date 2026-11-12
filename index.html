@@ -27,14 +27,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=20261112a">
+<link rel="stylesheet" href="assets/style.css?v=20261112e">
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/assets/stats.js?v=20261108a"></script>
 </head>
 <body>
 
-<a class="bandeau-hotes" href="publier.html"><span><strong>Propriétaires :</strong> votre logement est réservable de suite, et vous profitez de 0 % de commission pendant les trois premières réservations.</span><span class="bandeau-lien">Publier mon logement →</span></a>
+<a class="bandeau-hotes" href="publier.html"><span class="bandeau-long"><strong>Propriétaires :</strong> votre logement est réservable de suite, et vous profitez de 0 % de commission pendant les trois premières réservations.</span><span class="bandeau-court"><strong>Propriétaires :</strong> 0 % de commission sur vos 3 premières réservations</span><span class="bandeau-lien">Publier mon logement →</span></a>
 
 <header class="entete">
   <div class="conteneur">
@@ -80,16 +80,19 @@
     <div class="conteneur">
       <div class="app-carte">
         <div class="app-texte">
-          <span class="choix-etiquette">Nouveau</span>
+          <span class="choix-etiquette">Nouveau · Application Android</span>
           <h2>Sundarly dans votre poche</h2>
-          <p>Téléchargez l'application Android : recherchez un logement, réservez et retrouvez vos voyages, toujours sans frais de service.</p>
-          <a class="btn" href="/app" data-stat="app-android">Télécharger pour Android</a>
+          <p>Recherchez un logement, réservez et retrouvez vos voyages depuis votre téléphone, toujours sans frais de service.</p>
+          <a class="btn btn-app" href="/app" data-stat="app-android"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Télécharger pour Android</a>
+          <div class="app-qr">
+            <img src="/assets/qr-app.svg" alt="QR code pour télécharger l'application Sundarly" width="112" height="112" loading="lazy">
+            <span><strong>Sur ordinateur ?</strong> Scannez ce code avec votre téléphone Android pour télécharger l'application.</span>
+          </div>
           <p class="app-note">Ouvrez le fichier téléchargé, puis autorisez l'installation si votre téléphone le demande. Bientôt sur Google Play.</p>
         </div>
-        <a class="app-qr" href="/app" aria-label="Télécharger l'application Android">
-          <img src="/assets/qr-app.svg" alt="QR code pour télécharger l'application Sundarly" width="180" height="180" loading="lazy">
-          <span>Scannez avec votre téléphone Android</span>
-        </a>
+        <div class="app-visuel">
+          <img src="/assets/app-apercu.webp?v=2" alt="L'application Sundarly sur téléphone : accueil et liste des logements" width="478" height="698" loading="lazy">
+        </div>
       </div>
     </div>
   </section>

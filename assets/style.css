@@ -925,12 +925,43 @@ html,body{overflow-x:clip}
 
 /* Bloc « Téléchargez l'application » (accueil et page Pourquoi Sundarly) */
 .section-app{padding:56px 0}
-.app-carte{display:flex;align-items:center;justify-content:space-between;gap:40px;background:var(--rose-clair);border-radius:28px;padding:40px 48px}
-.app-texte{max-width:560px}
-.app-texte h2{margin:12px 0 10px;font-size:clamp(26px,3.4vw,36px);line-height:1.12;letter-spacing:-.6px;font-weight:800}
-.app-texte p{margin:0 0 20px;color:var(--gris-texte);font-size:17px}
-.app-texte .app-note{margin:14px 0 0;font-size:14px;color:var(--gris)}
-.app-qr{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px;background:#fff;border-radius:22px;padding:16px 16px 14px;text-decoration:none;color:var(--encre);font-weight:700;font-size:13px;text-align:center;box-shadow:0 12px 32px rgba(120,20,60,.12)}
-.app-qr img{width:180px;height:180px}
-.app-qr span{max-width:180px}
-@media (max-width:760px){.app-carte{flex-direction:column;align-items:flex-start;padding:28px 22px;gap:24px}.app-qr{display:none}.app-texte .btn{width:100%}}
+.app-carte{display:grid;grid-template-columns:1fr 360px;align-items:center;gap:40px;background:var(--rose-clair);border-radius:28px;padding:44px 56px 0;overflow:hidden}
+.app-texte{max-width:540px;padding-bottom:44px}
+.app-texte h2{margin:12px 0 10px;font-size:clamp(26px,3.4vw,38px);line-height:1.1;letter-spacing:-.6px;font-weight:800}
+.app-texte > p{margin:0 0 22px;color:var(--gris-texte);font-size:17px}
+.btn-app svg{flex:0 0 auto}
+.app-qr{display:flex;align-items:center;gap:16px;margin-top:22px;background:#fff;border-radius:18px;padding:10px 18px 10px 10px;max-width:440px;box-shadow:0 8px 24px rgba(120,20,60,.08)}
+.app-qr img{width:112px;height:112px;flex:0 0 auto}
+.app-qr span{font-size:14px;color:var(--gris-texte);line-height:1.45}
+.app-qr strong{display:block;color:var(--encre);font-size:15px}
+.app-texte .app-note{margin:16px 0 0;font-size:13.5px;color:var(--gris)}
+.app-visuel{align-self:end;display:flex;justify-content:center}
+.app-visuel img{width:100%;max-width:360px;height:auto;display:block;margin-bottom:-90px}
+@media (max-width:900px){.app-carte{grid-template-columns:1fr 280px;padding:36px 32px 0;gap:24px}}
+@media (max-width:760px){
+  .app-carte{grid-template-columns:1fr;padding:28px 22px 0;gap:8px}
+  .app-texte{padding-bottom:0}
+  .app-texte .btn{width:100%}
+  .app-qr{display:none}
+  .app-visuel img{max-width:260px;margin:18px auto -70px}
+}
+
+/* ===== Téléphone : en-tête compact (logo + « Devenir hôte » sur une ligne, menu qui défile dessous) ===== */
+.bandeau-court{display:none}
+@media (max-width:760px){
+  .bandeau-hotes{font-size:13px;padding:8px 14px;gap:4px 8px;line-height:1.35}
+  .bandeau-long{display:none}
+  .bandeau-court{display:inline}
+  .bandeau-hotes .bandeau-lien{font-size:13px}
+  .entete .conteneur{position:relative;display:block;min-height:0;padding:8px 16px 0}
+  .entete .logo{display:flex;align-items:center;height:44px;font-size:22px;gap:8px}
+  .entete .logo svg{width:30px;height:30px}
+  .entete .nav{flex-wrap:nowrap;overflow-x:auto;gap:6px;margin:6px -16px 0;padding:0 16px 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .entete .nav::-webkit-scrollbar{display:none}
+  .entete .nav > *{flex:0 0 auto}
+  .entete .nav a:not(.btn){padding:7px 13px;font-size:14px;white-space:nowrap;background:#fff;border:1px solid var(--ligne)}
+  .entete .nav a[aria-current="page"]{background:var(--rose-clair);border-color:#F5C2D6}
+  .entete .choix-devise select{min-height:34px;font-size:13px;padding:0 8px}
+  .entete .nav .btn{position:absolute;top:10px;right:16px;min-height:40px;padding:0 16px;font-size:14px}
+}
+@media (max-width:340px){.entete .logo svg{display:none}.entete .logo{font-size:21px}.entete .nav .btn{padding:0 13px;font-size:13px;min-height:38px;top:11px}}
