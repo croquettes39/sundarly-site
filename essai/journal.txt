@@ -7,13 +7,34 @@ INTROUVABLE {'ressource': 'shutter_button'}
 capture introuvable-shutter_button
 INTROUVABLE {'desc': 'Shutter'}
 capture introuvable-Shutter
+capture appareil-photo-0-apres
+  bouton visible : com.android.camera2:id/retake_button | Retake |  | [0,2074][210,2284]
+  bouton visible : com.android.camera2:id/done_button | Done |  | [429,2069][650,2290]
+  bouton visible : com.android.camera2:id/cancel_button | Cancel |  | [870,2074][1080,2284]
+INTROUVABLE {'ressource': 'done_button'}
+capture introuvable-done_button
+INTROUVABLE {'desc': 'Done'}
+capture introuvable-Done
+  retour à l'app sans photo
 photo recto : False
 capture 3-recto
-bouton photo introuvable 1
+capture appareil-photo-1
+INTROUVABLE {'ressource': 'shutter_button'}
+capture introuvable-shutter_button
+INTROUVABLE {'desc': 'Shutter'}
+capture introuvable-Shutter
+capture appareil-photo-1-apres
+  bouton visible : com.android.camera2:id/retake_button | Retake |  | [0,2074][210,2284]
+  bouton visible : com.android.camera2:id/done_button | Done |  | [429,2069][650,2290]
+  bouton visible : com.android.camera2:id/cancel_button | Cancel |  | [870,2074][1080,2284]
+INTROUVABLE {'ressource': 'done_button'}
+capture introuvable-done_button
+INTROUVABLE {'desc': 'Done'}
+capture introuvable-Done
+  retour à l'app sans photo
 photo selfie : False
 capture 4-selfie
 capture 5-avant-envoi
-INTROUVABLE {'texte': 'Envoyer pour vérification'}
-capture introuvable-Envoyer-pour-vérification
 capture 6-apres-envoi
+RÉSULTAT : Il manque
 === fin
