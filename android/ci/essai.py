@@ -273,15 +273,19 @@ def main():
             "--es", "arrivee", "2027-09-14", "--es", "depart", "2027-09-17", APP)
         time.sleep(8)
         capture("2-fiche-avec-dates")
-        toucher_texte(texte="Réserver", defile=0)
-        time.sleep(3)
+        r = attendre(10, texte="Réserver")
+        if r: toucher(centre(r[0])[:2])
+        time.sleep(4)
         capture("3-panneau-reservation")
-        toucher_texte(texte="Réserver", dernier=True, defile=0)
+        # Dans le panneau : le bouton « Réserver » est le dernier de l'écran
+        r = attendre(10, texte="Réserver")
+        log("boutons « Réserver » visibles :", len(r))
+        if r: toucher(centre(r[-1])[:2])
         time.sleep(20)
         capture("4-paiement")
         time.sleep(10)
         capture("5-paiement-charge")
-        for t in ("Paiement sécurisé", "Vérification d'identité", "Connexion", "ne sont plus disponibles", "Une erreur"):
+        for t in ("Abandonner", "Stripe", "Vérification d'identité", "Connexion", "ne sont plus disponibles", "Une erreur", "n'a pas pu"):
             if trouver(contient=t):
                 log("RÉSULTAT :", t)
 
