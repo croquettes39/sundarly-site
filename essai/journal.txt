@@ -1,24 +1,7 @@
 === Étape : inscription | compte : essai.android.app@sundarly.com
 capture 1-inscription-vide
-INTROUVABLE {'texte': 'Prénom'}
-capture introuvable-Prénom
-INTROUVABLE {'texte': 'Nom'}
-capture introuvable-Nom
-INTROUVABLE {'texte': 'E-mail'}
-capture introuvable-E-mail
-INTROUVABLE {'texte': 'Téléphone (WhatsApp de préférence)'}
-capture introuvable-Téléphone-WhatsApp-de-préféren
-INTROUVABLE {'texte': 'Pays de résidence'}
-capture introuvable-Pays-de-résidence
-INTROUVABLE {'texte': 'Maroc'}
-capture introuvable-Maroc
-INTROUVABLE {'texte': 'Mot de passe'}
-capture introuvable-Mot-de-passe
 capture 2-inscription-remplie
-INTROUVABLE {'contient': "J'ai 18 ans"}
-capture introuvable-J-ai-18-ans
 capture 3-case-cochee
-INTROUVABLE {'texte': 'Créer mon compte'}
-capture introuvable-Créer-mon-compte
 capture 4-apres-inscription
+RÉSULTAT : Compte créé
 === fin
