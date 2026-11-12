@@ -1,10 +1,10 @@
-commit: 944e15fbb53c064a0b1930d8b0d8fc47fc28c350
-run: 43264025183 (n° 7)
+commit: 6d36a939b0476b0c4322f4aa8094ada1e26f5223
+run: 43265987982 (n° 8)
 etat: success
-Thu Nov 12 16:59:57 UTC 2026
+Thu Nov 12 17:11:26 UTC 2026
 total 1964
-drwxr-xr-x 3 runner runner    4096 Nov 12 16:59 .
-drwxr-xr-x 3 runner runner    4096 Nov 12 16:59 ..
--rw-r--r-- 1 runner runner 1992549 Nov 12 16:59 app-release.apk
-drwxr-xr-x 4 runner runner    4096 Nov 12 16:59 baselineProfiles
--rw-r--r-- 1 runner runner     706 Nov 12 16:59 output-metadata.json
+drwxr-xr-x 3 runner runner    4096 Nov 12 17:11 .
+drwxr-xr-x 3 runner runner    4096 Nov 12 17:11 ..
+-rw-r--r-- 1 runner runner 1992549 Nov 12 17:11 app-release.apk
+drwxr-xr-x 4 runner runner    4096 Nov 12 17:11 baselineProfiles
+-rw-r--r-- 1 runner runner     706 Nov 12 17:11 output-metadata.json
