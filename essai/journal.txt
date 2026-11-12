@@ -1,7 +1,19 @@
-=== Étape : inscription | compte : essai.android.app@sundarly.com
-capture 1-inscription-vide
-capture 2-inscription-remplie
-capture 3-case-cochee
-capture 4-apres-inscription
-RÉSULTAT : Compte créé
+=== Étape : identite | compte : essai.android.app@sundarly.com
+capture connexion-saisie
+capture 1-apres-connexion
+capture 2-identite-remplie
+capture appareil-photo-0
+INTROUVABLE {'ressource': 'shutter_button'}
+capture introuvable-shutter_button
+INTROUVABLE {'desc': 'Shutter'}
+capture introuvable-Shutter
+photo recto : False
+capture 3-recto
+bouton photo introuvable 1
+photo selfie : False
+capture 4-selfie
+capture 5-avant-envoi
+INTROUVABLE {'texte': 'Envoyer pour vérification'}
+capture introuvable-Envoyer-pour-vérification
+capture 6-apres-envoi
 === fin
