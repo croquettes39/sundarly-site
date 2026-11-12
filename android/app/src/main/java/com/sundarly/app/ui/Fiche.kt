@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsTopHeight
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -149,7 +151,9 @@ fun EcranFiche(etat: Etat, ecran: Ecran.Fiche) {
             }
         },
     ) { marges ->
-        Column(Modifier.padding(marges).fillMaxSize().verticalScroll(rememberScrollState())) {
+        val defilement = rememberScrollState()
+        Box(Modifier.padding(marges).fillMaxSize()) {
+        Column(Modifier.fillMaxSize().verticalScroll(defilement)) {
             // ----- Photos -----
             Box(Modifier.fillMaxWidth().aspectRatio(1.2f)) {
                 if (photos.isNotEmpty()) {
@@ -311,6 +315,9 @@ fun EcranFiche(etat: Etat, ecran: Ecran.Fiche) {
                 }
                 Spacer(Modifier.height(28.dp))
             }
+        }
+        // Une fois la photo passée, un fond blanc garde l'heure et la batterie lisibles
+        if (defilement.value > 500) Box(Modifier.fillMaxWidth().windowInsetsTopHeight(WindowInsets.statusBars).background(Color.White))
         }
     }
 

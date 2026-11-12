@@ -27,7 +27,9 @@ geste swipe 540 1900 540 300 300; geste swipe 540 1900 540 300 300
                                                           photo 07-fiche-avis-carte 5
 geste swipe 540 1900 540 300 300;               photo 08-fiche-regles 3
 geste tap 880 2260;                             photo 09-reservation 3
-geste tap 300 1560;                             photo 10-calendrier 3
+geste tap 290 1670;                             photo 10-calendrier 4
+geste tap 540 1500; geste tap 760 1500;         photo 10b-dates-choisies 3
+geste tap 540 2260;                             photo 10c-prix-detail 4
 adb shell am force-stop $APP
 ouvrir --es ecran compte;                                 photo 11-connexion 5
 adb shell am force-stop $APP

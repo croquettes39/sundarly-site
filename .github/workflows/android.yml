@@ -90,7 +90,8 @@ jobs:
   publier:
     name: Publier l'APK d'essai
     needs: [compiler, captures]
-    if: github.event_name == 'workflow_dispatch' && inputs.publier
+    # sur demande, ou quand le message du commit contient [apk]
+    if: (github.event_name == 'workflow_dispatch' && inputs.publier) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[apk]'))
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
