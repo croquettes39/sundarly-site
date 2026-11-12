@@ -1,5 +1,1 @@
-75:w: file:///home/runner/work/sundarly-site/sundarly-site/android/app/src/main/java/com/sundarly/app/ui/Accueil.kt:223:31 'val Icons.Filled.KeyboardArrowRight: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.KeyboardArrowRight.
-76:w: file:///home/runner/work/sundarly-site/sundarly-site/android/app/src/main/java/com/sundarly/app/ui/Profil.kt:227:27 'val Icons.Filled.KeyboardArrowRight: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.KeyboardArrowRight.
-79:w: file:///home/runner/work/sundarly-site/sundarly-site/android/app/src/main/java/com/sundarly/app/ui/Accueil.kt:223:31 'val Icons.Filled.KeyboardArrowRight: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.KeyboardArrowRight.
-80:w: file:///home/runner/work/sundarly-site/sundarly-site/android/app/src/main/java/com/sundarly/app/ui/Profil.kt:227:27 'val Icons.Filled.KeyboardArrowRight: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.KeyboardArrowRight.
-119:BUILD SUCCESSFUL in 3m 51s
+113:BUILD SUCCESSFUL in 3m 43s
