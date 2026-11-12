@@ -45,3 +45,9 @@ Site statique HTML/CSS/JS (pas de framework, pas de build) + fonctions serveur V
 4. Version anglaise du contrat ; relecture juridique conseillée (avocat au Maroc).
 5. Faire tourner la clé Stripe (elle a été collée dans une conversation) et la remettre dans Vercel.
 6. Favoris liés au compte ; messagerie avec traduction automatique (souhait de Sandra).
+
+## Application Android (depuis le 12 nov. 2026)
+- Dossier `android/` (Kotlin + Jetpack Compose, identifiant `com.sundarly.app`), détails dans `android/LISEZMOI.md`. Même base Supabase et mêmes `api/` que le site ; côté hôte et dépôt d'avis, l'app ouvre le site.
+- Compilation automatique par GitHub Actions (`.github/workflows/android.yml`) à chaque modification de `android/` : tests, APK, essai dans un téléphone virtuel. Résultats (journal, captures d'écran) sur la branche `android-ci`. Un commit dont le message contient `[apk]` publie l'APK d'essai : https://github.com/croquettes39/sundarly-site/releases/download/android-essai/sundarly.apk
+- L'APK d'essai est signé avec une clé provisoire qui change à chaque compilation (désinstaller l'ancienne version avant d'installer la nouvelle). **Reste à faire** : compte Google Play Console, clé de signature définitive dans les secrets GitHub, essai réel connexion → vérification d'identité → paiement → contrat sur un vrai téléphone.
+- Si une règle de prix/promotion change dans `assets/voyageurs-commun.js`, la reporter dans `android/…/data/Prix.kt`.
