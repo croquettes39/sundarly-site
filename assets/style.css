@@ -973,3 +973,11 @@ html,body{overflow-x:clip}
 .app-bientot-texte{font-size:14.5px;color:var(--gris-texte);line-height:1.45;max-width:300px}
 .app-bientot-texte strong{color:var(--encre)}
 @media (max-width:760px){.app-store{gap:14px}.app-bientot-texte{max-width:none}}
+
+/* Lien vers le mode d'emploi d'installation (bloc application) */
+.app-guide{display:flex;align-items:center;gap:16px;margin-top:16px;max-width:440px;background:#fff;border-radius:18px;padding:10px 18px 10px 10px;text-decoration:none;color:var(--gris-texte);box-shadow:0 8px 24px rgba(120,20,60,.08);transition:transform .15s}
+.app-guide:hover{transform:translateY(-2px)}
+.app-guide img{width:60px;height:107px;object-fit:cover;object-position:top;border-radius:10px;flex:0 0 auto;border:1px solid var(--ligne)}
+.app-guide span{font-size:14px;line-height:1.45}
+.app-guide strong{display:block;color:var(--encre);font-size:15px}
+.app-guide em{display:block;font-style:normal;font-weight:700;color:var(--rose);margin-top:4px}
