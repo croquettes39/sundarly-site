@@ -68,6 +68,13 @@
         <label class="champ-inline">Période <select id="f-periode"><option value="1">Aujourd'hui</option><option value="7">7 derniers jours</option><option value="30" selected>30 derniers jours</option><option value="90">90 derniers jours</option></select></label></div>
       <p class="gris petit" id="stats-note"></p>
       <div class="tuiles-stats" id="tuiles-visites"></div>
+      <h3 class="titre-classement" style="margin:22px 0 10px">Téléchargements de l'application Android</h3>
+      <p class="gris petit" id="app-note"></p>
+      <div class="tuiles-stats" id="tuiles-app"></div>
+      <div class="graphes" style="margin-bottom:22px">
+        <div class="carte-espace"><h3 class="titre-classement">Comment ils ont téléchargé</h3><div id="c-app-sources"></div></div>
+        <div class="carte-espace"><h3 class="titre-classement">Pays des téléchargements</h3><div id="c-app-pays"></div></div>
+      </div>
       <figure class="carte-espace graphe" id="g-visites" style="margin-bottom:14px"></figure>
       <div class="graphes">
         <div class="carte-espace"><h3 class="titre-classement">Pays</h3><div id="c-pays"></div></div>
@@ -157,6 +164,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="assets/config.js?v=20261108a"></script>
 <script src="assets/auth.js?v=20261109a"></script>
-<script src="assets/admin.js?v=20261108a"></script>
+<script src="assets/admin.js?v=20261112a"></script>
 </body>
 </html>

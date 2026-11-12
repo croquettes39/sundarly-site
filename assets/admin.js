@@ -162,7 +162,19 @@
       classement("c-pages", s.pages, nomPage, "vue(s)");
       classement("c-villes", s.villes, null, "visiteur(s)");
       classement("c-appareils", s.appareils, null, "visiteur(s)");
-    }).catch(function (e) { console.error(e); $("stats-note").textContent = "Impossible de charger les statistiques pour le moment."; });
+    }).catch(function (e) { console.error(e); $("stats-note").textContent = "Impossible de charger les statistiques pour le moment."; })
+      .then(function () { return client.rpc("admin_telechargements", { p_jours: j }); })
+      .then(function (r) {
+        if (!r || r.error) throw (r && r.error) || new Error("vide");
+        var a = r.data, libelle = j === 1 ? "aujourd'hui" : "sur " + j + " jours";
+        $("app-note").textContent = a.premier ? "Téléchargements comptés depuis le " + date(a.premier) + " (bouton du site, QR code et lien sundarly.com/app). Un téléchargement n'est pas forcément une installation." : "Aucun téléchargement pour le moment. Ils sont comptés dès maintenant (bouton du site, QR code et lien sundarly.com/app).";
+        var t = [["Téléchargements " + libelle, a.periode, "Fichier de l'application"], ["Aujourd'hui", a.aujourdhui, "Depuis minuit"], ["Depuis le début", a.total, "Tous les téléchargements"]];
+        $("tuiles-app").innerHTML = t.map(function (x) {
+          return '<div class="tuile-stat"><span class="tuile-libelle">' + esc(x[0]) + '</span><span class="tuile-nombre">' + Number(x[1]).toLocaleString("fr-FR") + '</span><span class="tuile-detail">' + esc(x[2]) + "</span></div>";
+        }).join("");
+        classement("c-app-sources", a.sources, null, "téléchargement(s)");
+        classement("c-app-pays", a.pays, nomPays, "téléchargement(s)");
+      }).catch(function (e) { console.error(e); $("app-note").textContent = "Impossible de charger les téléchargements pour le moment."; });
   }
   $("f-periode").addEventListener("change", chargerVisites);
   document.querySelector('[data-vue="statistiques"]').addEventListener("click", chargerVisites);

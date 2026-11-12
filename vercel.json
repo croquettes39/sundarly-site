@@ -56,6 +56,10 @@
   ],
   "rewrites": [
     {
+      "source": "/app",
+      "destination": "/api/app"
+    },
+    {
       "source": "/logement/:slug",
       "destination": "/logement"
     },
@@ -66,13 +70,6 @@
     {
       "source": "/informations",
       "destination": "/pourquoi-sundarly"
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/app",
-      "destination": "/telechargements/sundarly.apk",
-      "permanent": false
     }
   ]
 }
