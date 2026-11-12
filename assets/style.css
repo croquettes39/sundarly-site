@@ -965,3 +965,11 @@ html,body{overflow-x:clip}
   .entete .nav .btn{position:absolute;top:10px;right:16px;min-height:40px;padding:0 16px;font-size:14px}
 }
 @media (max-width:340px){.entete .logo svg{display:none}.entete .logo{font-size:21px}.entete .nav .btn{padding:0 13px;font-size:13px;min-height:38px;top:11px}}
+
+.app-store{display:flex;align-items:center;gap:16px;margin:0 0 18px;flex-wrap:wrap}
+.app-badge{position:relative;display:inline-block;flex:0 0 auto}
+.app-badge img{display:block;width:171px;height:auto}
+.app-bientot{position:absolute;top:-10px;right:-12px;background:var(--rose);color:#fff;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;box-shadow:0 4px 10px rgba(120,20,60,.25);transform:rotate(4deg)}
+.app-bientot-texte{font-size:14.5px;color:var(--gris-texte);line-height:1.45;max-width:300px}
+.app-bientot-texte strong{color:var(--encre)}
+@media (max-width:760px){.app-store{gap:14px}.app-bientot-texte{max-width:none}}

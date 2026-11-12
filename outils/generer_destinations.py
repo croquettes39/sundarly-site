@@ -80,7 +80,7 @@ def tete(titre, desc, url, jsonld, robots=""):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=20261112e">
+<link rel="stylesheet" href="/assets/style.css?v=20261112f">
 <script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>
 <script>window.va=window.va||function(){{(window.vaq=window.vaq||[]).push(arguments)}};</script>
 <script defer src="/_vercel/insights/script.js"></script>
