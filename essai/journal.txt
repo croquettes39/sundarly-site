@@ -1,5 +1,7 @@
 === Étape : inscription | compte : essai.android.app@sundarly.com
 capture 1-inscription-vide
+INTROUVABLE {'texte': 'Prénom'}
+capture introuvable-Prénom
 INTROUVABLE {'texte': 'Nom'}
 capture introuvable-Nom
 INTROUVABLE {'texte': 'E-mail'}
