@@ -45,6 +45,11 @@ class MainActivity : ComponentActivity() {
         intent?.getStringExtra("onglet")?.let { nom -> Onglet.entries.firstOrNull { it.name == nom }?.let { etat.onglet = it } }
         if (intent?.getStringExtra("ecran") == "compte") etat.ouvrir(Ecran.Compte)
         if (intent?.getStringExtra("ecran") == "resultats") etat.ouvrir(Ecran.Resultats())
+        // Dates de séjour transmises par un lien (ex. essai automatique, ou plus tard liens partagés)
+        val arrivee = intent?.getStringExtra("arrivee")?.let { runCatching { java.time.LocalDate.parse(it) }.getOrNull() }
+        val depart = intent?.getStringExtra("depart")?.let { runCatching { java.time.LocalDate.parse(it) }.getOrNull() }
+        if (arrivee != null && depart != null && depart.isAfter(arrivee) && !arrivee.isBefore(java.time.LocalDate.now()))
+            etat.recherche = etat.recherche.copy(arrivee = arrivee, depart = depart)
     }
 }
 

@@ -78,8 +78,8 @@ jobs:
           target: google_apis
           profile: pixel_6
           disable-animations: true
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
-          script: bash android/ci/captures.sh apk/*.apk
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back emulated -camera-front emulated
+          script: if [ -s android/ci/essai.txt ]; then python3 android/ci/essai.py apk/*.apk; else bash android/ci/captures.sh apk/*.apk; fi
       - name: Résultats (captures)
         if: always()
         run: |
