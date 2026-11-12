@@ -32,7 +32,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.DateRangePicker
@@ -220,7 +220,7 @@ private fun Rangee(titre: String, annonces: List<Annonce>, etat: Etat, onTitre: 
     Column(Modifier.padding(top = 10.dp, bottom = 10.dp)) {
         Row(Modifier.fillMaxWidth().clickable(onClick = onTitre).padding(horizontal = 20.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(titre, style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Icon(Icons.Filled.KeyboardArrowRight, contentDescription = "Tout voir", tint = Encre)
+            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Tout voir", tint = Encre)
         }
         LazyRow(contentPadding = PaddingValues(horizontal = 20.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
             items(annonces, key = { it.id }) { a -> CarteCompacte(a, etat, 172.dp) { etat.ouvrir(Ecran.Fiche(id = a.id)) } }

@@ -24,7 +24,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -224,6 +224,6 @@ private fun LigneMenu(titre: String, detail: String?, onClick: () -> Unit, fin: 
             if (detail != null) Text(detail, style = MaterialTheme.typography.bodySmall, color = Gris)
         }
         if (fin != null) { fin(); Spacer(Modifier.width(6.dp)) }
-        Icon(Icons.Filled.KeyboardArrowRight, contentDescription = null, tint = Gris)
+        Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, tint = Gris)
     }
 }

@@ -3,27 +3,31 @@
 set -uo pipefail
 SORTIE="${SORTIE:-resultats/captures}"; mkdir -p "$SORTIE"
 APP=com.sundarly.app
-photo() { sleep "${2:-2}"; adb exec-out screencap -p > "$SORTIE/$1.png"; echo "capture $1"; }
+# L'émulateur affiche parfois « Pixel Launcher isn't responding » : on répond « Wait » pour ne pas bloquer les gestes
+alerte() { if adb shell dumpsys window 2>/dev/null | grep -q "Application Not Responding"; then adb shell input tap 320 1360; sleep 2; fi; }
+photo() { sleep "${2:-2}"; alerte; adb exec-out screencap -p > "$SORTIE/$1.png"; echo "capture $1"; }
+geste() { alerte; adb shell input "$@"; }
 ouvrir() { adb shell am start -W -n $APP/.MainActivity "$@" >/dev/null; }
 
 adb install -r "$1"
 adb shell settings put system font_scale 1.0
 adb logcat -c
+sleep 25; alerte
 ouvrir;                                                   photo 01-accueil 9
-adb shell input swipe 540 1800 540 700 400;               photo 02-accueil-rangees 3
+geste swipe 540 1800 540 700 400;               photo 02-accueil-rangees 3
 adb shell am force-stop $APP
 ouvrir --es ecran resultats;                              photo 03-resultats 8
-adb shell input swipe 540 1900 540 600 400;               photo 04-resultats-suite 3
+geste swipe 540 1900 540 600 400;               photo 04-resultats-suite 3
 adb shell am force-stop $APP
 SLUG="${SLUG:-studio-meuble-avec-balcon-hay-rajaa-casablanca}"
 adb shell am start -W -a android.intent.action.VIEW -d "https://www.sundarly.com/logement/$SLUG" $APP >/dev/null
                                                           photo 05-fiche 9
-adb shell input swipe 540 1900 540 500 400;               photo 06-fiche-suite 3
-adb shell input swipe 540 1900 540 300 300; adb shell input swipe 540 1900 540 300 300
+geste swipe 540 1900 540 500 400;               photo 06-fiche-suite 3
+geste swipe 540 1900 540 300 300; geste swipe 540 1900 540 300 300
                                                           photo 07-fiche-avis-carte 5
-adb shell input swipe 540 1900 540 300 300;               photo 08-fiche-regles 3
-adb shell input tap 880 2260;                             photo 09-reservation 3
-adb shell input tap 300 1560;                             photo 10-calendrier 3
+geste swipe 540 1900 540 300 300;               photo 08-fiche-regles 3
+geste tap 880 2260;                             photo 09-reservation 3
+geste tap 300 1560;                             photo 10-calendrier 3
 adb shell am force-stop $APP
 ouvrir --es ecran compte;                                 photo 11-connexion 5
 adb shell am force-stop $APP
