@@ -178,12 +178,24 @@ def photo_appareil(index):
             if trouver(texte=t):
                 toucher_texte(texte=t, delai=1, defile=0); time.sleep(1)
     capture(f"appareil-photo-{index}")
-    if not (toucher_texte(ressource="shutter_button", delai=8, defile=0) or toucher_texte(desc="Shutter", delai=3, defile=0)):
-        return False
-    time.sleep(3)
-    ok = toucher_texte(ressource="done_button", delai=8, defile=0) or toucher_texte(desc="Done", delai=3, defile=0)
-    time.sleep(3)
-    return ok
+    # Déclencheur : par son identifiant s'il est exposé, sinon le gros bouton rond en bas au centre
+    if not (toucher_texte(ressource="shutter_button", delai=4, defile=0) or toucher_texte(desc="Shutter", delai=2, defile=0)):
+        toucher((540, 2175))
+    time.sleep(4)
+    capture(f"appareil-photo-{index}-apres")
+    for n in noeuds():
+        if n.get("clickable") == "true":
+            log("  bouton visible :", n.get("resource-id"), "|", n.get("content-desc"), "|", n.get("text"), "|", n.get("bounds"))
+    for critere in ({"ressource": "done_button"}, {"ressource": "btn_done"}, {"desc": "Done"}, {"desc": "OK"}, {"desc": "Confirm"},
+                    {"desc": "Valider"}, {"texte": "OK"}, {"ressource": "shutter_button"}):
+        if trouver(**critere):
+            toucher_texte(delai=1, defile=0, **critere); time.sleep(3)
+            if trouver(texte="Vérification d'identité"):
+                return True
+    if trouver(texte="Vérification d'identité"):
+        return True
+    log("  retour à l'app sans photo"); adb("shell", "input", "keyevent", "KEYCODE_BACK"); time.sleep(2)
+    return False
 
 
 def main():
