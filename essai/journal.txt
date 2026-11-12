@@ -2,12 +2,9 @@
 capture connexion-saisie
 capture 1-apres-connexion
 capture 2-fiche-avec-dates
-INTROUVABLE {'texte': 'Réserver'}
-capture introuvable-Réserver
 capture 3-panneau-reservation
-INTROUVABLE {'texte': 'Réserver'}
-capture introuvable-Réserver
+boutons « Réserver » visibles : 1
 capture 4-paiement
 capture 5-paiement-charge
-RÉSULTAT : Paiement sécurisé
+RÉSULTAT : Stripe
 === fin
