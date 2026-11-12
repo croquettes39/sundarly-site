@@ -179,17 +179,17 @@ def photo_appareil(index):
                 toucher_texte(texte=t, delai=1, defile=0); time.sleep(1)
     capture(f"appareil-photo-{index}")
     # Déclencheur : par son identifiant s'il est exposé, sinon le gros bouton rond en bas au centre
-    if not (toucher_texte(ressource="shutter_button", delai=4, defile=0) or toucher_texte(desc="Shutter", delai=2, defile=0)):
-        toucher((540, 2175))
+    toucher((540, 2175))
     time.sleep(4)
     capture(f"appareil-photo-{index}-apres")
     for n in noeuds():
         if n.get("clickable") == "true":
             log("  bouton visible :", n.get("resource-id"), "|", n.get("content-desc"), "|", n.get("text"), "|", n.get("bounds"))
-    for critere in ({"ressource": "done_button"}, {"ressource": "btn_done"}, {"desc": "Done"}, {"desc": "OK"}, {"desc": "Confirm"},
-                    {"desc": "Valider"}, {"texte": "OK"}, {"ressource": "shutter_button"}):
-        if trouver(**critere):
-            toucher_texte(delai=1, defile=0, **critere); time.sleep(3)
+    # Bouton « Done » de l'appareil photo (en bas de l'écran : on le touche directement à sa position)
+    for critere in ({"ressource": "done_button"}, {"desc": "Done"}, {"desc": "OK"}, {"texte": "OK"}):
+        r = trouver(**critere)
+        if r:
+            toucher(centre(r[0])[:2]); time.sleep(4)
             if trouver(texte="Vérification d'identité"):
                 return True
     if trouver(texte="Vérification d'identité"):
@@ -251,9 +251,13 @@ def main():
         capture("3-recto")
         log("photo selfie :", photo_appareil(1))
         capture("4-selfie")
-        defiler(); defiler()
+        defiler(); defiler(); defiler()
         capture("5-avant-envoi")
-        toucher_texte(texte="Envoyer pour vérification")
+        r = trouver(texte="Envoyer pour vérification")
+        if r:
+            toucher(centre(r[0])[:2])
+        else:
+            log("bouton d'envoi introuvable")
         time.sleep(15)
         capture("6-apres-envoi")
         for t in ("En cours", "Il manque", "L'envoi n'a pas abouti", "Choisissez", "Indiquez"):
