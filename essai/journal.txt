@@ -1,22 +1,13 @@
-=== Étape : identite | compte : essai.android.app@sundarly.com
+=== Étape : reservation | compte : essai.android.app@sundarly.com
 capture connexion-saisie
 capture 1-apres-connexion
-capture 2-identite-remplie
-capture appareil-photo-0
-capture appareil-photo-0-apres
-  bouton visible : com.android.camera2:id/retake_button | Retake |  | [0,2074][210,2284]
-  bouton visible : com.android.camera2:id/done_button | Done |  | [429,2069][650,2290]
-  bouton visible : com.android.camera2:id/cancel_button | Cancel |  | [870,2074][1080,2284]
-photo recto : True
-capture 3-recto
-capture appareil-photo-1
-capture appareil-photo-1-apres
-  bouton visible : com.android.camera2:id/retake_button | Retake |  | [0,2074][210,2284]
-  bouton visible : com.android.camera2:id/done_button | Done |  | [429,2069][650,2290]
-  bouton visible : com.android.camera2:id/cancel_button | Cancel |  | [870,2074][1080,2284]
-photo selfie : True
-capture 4-selfie
-capture 5-avant-envoi
-capture 6-apres-envoi
-RÉSULTAT : En cours
+capture 2-fiche-avec-dates
+INTROUVABLE {'texte': 'Réserver'}
+capture introuvable-Réserver
+capture 3-panneau-reservation
+INTROUVABLE {'texte': 'Réserver'}
+capture introuvable-Réserver
+capture 4-paiement
+capture 5-paiement-charge
+RÉSULTAT : Paiement sécurisé
 === fin
