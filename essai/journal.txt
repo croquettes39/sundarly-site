@@ -3,38 +3,20 @@ capture connexion-saisie
 capture 1-apres-connexion
 capture 2-identite-remplie
 capture appareil-photo-0
-INTROUVABLE {'ressource': 'shutter_button'}
-capture introuvable-shutter_button
-INTROUVABLE {'desc': 'Shutter'}
-capture introuvable-Shutter
 capture appareil-photo-0-apres
   bouton visible : com.android.camera2:id/retake_button | Retake |  | [0,2074][210,2284]
   bouton visible : com.android.camera2:id/done_button | Done |  | [429,2069][650,2290]
   bouton visible : com.android.camera2:id/cancel_button | Cancel |  | [870,2074][1080,2284]
-INTROUVABLE {'ressource': 'done_button'}
-capture introuvable-done_button
-INTROUVABLE {'desc': 'Done'}
-capture introuvable-Done
-  retour à l'app sans photo
-photo recto : False
+photo recto : True
 capture 3-recto
 capture appareil-photo-1
-INTROUVABLE {'ressource': 'shutter_button'}
-capture introuvable-shutter_button
-INTROUVABLE {'desc': 'Shutter'}
-capture introuvable-Shutter
 capture appareil-photo-1-apres
   bouton visible : com.android.camera2:id/retake_button | Retake |  | [0,2074][210,2284]
   bouton visible : com.android.camera2:id/done_button | Done |  | [429,2069][650,2290]
   bouton visible : com.android.camera2:id/cancel_button | Cancel |  | [870,2074][1080,2284]
-INTROUVABLE {'ressource': 'done_button'}
-capture introuvable-done_button
-INTROUVABLE {'desc': 'Done'}
-capture introuvable-Done
-  retour à l'app sans photo
-photo selfie : False
+photo selfie : True
 capture 4-selfie
 capture 5-avant-envoi
 capture 6-apres-envoi
-RÉSULTAT : Il manque
+RÉSULTAT : En cours
 === fin
