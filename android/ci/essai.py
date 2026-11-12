@@ -35,14 +35,25 @@ def capture(nom):
 
 
 def noeuds():
-    for _ in range(3):
+    for _ in range(4):
         adb("shell", "uiautomator", "dump", "/sdcard/ui.xml", ok=False)
         x = adb("shell", "cat", "/sdcard/ui.xml", ok=False)
         if "<hierarchy" in x:
             try:
-                return list(ET.fromstring(x[x.index("<hierarchy"):]).iter("node"))
+                liste = list(ET.fromstring(x[x.index("<hierarchy"):]).iter("node"))
             except ET.ParseError:
-                pass
+                liste = []
+            # Alerte du téléphone virtuel (« … isn't responding ») : on répond « Wait » et on relit l'écran
+            if any("isn't responding" in (n.get("text") or "") for n in liste):
+                for n in liste:
+                    if (n.get("text") or "") == "Wait":
+                        a, b, c, d = map(int, re.findall(r"\d+", n.get("bounds")))
+                        adb("shell", "input", "tap", str((a + c) // 2), str((b + d) // 2))
+                        log("alerte du téléphone virtuel fermée")
+                time.sleep(1.5)
+                continue
+            if liste:
+                return liste
         time.sleep(1)
     return []
 
@@ -185,6 +196,8 @@ def main():
         adb("shell", "ime", "disable", ime, ok=False)
     adb("shell", "pm", "grant", "com.android.camera2", "android.permission.CAMERA", ok=False)
     adb("shell", "pm", "grant", "com.android.camera2", "android.permission.ACCESS_FINE_LOCATION", ok=False)
+    # Le lanceur d'applications du téléphone virtuel n'est pas utile à l'essai et provoque des alertes
+    adb("shell", "pm", "disable-user", "--user", "0", "com.google.android.apps.nexuslauncher", ok=False)
     adb("logcat", "-c")
     time.sleep(20); alerte()
 
