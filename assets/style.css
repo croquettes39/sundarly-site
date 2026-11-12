@@ -922,3 +922,15 @@ html,body{overflow-x:clip}
   .chiffres{grid-template-columns:1fr 1fr;padding:18px}
   .parcours{grid-template-columns:1fr}
 }
+
+/* Bloc « Téléchargez l'application » (accueil et page Pourquoi Sundarly) */
+.section-app{padding:56px 0}
+.app-carte{display:flex;align-items:center;justify-content:space-between;gap:40px;background:var(--rose-clair);border-radius:28px;padding:40px 48px}
+.app-texte{max-width:560px}
+.app-texte h2{margin:12px 0 10px;font-size:clamp(26px,3.4vw,36px);line-height:1.12;letter-spacing:-.6px;font-weight:800}
+.app-texte p{margin:0 0 20px;color:var(--gris-texte);font-size:17px}
+.app-texte .app-note{margin:14px 0 0;font-size:14px;color:var(--gris)}
+.app-qr{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px;background:#fff;border-radius:22px;padding:16px 16px 14px;text-decoration:none;color:var(--encre);font-weight:700;font-size:13px;text-align:center;box-shadow:0 12px 32px rgba(120,20,60,.12)}
+.app-qr img{width:180px;height:180px}
+.app-qr span{max-width:180px}
+@media (max-width:760px){.app-carte{flex-direction:column;align-items:flex-start;padding:28px 22px;gap:24px}.app-qr{display:none}.app-texte .btn{width:100%}}

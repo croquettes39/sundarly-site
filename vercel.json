@@ -35,6 +35,23 @@
           "value": "public, max-age=0, must-revalidate"
         }
       ]
+    },
+    {
+      "source": "/telechargements/(.*)\\.apk",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/vnd.android.package-archive"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "attachment; filename=\"sundarly.apk\""
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
     }
   ],
   "rewrites": [
@@ -49,6 +66,13 @@
     {
       "source": "/informations",
       "destination": "/pourquoi-sundarly"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/app",
+      "destination": "/telechargements/sundarly.apk",
+      "permanent": false
     }
   ]
 }
