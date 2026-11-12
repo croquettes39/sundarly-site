@@ -123,9 +123,9 @@ def saisir(libelle, valeur):
 
 
 def masquer_clavier():
-    if "mInputShown=true" in adb("shell", "dumpsys", "input_method", ok=False):
-        adb("shell", "input", "keyevent", "KEYCODE_BACK")
-        time.sleep(0.8)
+    # Le clavier à l'écran est désactivé pendant l'essai (voir main) : rien à faire,
+    # surtout pas « retour », qui fermerait l'écran.
+    time.sleep(0.3)
 
 
 def demarrer(*extras):
@@ -180,6 +180,9 @@ def main():
     log("=== Étape :", etape, "| compte :", email)
     adb("install", "-r", sys.argv[1])
     adb("shell", "settings", "put", "secure", "show_ime_with_hard_keyboard", "0")
+    # Pas de clavier à l'écran : la saisie passe par « adb input text », et les champs restent visibles
+    for ime in adb("shell", "ime", "list", "-s", ok=False).split():
+        adb("shell", "ime", "disable", ime, ok=False)
     adb("shell", "pm", "grant", "com.android.camera2", "android.permission.CAMERA", ok=False)
     adb("shell", "pm", "grant", "com.android.camera2", "android.permission.ACCESS_FINE_LOCATION", ok=False)
     adb("logcat", "-c")
