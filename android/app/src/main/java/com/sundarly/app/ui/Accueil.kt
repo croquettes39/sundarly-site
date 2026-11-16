@@ -52,7 +52,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -78,6 +77,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.sundarly.app.R
 import com.sundarly.app.data.Annonce
 import com.sundarly.app.data.Api
+import com.sundarly.app.data.Langue
 import com.sundarly.app.data.Prix
 import java.time.Instant
 import java.time.LocalDate
@@ -139,6 +139,22 @@ fun ChoixDevise(etat: Etat) {
         DropdownMenu(ouvert, onDismissRequest = { ouvert = false }, containerColor = Color.White) {
             Prix.DEVISES.forEach { d ->
                 DropdownMenuItem(text = { Text(Prix.NOMS_DEVISES[d] ?: d, fontWeight = if (d == etat.devise) FontWeight.Bold else FontWeight.Normal) }, onClick = { etat.choisirDevise(d); ouvert = false })
+            }
+        }
+    }
+}
+
+/** Choix de la langue de l'application (par défaut : celle du téléphone). */
+@Composable
+fun ChoixLangue(etat: Etat) {
+    var ouvert by remember { mutableStateOf(false) }
+    Box {
+        Surface(onClick = { ouvert = true }, shape = CircleShape, color = Color.White, border = androidx.compose.foundation.BorderStroke(1.dp, Bord)) {
+            androidx.compose.material3.Text(Langue.LANGUES[Langue.code] ?: Langue.code, style = MaterialTheme.typography.labelMedium, modifier = Modifier.padding(horizontal = 14.dp, vertical = 9.dp))
+        }
+        DropdownMenu(ouvert, onDismissRequest = { ouvert = false }, containerColor = Color.White) {
+            Langue.LANGUES.forEach { (code, nom) ->
+                DropdownMenuItem(text = { androidx.compose.material3.Text(nom, fontWeight = if (code == Langue.code) FontWeight.Bold else FontWeight.Normal) }, onClick = { etat.choisirLangue(code); ouvert = false })
             }
         }
     }

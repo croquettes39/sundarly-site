@@ -31,6 +31,24 @@ jobs:
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 17 }
       - uses: gradle/actions/setup-gradle@v4
+      - name: Clé de signature (si le secret SUNDARLY_SIGNATURE existe)
+        env:
+          SIGNATURE: ${{ secrets.SUNDARLY_SIGNATURE }}
+        run: |
+          if [ -n "$SIGNATURE" ]; then
+            printf '%s' "${SIGNATURE#*:}" | tr -d ' \n\r' | base64 -d > "$RUNNER_TEMP/sundarly.jks"
+            MDP="${SIGNATURE%%:*}"
+            echo "::add-mask::$MDP"
+            {
+              echo "SUNDARLY_KEYSTORE=$RUNNER_TEMP/sundarly.jks"
+              echo "SUNDARLY_KEYSTORE_PASSWORD=$MDP"
+              echo "SUNDARLY_KEY_ALIAS=sundarly"
+              echo "SUNDARLY_KEY_PASSWORD=$MDP"
+            } >> "$GITHUB_ENV"
+            echo "signature: clé Sundarly" > signature.txt
+          else
+            echo "signature: clé d'essai (secret SUNDARLY_SIGNATURE absent)" > signature.txt
+          fi
       - name: Tests et compilation
         id: gradle
         working-directory: android
@@ -41,7 +59,7 @@ jobs:
         if: always()
         run: |
           mkdir -p resultats
-          { echo "commit: $GITHUB_SHA"; echo "run: $GITHUB_RUN_ID (n° $GITHUB_RUN_NUMBER)"; echo "etat: ${{ steps.gradle.outcome }}"; date -u; } > resultats/etat.txt
+          { echo "commit: $GITHUB_SHA"; echo "run: $GITHUB_RUN_ID (n° $GITHUB_RUN_NUMBER)"; echo "etat: ${{ steps.gradle.outcome }}"; cat signature.txt 2>/dev/null; date -u; } > resultats/etat.txt
           grep -n -E "^e: |^w: .*(deprecated|unused)|error:|FAILED|Exception|What went wrong|BUILD|> Task .*(FAILED)|tests completed|AAPT|Could not" compilation.log | head -300 > resultats/erreurs.txt || true
           tail -n 150 compilation.log > resultats/fin-du-journal.txt || true
           mkdir -p resultats/tests && cp -r android/app/build/test-results/testDebugUnitTest/*.xml resultats/tests/ 2>/dev/null || true

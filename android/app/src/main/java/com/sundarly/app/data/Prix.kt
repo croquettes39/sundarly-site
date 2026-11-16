@@ -14,18 +14,24 @@ import kotlin.math.roundToLong
 
 /** Devises, prix, promotions et dates : mêmes règles que le site (assets/devise.js et voyageurs-commun.js). */
 object Prix {
-    val DEVISES = listOf("EUR", "MAD", "CHF")
-    val NOMS_DEVISES = mapOf("EUR" to "€ EUR", "MAD" to "DH MAD", "CHF" to "CHF")
-    private val TAUX = mapOf("EUR" to 1.0, "MAD" to 10.9, "CHF" to 0.94) // pour 1 €, taux indicatifs
+    val DEVISES = listOf("EUR", "MAD", "CHF", "USD", "CAD", "MXN", "BRL")
+    val NOMS_DEVISES = mapOf("EUR" to "€ EUR", "MAD" to "DH MAD", "CHF" to "CHF", "USD" to "$ USD", "CAD" to "$ CAD", "MXN" to "$ MXN", "BRL" to "R$ BRL")
+    // pour 1 €, taux indicatifs (nov. 2026) — les mêmes que assets/devise.js sur le site
+    private val TAUX = mapOf("EUR" to 1.0, "MAD" to 10.9, "CHF" to 0.94, "USD" to 1.12, "CAD" to 1.57, "MXN" to 20.8, "BRL" to 6.2)
+    private val PAYS_DOLLAR = setOf("US", "PR", "AR", "BS", "BB", "BZ", "BO", "CL", "CO", "CR", "CU", "DO", "EC", "SV", "GT", "GY", "HT", "HN", "JM", "NI", "PA", "PY", "PE", "SR", "TT", "UY", "VE")
     private val FR: Locale = Locale.FRANCE
 
-    /** Euro par défaut ; dirham au Maroc ; franc suisse en Suisse. */
+    /** Euro par défaut ; dirham au Maroc ; franc suisse en Suisse ; dollar, dollar canadien, peso mexicain et real en Amérique. */
     fun deviseParDefaut(): String {
         val tz = TimeZone.getDefault().id
         val pays = Locale.getDefault().country
         return when {
             tz == "Africa/Casablanca" || tz == "Africa/El_Aaiun" || pays == "MA" -> "MAD"
             tz == "Europe/Zurich" || pays == "CH" -> "CHF"
+            pays == "CA" -> "CAD"
+            pays == "MX" -> "MXN"
+            pays == "BR" -> "BRL"
+            pays in PAYS_DOLLAR -> "USD"
             else -> "EUR"
         }
     }
@@ -37,7 +43,10 @@ object Prix {
 
     fun formater(montant: Double, devise: String, decimales: Int = 0): String {
         val n = nombre(if (decimales == 0) montant.roundToLong().toDouble() else montant, decimales)
-        return when (devise) { "EUR" -> "$n €"; "MAD" -> "$n DH"; else -> "CHF $n" }
+        return when (devise) {
+            "EUR" -> "$n €"; "MAD" -> "$n DH"; "USD" -> "$" + n; "CAD" -> "CA$" + n; "MXN" -> "MX$" + n; "BRL" -> "R$ " + n
+            else -> "CHF $n"
+        }
     }
 
     /** Prix d'une annonce (dans sa devise) affiché dans la devise choisie par le voyageur. */
@@ -47,7 +56,7 @@ object Prix {
     /** Montant exact, sans conversion (réservations, contrat). */
     fun exact(montant: Double, devise: String): String {
         val n = NumberFormat.getNumberInstance(FR).apply { maximumFractionDigits = 2 }.format(montant)
-        return n + " " + when (devise) { "EUR" -> "€"; "MAD" -> "DH"; else -> devise }
+        return n + " " + when (devise) { "EUR" -> "€"; "MAD" -> "DH"; "USD" -> "US$"; "CAD" -> "CA$"; "MXN" -> "MX$"; "BRL" -> "R$"; else -> devise }
     }
 
     fun pluriel(n: Int, un: String, plusieurs: String) = "$n " + if (n > 1) plusieurs else un
@@ -110,12 +119,14 @@ object Prix {
         Normalizer.normalize(s.lowercase(FR), Normalizer.Form.NFD).replace(Regex("\\p{Mn}+"), "")
 
     // ---------- Dates ----------
-    private val COURT = DateTimeFormatter.ofPattern("d MMM", FR)
-    private val MOYEN = DateTimeFormatter.ofPattern("d MMM yyyy", FR)
-    private val LONG = DateTimeFormatter.ofPattern("EEE d MMM yyyy", FR)
-    private val MOIS = DateTimeFormatter.ofPattern("MMMM yyyy", FR)
-    private val COMPLET = DateTimeFormatter.ofPattern("d MMMM yyyy", FR)
-    private val DATE_HEURE = DateTimeFormatter.ofPattern("d MMM yyyy 'à' HH:mm", FR)
+    // Les dates s'écrivent dans la langue de l'application
+    private fun format(modele: String): DateTimeFormatter = DateTimeFormatter.ofPattern(modele, Langue.locale())
+    private val COURT get() = format("d MMM")
+    private val MOYEN get() = format("d MMM yyyy")
+    private val LONG get() = format("EEE d MMM yyyy")
+    private val MOIS get() = format("MMMM yyyy")
+    private val COMPLET get() = format("d MMMM yyyy")
+    private val DATE_HEURE get() = format(if (Langue.code == "fr") "d MMM yyyy 'à' HH:mm" else "d MMM yyyy HH:mm")
 
     fun jourCourt(d: LocalDate): String = d.format(COURT)
     fun jour(d: String): String = runCatching { LocalDate.parse(d.take(10)).format(MOYEN) }.getOrDefault(d)

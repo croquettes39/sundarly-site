@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.sundarly.app.data.Annonce
 import com.sundarly.app.data.Api
 import com.sundarly.app.data.ErreurSundarly
+import com.sundarly.app.data.Langue
 import com.sundarly.app.data.Prix
 import com.sundarly.app.data.Profil
 import kotlinx.coroutines.launch
@@ -51,6 +52,9 @@ class Etat(app: Application) : AndroidViewModel(app) {
         private set
     fun choisirDevise(d: String) { devise = d; prefs.edit().putString("devise", d).apply() }
     fun prix(montant: Double, deviseAnnonce: String) = Prix.afficher(montant, deviseAnnonce, devise)
+
+    // Langue d'affichage (voir data/Langue.kt)
+    fun choisirLangue(l: String) { Langue.choisir(getApplication(), l) }
 
     // Favoris (gardés sur l'appareil, comme sur le site)
     var favoris by mutableStateOf(prefs.getStringSet("favoris", emptySet())!!.toSet())
@@ -130,7 +134,7 @@ class Etat(app: Application) : AndroidViewModel(app) {
         return catalogue.filter { a ->
             (r.type.isEmpty() || a.typeLogement == r.type) &&
                 (r.voyageurs == 0 || a.voyageurs >= r.voyageurs) &&
-                (q.isEmpty() || Prix.simplifier("${a.ville} ${a.pays} ${a.titre} ${a.typeLogement}").contains(q))
+                (q.isEmpty() || Prix.simplifier("${a.ville} ${a.pays} ${a.titre} ${a.typeLogement} ${Langue.t(a.pays)} ${Langue.t(a.typeLogement)}").contains(q))
         }
     }
 }
