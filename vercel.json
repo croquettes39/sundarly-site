@@ -70,31 +70,31 @@
     },
     {
       "source": "/logement/:slug",
-      "destination": "/logement"
+      "destination": "/api/fiche?slug=:slug"
     },
     {
       "source": "/nl/logement/:slug",
-      "destination": "/nl/logement"
+      "destination": "/api/fiche?slug=:slug&l=nl"
     },
     {
       "source": "/it/logement/:slug",
-      "destination": "/it/logement"
+      "destination": "/api/fiche?slug=:slug&l=it"
     },
     {
       "source": "/de/logement/:slug",
-      "destination": "/de/logement"
+      "destination": "/api/fiche?slug=:slug&l=de"
     },
     {
       "source": "/pt/logement/:slug",
-      "destination": "/pt/logement"
+      "destination": "/api/fiche?slug=:slug&l=pt"
     },
     {
       "source": "/es/logement/:slug",
-      "destination": "/es/logement"
+      "destination": "/api/fiche?slug=:slug&l=es"
     },
     {
       "source": "/en/logement/:slug",
-      "destination": "/en/logement"
+      "destination": "/api/fiche?slug=:slug&l=en"
     },
     {
       "source": "/sitemap.xml",
@@ -104,5 +104,10 @@
       "source": "/informations",
       "destination": "/pourquoi-sundarly"
     }
-  ]
+  ],
+  "functions": {
+    "api/fiche.js": {
+      "includeFiles": "{logement.html,en/logement.html,es/logement.html,pt/logement.html,de/logement.html,it/logement.html,nl/logement.html,assets/langues/*.json}"
+    }
+  }
 }
