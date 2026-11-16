@@ -7,7 +7,9 @@
   var params = new URLSearchParams(location.search);
   var ID = params.get("id") || "";
   // adresse lisible : /logement/<nom-du-logement>
-  var SLUG = (location.pathname.match(/^\/logement\/([a-z0-9-]+)\/?$/i) || [])[1] || "";
+  // Page dans une autre langue : /en/logement/<slug>, /es/logement/<slug>…
+  var PREFIXE = (location.pathname.match(/^\/(en|es|pt|de|it|nl)(?=\/)/) || [""])[0];
+  var SLUG = (location.pathname.replace(/^\/(en|es|pt|de|it|nl)(?=\/)/, "").match(/^\/logement\/([a-z0-9-]+)\/?$/i) || [])[1] || "";
   var A = null, ACCES = null;
 
   var ANNULATION = {
@@ -37,7 +39,7 @@
         // ancien lien ?id= : on affiche l'adresse lisible dans la barre (en gardant dates et voyageurs)
         if (A.slug && !SLUG && window.history && history.replaceState) {
           var q = new URLSearchParams(location.search); q.delete("id");
-          history.replaceState(null, "", "/logement/" + A.slug + (q.toString() ? "?" + q : "") + location.hash);
+          history.replaceState(null, "", PREFIXE + "/logement/" + A.slug + (q.toString() ? "?" + q : "") + location.hash);
         }
         rendre();
       });
@@ -56,15 +58,23 @@
     el.setAttribute("content", valeur);
   }
   function seo() {
-    var url = "https://www.sundarly.com/logement" + (A.slug ? "/" + A.slug : "?id=" + A.id);
-    var titre = A.titre + " – " + A.type_logement + " à " + A.ville + " | Sundarly";
-    var desc = (A.type_logement + " à " + A.ville + ", " + A.pays + " · " + V.pluriel(A.voyageurs, "voyageur", "voyageurs") + ", " + V.pluriel(A.chambres, "chambre", "chambres") + ". " + String(A.description || "").replace(/\s+/g, " ")).slice(0, 155);
+    var url = "https://www.sundarly.com" + PREFIXE + "/logement" + (A.slug ? "/" + A.slug : "?id=" + A.id);
+    var tr = window.SUNDARLY_TRADUIRE || function (x) { return x; };
+    var lg = window.SUNDARLY_LANGUE ? window.SUNDARLY_LANGUE() : "fr";
+    var a_ = { fr: "à", en: "in", es: "en", pt: "em", de: "in", it: "a", nl: "in" }[lg] || "à";
+    var titre = A.titre + " – " + tr(A.type_logement) + " " + a_ + " " + A.ville + " | Sundarly";
+    var desc = (tr(A.type_logement) + " " + a_ + " " + A.ville + ", " + tr(A.pays) + " · " + tr(V.pluriel(A.voyageurs, "voyageur", "voyageurs")) + ", " + tr(V.pluriel(A.chambres, "chambre", "chambres")) + ". " + String(A.description || "").replace(/\s+/g, " ")).slice(0, 155);
     document.title = titre;
     meta("name", "description", desc);
     meta("property", "og:title", titre); meta("property", "og:description", desc); meta("property", "og:url", url);
     meta("name", "twitter:title", titre); meta("name", "twitter:description", desc);
     if (A.photos && A.photos[0]) { meta("property", "og:image", A.photos[0]); meta("name", "twitter:image", A.photos[0]); }
     var c = document.head.querySelector('link[rel="canonical"]'); if (c) c.href = url;
+    // versions dans les autres langues (référencement Google par pays)
+    if (A.slug) Array.prototype.forEach.call(document.head.querySelectorAll('link[rel="alternate"][hreflang]'), function (l) {
+      var h = l.getAttribute("hreflang");
+      l.href = "https://www.sundarly.com" + (h === "fr" || h === "x-default" ? "" : "/" + h) + "/logement/" + A.slug;
+    });
     var ld = {
       "@context": "https://schema.org", "@type": "VacationRental", "@id": url, "identifier": A.id, "name": A.titre, "url": url,
       "description": String(A.description || ""), "image": (A.photos || []).slice(0, 8),

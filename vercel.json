@@ -73,6 +73,30 @@
       "destination": "/logement"
     },
     {
+      "source": "/nl/logement/:slug",
+      "destination": "/nl/logement"
+    },
+    {
+      "source": "/it/logement/:slug",
+      "destination": "/it/logement"
+    },
+    {
+      "source": "/de/logement/:slug",
+      "destination": "/de/logement"
+    },
+    {
+      "source": "/pt/logement/:slug",
+      "destination": "/pt/logement"
+    },
+    {
+      "source": "/es/logement/:slug",
+      "destination": "/es/logement"
+    },
+    {
+      "source": "/en/logement/:slug",
+      "destination": "/en/logement"
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
     },

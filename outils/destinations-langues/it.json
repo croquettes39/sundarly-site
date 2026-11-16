@@ -1,0 +1,500 @@
+{
+ "prep": "a",
+ "textes": {
+  "titre": "Case vacanza {x}: {types} | Sundarly",
+  "titre_court": "Case vacanza {x} senza costi di servizio | Sundarly",
+  "logements": "Alloggi {x}",
+  "vide": "I primi alloggi {x} arrivano prestissimo. Puoi già prenotare subito in altre città, e gli host hanno lo 0 % di commissione sulle prime tre prenotazioni.",
+  "sejourner": "Soggiornare {x}",
+  "types_titre": "Tipi di alloggio {q}",
+  "ou": "Dove alloggiare {x}?",
+  "faire": "Cosa fare {q}?",
+  "pourquoi": "Perché prenotare {q} con Sundarly?",
+  "faq_titre": "Domande frequenti: case vacanza {x}",
+  "hote": "Hai un alloggio {q}?",
+  "puce": "{type} {q}",
+  "faq1q": "Quanto costa una casa vacanza {x} su Sundarly?",
+  "faq1r": "Ogni host fissa il prezzo per notte ed eventualmente le spese di pulizia. Su Sundarly non ci sono costi di servizio per gli ospiti: il prezzo indicato per il tuo alloggio {x} è il prezzo che paghi.",
+  "faq2q": "In quale quartiere alloggiare {x}?",
+  "faq2r": "Dipende dal tuo viaggio: {qs}.",
+  "faq3q": "Qual è il periodo migliore per visitare {nom}?",
+  "faq4q": "Come prenotare un alloggio {x}?",
+  "faq5q": "Ho un alloggio {x}, come lo pubblico su Sundarly?",
+  "hub_desc": "Riad, ville, appartamenti e guest house a Marrakech, Agadir, Djerba, Nizza, Lisbona… Affitti tra privati, senza costi di servizio."
+ },
+ "types": {
+  "Riad": "Riad",
+  "Villa": "Ville",
+  "Appartement": "Appartamenti",
+  "Maison d'hôtes": "Guest house",
+  "Maison": "Case",
+  "Studio": "Monolocali",
+  "Auberge / hostel": "Ostelli",
+  "Chambre d'hôtes": "B&B"
+ },
+ "villes": {
+  "marrakech": [
+   "Marrakech",
+   "Marrakech",
+   "Riad nella medina, ville con piscina nel Palmeraie, appartamenti moderni a Gueliz: trova la tua casa vacanza a Marrakech, senza costi di servizio.",
+   "La città ocra è una delle mete più richieste del Marocco. Ci si viene per la vivacità di piazza Jemaa el-Fna e dei souk, la quiete dei giardini, le giornate a bordo piscina e le escursioni sull'Atlante, a un'ora di auto. Il soggiorno tipico si divide tra un riad nel cuore della medina, per l'atmosfera, e una villa tranquilla fuori città, per riposarsi.",
+   [
+    [
+     "La Medina",
+     "il cuore storico, con i suoi riad e i souk, tutto a piedi"
+    ],
+    [
+     "Gueliz e Hivernage",
+     "la città nuova: appartamenti moderni, ristoranti, negozi"
+    ],
+    [
+     "Il Palmeraie",
+     "ville con giardino e piscina, tranquille, a pochi minuti dal centro"
+    ],
+    [
+     "Strada dell'Ourika e di Amizmiz",
+     "guest house e ville immerse nella natura, con vista sull'Atlante"
+    ]
+   ],
+   "La primavera (da marzo a maggio) e l'autunno (da settembre a novembre) offrono le temperature più piacevoli. L'estate è molto calda: una piscina diventa un vero plus. L'inverno è mite di giorno ma fresco la sera, pensa al riscaldamento.",
+   [
+    "I souk e piazza Jemaa el-Fna",
+    "Il Giardino Majorelle",
+    "Un volo in mongolfiera all'alba",
+    "Una giornata nella valle dell'Ourika o nel deserto di Agafay"
+   ]
+  ],
+  "agadir": [
+   "Agadir",
+   "Agadir",
+   "Appartamenti fronte oceano, ville e case vacanza ad Agadir: prenota direttamente dall'host, senza costi di servizio.",
+   "Con la sua lunga spiaggia di sabbia e il sole quasi tutto l'anno, Agadir è la grande località balneare del sud del Marocco. È ideale per le famiglie e per le vacanze invernali al sole, con un lungomare animato, un porto turistico e tante escursioni verso la valle del Paradiso o il parco del Souss-Massa.",
+   [
+    [
+     "Il lungomare e la Marina",
+     "appartamenti vista oceano, a due passi dalla spiaggia"
+    ],
+    [
+     "Founty e Sonaba",
+     "residence recenti con piscina, in zona tranquilla"
+    ],
+    [
+     "Il centro",
+     "pratico e ben collegato, vicino al souk El Had"
+    ]
+   ],
+   "Agadir si visita tutto l'anno grazie al clima mite. L'inverno attira chi fugge dal freddo europeo; l'estate resta più fresca che nell'entroterra grazie all'oceano.",
+   [
+    "La spiaggia e il lungomare",
+    "Il souk El Had",
+    "La valle del Paradiso",
+    "Il parco nazionale del Souss-Massa"
+   ]
+  ],
+  "taghazout": [
+   "Taghazout e Tamraght",
+   "Taghazout",
+   "Surf hostel, appartamenti vista mare e case di villaggio a Taghazout e Tamraght: la costa del surf, senza costi di servizio.",
+   "A nord di Agadir, i villaggi di Taghazout e Tamraght sono diventati il rifugio di surfisti e amanti dell'oceano. L'atmosfera è rilassata: lezioni di surf, yoga sui tetti, tramonti sull'Atlantico e cucina fresca. Si trovano sia ostelli conviviali sia appartamenti confortevoli con vista mare.",
+   [
+    [
+     "Il villaggio di Taghazout",
+     "vicinissimo agli spot di surf e ai caffè"
+    ],
+    [
+     "Tamraght",
+     "più tranquillo, ideale per i soggiorni lunghi"
+    ],
+    [
+     "Taghazout Bay",
+     "residence recenti con piscina e accesso alla spiaggia"
+    ]
+   ],
+   "Le onde migliori arrivano da ottobre ad aprile. L'estate è adatta ai principianti e alle famiglie, con un oceano più calmo.",
+   [
+    "Lezioni di surf per tutti i livelli",
+    "Yoga davanti all'oceano",
+    "La valle del Paradiso",
+    "Gli spot di Anchor Point e della spiaggia Banana"
+   ]
+  ],
+  "essaouira": [
+   "Essaouira",
+   "Essaouira",
+   "Riad nella medina, case di campagna e appartamenti vista mare a Essaouira: prenota senza costi di servizio.",
+   "Città portuale fortificata e patrimonio mondiale dell'UNESCO, Essaouira conquista con la sua medina bianca e blu, i suoi artigiani, il porto peschereccio e il vento che fa la felicità dei kitesurfer. L'atmosfera è artistica e tranquilla, a circa tre ore di auto da Marrakech.",
+   [
+    [
+     "La Medina",
+     "riad e case tradizionali all'interno dei bastioni"
+    ],
+    [
+     "Il lungomare",
+     "appartamenti di fronte alla grande spiaggia"
+    ],
+    [
+     "I dintorni (Ghazoua, Sidi Kaouki)",
+     "case di campagna e ville tranquille"
+    ]
+   ],
+   "Il clima è mite tutto l'anno. L'estate è più fresca che a Marrakech, con un vento costante apprezzato dagli amanti degli sport di scivolamento.",
+   [
+    "I bastioni e la Skala del porto",
+    "Il porto peschereccio e le sue grigliate",
+    "Kitesurf e windsurf",
+    "Le spiagge di Sidi Kaouki"
+   ]
+  ],
+  "tanger": [
+   "Tangeri",
+   "Tangeri",
+   "Appartamenti con vista sullo Stretto, case nella Kasbah e ville a Tangeri: la tua casa vacanza senza costi di servizio.",
+   "All'incrocio tra Mediterraneo e Atlantico, di fronte alla Spagna, Tangeri ha una storia cosmopolita unica. Kasbah, medina, caffè leggendari e spiagge ne fanno una meta culturale quanto balneare, facilmente raggiungibile dall'Europa.",
+   [
+    [
+     "La Kasbah e la Medina",
+     "case tradizionali con terrazza sullo Stretto"
+    ],
+    [
+     "Il centro e il boulevard Pasteur",
+     "appartamenti pratici, vicini a tutto"
+    ],
+    [
+     "Malabata e la costa",
+     "residence in riva al mare"
+    ]
+   ],
+   "Primavera ed estate sono le stagioni ideali; l'inverno è mite ma più piovoso.",
+   [
+    "La Kasbah e il suo museo",
+    "Capo Spartel e le grotte di Ercole",
+    "I caffè storici",
+    "Un'escursione ad Asilah o Chefchaouen"
+   ]
+  ],
+  "fes": [
+   "Fès",
+   "Fès",
+   "Riad e guest house nella medina di Fès: un'immersione nella città imperiale, senza costi di servizio.",
+   "Fès el-Bali, la sua medina medievale patrimonio dell'UNESCO, è una delle più grandi aree urbane pedonali del mondo. Concerie, madrase, artigiani del cuoio e del rame: soggiornare in un riad a Fès significa vivere al ritmo della più antica delle città imperiali del Marocco.",
+   [
+    [
+     "Fès el-Bali",
+     "la medina storica e i suoi riad restaurati"
+    ],
+    [
+     "Fès el-Jdid",
+     "il quartiere del palazzo reale e del mellah"
+    ],
+    [
+     "La città nuova",
+     "appartamenti moderni, comodi per spostarsi"
+    ]
+   ],
+   "Primavera e autunno sono perfetti per esplorare la medina a piedi. L'estate è calda, l'inverno fresco.",
+   [
+    "Le concerie Chouara",
+    "La madrasa Bou Inania",
+    "I souk degli artigiani",
+    "Un'escursione a Meknès e Volubilis"
+   ]
+  ],
+  "casablanca": [
+   "Casablanca",
+   "Casablanca",
+   "Appartamenti, monolocali e ville a Casablanca per un viaggio di lavoro o in famiglia, senza costi di servizio.",
+   "Capitale economica del Marocco, Casablanca unisce architettura art déco, quartieri d'affari e un lungo lungomare sull'Atlantico. È la tappa ideale per un viaggio di lavoro, una visita in famiglia o l'inizio di un tour del Marocco.",
+   [
+    [
+     "Gauthier e Maarif",
+     "appartamenti moderni, negozi e ristoranti"
+    ],
+    [
+     "Ain Diab e la Corniche",
+     "vista oceano, spiagge e club"
+    ],
+    [
+     "Il centro",
+     "edifici art déco, vicino alle stazioni"
+    ]
+   ],
+   "Clima oceanico mite tutto l'anno, ideale in ogni stagione.",
+   [
+    "La moschea Hassan II",
+    "La Corniche di Ain Diab",
+    "Il quartiere degli Habous",
+    "L'architettura art déco del centro"
+   ]
+  ],
+  "rabat": [
+   "Rabat",
+   "Rabat",
+   "Case vacanza a Rabat: appartamenti, case nella Kasbah degli Oudaya e ville, senza costi di servizio.",
+   "Capitale del Marocco, Rabat è una città verde e tranquilla, patrimonio mondiale dell'UNESCO. La Kasbah degli Oudaya, la torre Hassan, la spiaggia e il lungomare ne fanno una meta piacevole e facile da vivere.",
+   [
+    [
+     "Agdal e Hassan",
+     "appartamenti centrali, vicini ai trasporti"
+    ],
+    [
+     "La Medina e gli Oudaya",
+     "case tradizionali vicino all'oceano"
+    ],
+    [
+     "Souissi",
+     "ville residenziali tranquille"
+    ]
+   ],
+   "Piacevole tutto l'anno grazie all'influenza dell'oceano.",
+   [
+    "La Kasbah degli Oudaya",
+    "La torre Hassan e il mausoleo di Mohammed V",
+    "Il lungomare e la spiaggia",
+    "Salé e la sua medina, sull'altra riva del fiume"
+   ]
+  ],
+  "djerba": [
+   "Djerba",
+   "Djerba",
+   "Houch tradizionali, ville con piscina e appartamenti a Djerba: le tue vacanze al sole, senza costi di servizio.",
+   "Isola del sud della Tunisia famosa per le spiagge di sabbia fine, le case bianche e il ritmo di vita tranquillo, Djerba è ideale per una vacanza al sole in famiglia o tra amici. Gli houch, case tradizionali dell'isola, offrono un'esperienza autentica.",
+   [
+    [
+     "Houmt Souk",
+     "la città principale, il suo souk e il porto"
+    ],
+    [
+     "La zona turistica (Sidi Mahrez)",
+     "ville e residence vicino alle spiagge"
+    ],
+    [
+     "Midoun ed Erriadh",
+     "villaggi tipici e case tradizionali"
+    ]
+   ],
+   "Da maggio a ottobre per il mare; l'inverno resta mite e soleggiato, perfetto per i soggiorni lunghi.",
+   [
+    "Le spiagge di Sidi Mahrez",
+    "Il souk di Houmt Souk",
+    "Djerbahood, il villaggio della street art di Erriadh",
+    "La sinagoga della Ghriba"
+   ]
+  ],
+  "hammamet": [
+   "Hammamet",
+   "Hammamet",
+   "Ville, appartamenti e case vacanza a Hammamet e Yasmine Hammamet, senza costi di servizio.",
+   "Località balneare simbolo della Tunisia, Hammamet offre lunghe spiagge, una medina sul mare e un vivace porto turistico a Yasmine Hammamet. Una meta facile e soleggiata, a un'ora di auto da Tunisi.",
+   [
+    [
+     "La medina e il centro",
+     "case e appartamenti vicino al mare"
+    ],
+    [
+     "Yasmine Hammamet",
+     "residence recenti, porto turistico e animazione"
+    ],
+    [
+     "Hammamet Nord",
+     "ville con giardino, in zona tranquilla"
+    ]
+   ],
+   "Da maggio a ottobre per fare il bagno; la primavera è ideale per visitare la regione.",
+   [
+    "La medina e il suo forte",
+    "Il porto turistico di Yasmine Hammamet",
+    "Le spiagge di sabbia fine",
+    "Un'escursione a Nabeul e a Capo Bon"
+   ]
+  ],
+  "sousse": [
+   "Sousse",
+   "Sousse",
+   "Appartamenti, ville e case vacanza a Sousse e Port El Kantaoui, senza costi di servizio.",
+   "La «perla del Sahel» unisce una medina patrimonio dell'UNESCO, spiagge animate e il porto turistico di Port El Kantaoui. Una meta vivace, ideale per abbinare cultura e relax.",
+   [
+    [
+     "La Medina",
+     "nel cuore della storia, vicino al ribat"
+    ],
+    [
+     "Port El Kantaoui",
+     "porto turistico, golf e residence con piscina"
+    ],
+    [
+     "La Corniche di Boujaafar",
+     "appartamenti fronte spiaggia"
+    ]
+   ],
+   "Da maggio a ottobre per il mare; l'inverno è mite.",
+   [
+    "La medina e il ribat",
+    "Port El Kantaoui",
+    "L'anfiteatro di El Jem, nelle vicinanze",
+    "Monastir e il suo ribat"
+   ]
+  ],
+  "tunis": [
+   "Tunisi e Sidi Bou Said",
+   "Tunisi",
+   "Appartamenti a Tunisi, case a Sidi Bou Said, La Marsa e Cartagine: la tua casa vacanza senza costi di servizio.",
+   "Tra la medina di Tunisi, le rovine di Cartagine e il villaggio bianco e blu di Sidi Bou Said, la regione di Tunisi offre un soggiorno ricco di storia, con le spiagge di La Marsa e Gammarth a due passi.",
+   [
+    [
+     "Sidi Bou Said",
+     "case bianche e blu con vista sul golfo"
+    ],
+    [
+     "La Marsa e Gammarth",
+     "ville e appartamenti vicino alle spiagge"
+    ],
+    [
+     "Il centro e la medina",
+     "per scoprire la città a piedi"
+    ]
+   ],
+   "Primavera e autunno per le visite, l'estate per godersi le spiagge del nord.",
+   [
+    "La medina di Tunisi",
+    "Il villaggio di Sidi Bou Said",
+    "I siti antichi di Cartagine",
+    "Il museo del Bardo"
+   ]
+  ],
+  "nice": [
+   "Nizza e la Costa Azzurra",
+   "Nizza",
+   "Appartamenti vista mare, monolocali nella città vecchia di Nizza e ville in Costa Azzurra: prenota senza costi di servizio.",
+   "Nizza, con la sua Promenade des Anglais, la colorata città vecchia e la sua luce, ha reso celebre la Costa Azzurra. Punto di partenza ideale per Monaco, Villefranche-sur-Mer o l'entroterra, la città si vive tutto l'anno.",
+   [
+    [
+     "La città vecchia di Nizza",
+     "vicoli, mercati e appartamenti di carattere"
+    ],
+    [
+     "Il Porto e il Mont Boron",
+     "vista mare e atmosfera di paese"
+    ],
+    [
+     "Il Carré d'Or e la Promenade",
+     "appartamenti a due passi dalle spiagge"
+    ]
+   ],
+   "Da maggio a ottobre per il mare; l'inverno mite e soleggiato attira anche molti visitatori.",
+   [
+    "La Promenade des Anglais",
+    "La collina del Castello",
+    "Il mercato del Cours Saleya",
+    "Villefranche-sur-Mer e Monaco"
+   ]
+  ],
+  "paris": [
+   "Parigi",
+   "Parigi",
+   "Appartamenti e monolocali a Parigi, dal Marais a Montmartre: il tuo affitto breve senza costi di servizio.",
+   "Musei, quartieri di carattere, bistrot e rive della Senna: Parigi si scopre a piedi e in metro. Un appartamento ti permette di vivere la città come un parigino, in famiglia o in coppia, per un weekend o un soggiorno lungo.",
+   [
+    [
+     "Il Marais",
+     "centrale, vivace, ideale per una prima visita"
+    ],
+    [
+     "Montmartre",
+     "atmosfera di paese e vista su Parigi"
+    ],
+    [
+     "Saint-Germain e il Quartiere Latino",
+     "librerie, caffè e giardini"
+    ]
+   ],
+   "Ogni stagione ha il suo fascino: primavera e autunno sono le più piacevoli per passeggiare.",
+   [
+    "I grandi musei",
+    "Le rive della Senna",
+    "Montmartre e il Sacré-Cœur",
+    "I giardini del Lussemburgo e delle Tuileries"
+   ]
+  ],
+  "lisbonne": [
+   "Lisbona",
+   "Lisbona",
+   "Appartamenti nell'Alfama, nel Chiado o nel Bairro Alto a Lisbona: la tua casa vacanza senza costi di servizio.",
+   "Città dei sette colli, Lisbona conquista con i suoi tram gialli, i miradouros, gli azulejos e la sua luce sul Tago. Le spiagge di Cascais e la magia di Sintra sono a meno di un'ora.",
+   [
+    [
+     "L'Alfama",
+     "il quartiere storico, i suoi vicoli e il fado"
+    ],
+    [
+     "Il Chiado e il Bairro Alto",
+     "centrali, vivaci, ideali per uscire la sera"
+    ],
+    [
+     "Belém",
+     "più tranquillo, vicino ai monumenti e al fiume"
+    ]
+   ],
+   "Da marzo a ottobre per il bel tempo; l'inverno è mite.",
+   [
+    "I miradouros e il tram 28",
+    "Il quartiere di Belém",
+    "Sintra e i suoi palazzi",
+    "Le spiagge di Cascais"
+   ]
+  ],
+  "barcelone": [
+   "Barcellona",
+   "Barcellona",
+   "Appartamenti a Barcellona, dall'Eixample alla Barceloneta: la tua casa vacanza senza costi di servizio.",
+   "Gaudí, il mare, le tapas e una vita notturna animata: Barcellona unisce città e spiaggia come poche altre capitali. Un appartamento in affitto è il modo più pratico per godersela in famiglia o tra amici.",
+   [
+    [
+     "L'Eixample",
+     "elegante e centrale, vicino alla Sagrada Família"
+    ],
+    [
+     "Il Barri Gòtic e il Born",
+     "vicoli storici, bar e negozi"
+    ],
+    [
+     "La Barceloneta",
+     "sul mare, vicino alle spiagge"
+    ]
+   ],
+   "Da maggio a ottobre per il mare; primavera e autunno per visitarla con calma.",
+   [
+    "La Sagrada Família e il Park Güell",
+    "La Rambla e il mercato della Boqueria",
+    "Le spiagge della Barceloneta",
+    "Montjuïc"
+   ]
+  ],
+  "geneve": [
+   "Ginevra e il lago Lemano",
+   "Ginevra",
+   "Appartamenti e case a Ginevra e intorno al lago Lemano: il tuo affitto breve, prezzi in franchi svizzeri, senza costi di servizio.",
+   "Città internazionale sulle rive del lago Lemano, Ginevra offre una qualità di vita notevole: il getto d'acqua, la città vecchia, parchi in riva al lago e montagne vicine. Una base ideale per scoprire la Riviera vodese, Annecy o Chamonix.",
+   [
+    [
+     "La città vecchia",
+     "tranquilla, intorno alla cattedrale di San Pietro"
+    ],
+    [
+     "Les Pâquis e le rive del lago",
+     "vivaci, vicino alla stazione"
+    ],
+    [
+     "Carouge",
+     "atmosfera da borgo sardo, caffè e artigiani"
+    ]
+   ],
+   "L'estate per il lago, l'inverno per le vicine stazioni sciistiche.",
+   [
+    "Il getto d'acqua e le rive del lago",
+    "La città vecchia",
+    "Il CERN e il Palazzo delle Nazioni",
+    "Un'escursione ad Annecy o Montreux"
+   ]
+  ]
+ }
+}

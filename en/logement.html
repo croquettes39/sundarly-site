@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<script src="/assets/langue.js?v=20261116c"></script>
+<title>Stay – Sundarly</title>
+<meta content="Vacation rental on Sundarly, with no service fees for guests." name="description"/>
+<link href="https://www.sundarly.com/en/logement" rel="canonical"/><link href="https://www.sundarly.com/logement" hreflang="fr" rel="alternate"/><link href="https://www.sundarly.com/en/logement" hreflang="en" rel="alternate"/><link href="https://www.sundarly.com/es/logement" hreflang="es" rel="alternate"/><link href="https://www.sundarly.com/pt/logement" hreflang="pt" rel="alternate"/><link href="https://www.sundarly.com/de/logement" hreflang="de" rel="alternate"/><link href="https://www.sundarly.com/it/logement" hreflang="it" rel="alternate"/><link href="https://www.sundarly.com/nl/logement" hreflang="nl" rel="alternate"/><link href="https://www.sundarly.com/logement" hreflang="x-default" rel="alternate"/>
+<!-- langues -->
+
+
+
+
+
+
+
+
+<!-- /langues -->
+<meta content="website" property="og:type"/>
+<meta content="Sundarly" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Stay – Sundarly" property="og:title"/>
+<meta content="Vacation rental on Sundarly, with no service fees for guests." property="og:description"/>
+<meta content="https://www.sundarly.com/en/logement" property="og:url"/>
+<meta content="https://www.sundarly.com/assets/partage.jpg" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Stay – Sundarly" name="twitter:title"/>
+<meta content="Vacation rental on Sundarly, with no service fees for guests." name="twitter:description"/>
+<meta content="https://www.sundarly.com/assets/partage.jpg" name="twitter:image"/>
+<link href="/assets/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#D81B60" name="theme-color"/>
+<link href="/assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link crossorigin="" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
+<link href="/assets/style.css?v=20261112g" rel="stylesheet"/>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};</script>
+<script defer="" src="/_vercel/insights/script.js"></script>
+<script defer="" src="/assets/stats.js?v=20261108a"></script>
+</head>
+<body class="page-fiche">
+<div class="bandeau-apercu" hidden="" id="bandeau-apercu">
+<strong>Administrator preview</strong> — visitors cannot see this page yet. <a href="/admin.html">Administration panel</a>
+</div>
+<header class="entete entete-voyageurs">
+<div class="conteneur">
+<a aria-label="Sundarly, accueil" class="logo" href="/en">
+<svg aria-hidden="true" fill="none" height="36" viewbox="0 0 34 34" width="36"><circle cx="17" cy="15" r="6" stroke="currentColor" stroke-width="2.5"></circle><path d="M17 3v3M5 15h3M26 15h3M8.5 6.5l2 2M25.5 6.5l-2 2" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path><path d="M4 27c3-3 6-3 9 0s6 3 9 0 6-3 9 0" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path></svg>
+<span>sundarly</span>
+</a>
+<nav aria-label="Main navigation" class="nav">
+<label class="choix-devise"><span class="sr">Currency</span><select aria-label="Display currency" data-choix-devise=""><option value="EUR">€ EUR</option><option value="MAD">DH MAD</option><option value="CHF">CHF</option></select></label>
+<a href="/en/logements" id="lien-retour">All stays</a>
+<a class="btn" href="/publier.html">Become a host</a>
+</nav>
+</div>
+</header>
+<main class="fiche" id="fiche">
+<p class="chargement" id="chargement">Loading the stay…</p>
+</main>
+<section class="bientot" hidden="" id="bientot">
+<h1>This stay is not available</h1>
+<p>It is not online yet, or it has been removed. Discover the other stays: you can book right away.</p>
+<p><a class="btn" href="/en">Back to home</a></p>
+</section>
+<!-- Galerie plein écran -->
+<div aria-label="Photos of the property" aria-modal="true" class="galerie" hidden="" id="galerie" role="dialog">
+<div class="galerie-haut">
+<button aria-label="Close" class="rond-retour" id="fermer-galerie" type="button"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-width="2.2" viewbox="0 0 24 24" width="20"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+<span id="galerie-compteur"></span>
+</div>
+<div class="galerie-corps" id="galerie-corps"></div>
+</div>
+<footer class="pied pied-simple">
+<div class="conteneur">
+<span class="liens-legaux">© <span data-annee="">2026</span> Sundarly · <a href="/conditions-generales.html">Terms and conditions</a> · <a href="/mentions-legales.html">Legal notice</a> · <a href="/confidentialite.html">Privacy</a></span>
+</div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script crossorigin="" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/assets/devise.js?v=20261116a"></script>
+<script src="/assets/config.js?v=20261108a"></script>
+<script src="/assets/auth.js?v=20261109a"></script>
+<script src="/assets/app.js?v=20261109a"></script>
+<script src="/assets/voyageurs-commun.js?v=20261108a"></script>
+<script src="/assets/logement.js?v=20261116c"></script>
+</body>
+</html>

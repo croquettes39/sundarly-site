@@ -3,7 +3,7 @@
 // Les pages sont écrites en français ; ce script les traduit à l'affichage avec assets/langues/<langue>.json.
 (function () {
   "use strict";
-  var VERSION = "20261116b";
+  var VERSION = "20261116c";
   var LANGUES = { fr: "Français", en: "English", es: "Español", pt: "Português", de: "Deutsch", it: "Italiano", nl: "Nederlands" };
   // code pays : [nom affiché, langues (la première est celle du pays), devise, groupe]
   var PAYS = {
@@ -26,6 +26,20 @@
   var GROUPES = ["Europe", "Afrique du Nord · North Africa", "North America · Amérique du Nord", "Latinoamérica · Caribbean"];
   var REGIONS = { en: { US: "en-US", CA: "en-CA", "": "en-GB" }, pt: { BR: "pt-BR", "": "pt-PT" }, es: { MX: "es-MX", "": "es-ES" }, de: { "": "de-DE" }, it: { "": "it-IT" }, nl: { "": "nl-NL" }, fr: { "": "fr-FR" } };
 
+  // Pages publiques qui existent dans chaque langue (/en/…, /es/…) pour Google ; outils/langues_site.py fait pareil
+  var CODES = /^\/(en|es|pt|de|it|nl)(?=\/|$)/;
+  var LANGUE_ADRESSE = (location.pathname.match(CODES) || [])[1] || null;
+  var ROBOT = /bot\b|bot\/|crawl|spider|slurp|facebookexternalhit|lighthouse/i.test(navigator.userAgent || "");
+  function variante(chemin) {
+    var p = String(chemin || "").split(/[?#]/)[0].replace(CODES, "") || "/";
+    p = p.replace(/\.html$/, "").replace(/\/index$/, "/") || "/";
+    if (p.length > 1) p = p.replace(/\/$/, "");
+    if (p === "/informations") p = "/pourquoi-sundarly";
+    if (/^\/(logements|hotes|pourquoi-sundarly|locations-vacances|logement)?$/.test(p)) return p || "/";
+    if (/^\/(locations-vacances|logement)\/[a-z0-9-]+$/.test(p)) return p;
+    return null;
+  }
+  function adresse(l, base) { return l === "fr" ? base : "/" + l + (base === "/" ? "" : base); }
   function lire(c) { try { return localStorage.getItem(c); } catch (e) { return null; } }
   function ecrire(c, v) { try { localStorage.setItem(c, v); } catch (e) {} }
   function langueNavigateur(parmi) {
@@ -128,15 +142,24 @@
     var v = el.getAttribute(at) || "";
     if (/mode-emploi-android(-mini)?\.(jpg|webp)$/.test(v)) el.setAttribute(at, v.replace(/\.(jpg|webp)$/, "-" + langue + ".$1"));
   }
+  // Liens vers une page qui existe dans la langue affichée : on y va directement
+  function lienLangue(el) {
+    if (langue === "fr" || el.nodeName !== "A") return;
+    var h = el.getAttribute("href");
+    if (!h || h.charAt(0) !== "/" || h.charAt(1) === "/") return;
+    var i = h.search(/[?#]/), chemin = i < 0 ? h : h.slice(0, i), reste = i < 0 ? "" : h.slice(i);
+    var base = variante(chemin);
+    if (base !== null) { var n = adresse(langue, base) + reste; if (n !== h) el.setAttribute("href", n); }
+  }
   function parcourir(racine) {
     if (!racine) return;
     if (racine.nodeType === 3) { if (!exclu(racine.parentNode)) texte(racine); return; }
     if (racine.nodeType !== 1 || exclu(racine)) return;
-    attributs(racine); modeEmploi(racine);
+    attributs(racine); modeEmploi(racine); lienLangue(racine);
     var w = document.createTreeWalker(racine, 5, null, false), n;
     while ((n = w.nextNode())) {
       if (n.nodeType === 3) { if (!exclu(n.parentNode)) texte(n); }
-      else if (!exclu(n)) { attributs(n); modeEmploi(n); }
+      else { lienLangue(n); if (!exclu(n)) { attributs(n); modeEmploi(n); } }
     }
   }
   function observer() {
@@ -195,10 +218,14 @@
     lab.innerHTML = h + "</optgroup></select>";
     lab.querySelector("select").addEventListener("change", function () {
       var v = this.value.split("-");
+      var l = v.length === 2 ? v[1] : v[0];
       if (v.length === 2) {
-        ecrire("sundarly-pays-choisi", v[0]); ecrire("sundarly-langue", v[1]); ecrire("sundarly-devise", deviseDuPays(v[0]));
-      } else ecrire("sundarly-langue", v[0]);
-      location.reload();
+        ecrire("sundarly-pays-choisi", v[0]); ecrire("sundarly-devise", deviseDuPays(v[0]));
+      }
+      ecrire("sundarly-langue", l);
+      var base = variante(location.pathname);
+      if (base !== null) location.href = adresse(l, base) + location.search + location.hash;
+      else location.reload();
     });
     return lab;
   }
@@ -214,7 +241,12 @@
   // ---------- Démarrage ----------
   function demarrer() {
     if (demarre) return; demarre = true;
-    langue = choixLangue || langueDuPays(pays);
+    langue = LANGUE_ADRESSE || (ROBOT ? "fr" : (choixLangue || langueDuPays(pays)));
+    // Page française qui existe dans la langue du visiteur : on l'y emmène (jamais pour les robots de Google)
+    if (!LANGUE_ADRESSE && !ROBOT && langue !== "fr") {
+      var base = variante(location.pathname);
+      if (base !== null) { masquer(); location.replace(adresse(langue, base) + location.search + location.hash); return; }
+    }
     try { document.dispatchEvent(new CustomEvent("sundarly:pays", { detail: pays })); } catch (e) {}
     charger();
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", poserSelecteur); else poserSelecteur();
@@ -227,7 +259,14 @@
       if (!fini) { fini = true; clearTimeout(t); suite(p); }
     }).catch(function () { if (!fini) { fini = true; clearTimeout(t); suite(null); } });
   }
-  if (choixLangue || paysVu !== null) {
+  if (LANGUE_ADRESSE) {
+    // page déjà dans sa langue (adresse /en/…) : on retient ce choix pour les autres pages
+    ecrire("sundarly-langue", LANGUE_ADRESSE);
+    demarrer();
+    if (paysVu === null || ageMemoire > 6 * 3600 * 1000) demanderPays(function (p) { if (p && !choixPays && p !== pays) { pays = p; try { document.dispatchEvent(new CustomEvent("sundarly:pays", { detail: pays })); } catch (e) {} } });
+  } else if (ROBOT) {
+    demarrer();
+  } else if (choixLangue || paysVu !== null) {
     // langue déjà connue : on affiche tout de suite, et on revérifie le pays de temps en temps (voyage, déménagement)
     if (langue !== (choixLangue || langueDuPays(pays))) masquer();
     demarrer();
