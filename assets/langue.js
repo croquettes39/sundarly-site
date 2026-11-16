@@ -3,7 +3,7 @@
 // Les pages sont écrites en français ; ce script les traduit à l'affichage avec assets/langues/<langue>.json.
 (function () {
   "use strict";
-  var VERSION = "20261116a";
+  var VERSION = "20261116b";
   var LANGUES = { fr: "Français", en: "English", es: "Español", pt: "Português", de: "Deutsch", it: "Italiano", nl: "Nederlands" };
   // code pays : [nom affiché, langues (la première est celle du pays), devise, groupe]
   var PAYS = {
@@ -121,15 +121,22 @@
     }
     if (el.nodeName === "INPUT" && /^(submit|button)$/i.test(el.type) && el.value) { var w = traduire(el.value); if (w != null) el.value = w; }
   }
+  // Mode d'emploi d'installation de l'application : image dans la langue du visiteur
+  function modeEmploi(el) {
+    var n = el.nodeName, at = n === "A" ? "href" : n === "IMG" ? "src" : null;
+    if (!at) return;
+    var v = el.getAttribute(at) || "";
+    if (/mode-emploi-android(-mini)?\.(jpg|webp)$/.test(v)) el.setAttribute(at, v.replace(/\.(jpg|webp)$/, "-" + langue + ".$1"));
+  }
   function parcourir(racine) {
     if (!racine) return;
     if (racine.nodeType === 3) { if (!exclu(racine.parentNode)) texte(racine); return; }
     if (racine.nodeType !== 1 || exclu(racine)) return;
-    attributs(racine);
+    attributs(racine); modeEmploi(racine);
     var w = document.createTreeWalker(racine, 5, null, false), n;
     while ((n = w.nextNode())) {
       if (n.nodeType === 3) { if (!exclu(n.parentNode)) texte(n); }
-      else if (!exclu(n)) attributs(n);
+      else if (!exclu(n)) { attributs(n); modeEmploi(n); }
     }
   }
   function observer() {

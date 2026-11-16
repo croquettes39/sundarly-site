@@ -58,7 +58,7 @@ def tete(titre, desc, url, jsonld, robots=""):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="/assets/langue.js?v=20261116a"></script>
+<script src="/assets/langue.js?v=20261116b"></script>
 <title>{e(titre)}</title>
 <meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{url}">
