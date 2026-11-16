@@ -1,11 +1,11 @@
-commit: 4a9f46130e34efbe05bf2b5c1c97ae3b654583c5
-run: 43827943613 (n° 13)
+commit: dde425548539127b9ff3d62cbbb5d6f11c4765ab
+run: 43829153041 (n° 14)
 etat: success
 signature: clé d'essai (secret SUNDARLY_SIGNATURE absent)
-Mon Nov 16 08:05:24 UTC 2026
+Mon Nov 16 08:14:05 UTC 2026
 total 2196
-drwxr-xr-x 3 runner runner    4096 Nov 16 08:05 .
-drwxr-xr-x 3 runner runner    4096 Nov 16 08:05 ..
--rw-r--r-- 1 runner runner 2228833 Nov 16 08:05 app-release.apk
-drwxr-xr-x 4 runner runner    4096 Nov 16 08:05 baselineProfiles
--rw-r--r-- 1 runner runner     708 Nov 16 08:05 output-metadata.json
+drwxr-xr-x 3 runner runner    4096 Nov 16 08:14 .
+drwxr-xr-x 3 runner runner    4096 Nov 16 08:14 ..
+-rw-r--r-- 1 runner runner 2228833 Nov 16 08:14 app-release.apk
+drwxr-xr-x 4 runner runner    4096 Nov 16 08:14 baselineProfiles
+-rw-r--r-- 1 runner runner     708 Nov 16 08:14 output-metadata.json

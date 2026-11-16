@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.sundarly.app.PrixTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-16T08:03:28.134Z" hostname="runnervmccnms" time="0.468">
+<testsuite name="com.sundarly.app.PrixTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-16T08:12:38.027Z" hostname="runnervmccnms" time="0.334">
   <properties/>
-  <testcase name="textes" classname="com.sundarly.app.PrixTest" time="0.137"/>
-  <testcase name="lectureDesReponsesDeLaBase" classname="com.sundarly.app.PrixTest" time="0.311"/>
-  <testcase name="laMeilleurePromotionSApplique_sansCumul" classname="com.sundarly.app.PrixTest" time="0.002"/>
-  <testcase name="animalFactureSeulementSiAccepte" classname="com.sundarly.app.PrixTest" time="0.001"/>
-  <testcase name="sejourSimple" classname="com.sundarly.app.PrixTest" time="0.006"/>
-  <testcase name="promotionsSelonLaDateDArrivee" classname="com.sundarly.app.PrixTest" time="0.003"/>
+  <testcase name="textes" classname="com.sundarly.app.PrixTest" time="0.099"/>
+  <testcase name="lectureDesReponsesDeLaBase" classname="com.sundarly.app.PrixTest" time="0.224"/>
+  <testcase name="laMeilleurePromotionSApplique_sansCumul" classname="com.sundarly.app.PrixTest" time="0.003"/>
+  <testcase name="animalFactureSeulementSiAccepte" classname="com.sundarly.app.PrixTest" time="0.0"/>
+  <testcase name="sejourSimple" classname="com.sundarly.app.PrixTest" time="0.005"/>
+  <testcase name="promotionsSelonLaDateDArrivee" classname="com.sundarly.app.PrixTest" time="0.001"/>
   <testcase name="devises" classname="com.sundarly.app.PrixTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
