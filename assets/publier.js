@@ -20,7 +20,7 @@
   function coche(nom) { var c = form.elements[nom]; return !!(c && c.checked); }
   function erreur(txt) { zoneErreur.textContent = txt || ""; }
 
-  var SYMBOLES = { EUR: "€", MAD: "DH", CHF: "CHF" };
+  var SYMBOLES = { EUR: "€", MAD: "DH", CHF: "CHF", USD: "US$", CAD: "CA$", MXN: "MX$", BRL: "R$" };
   function devise() { var r = form.querySelector('input[name="devise"]:checked'); return r ? r.value : "EUR"; }
   function montant(n) {
     var s = (Math.round(n * 100) / 100).toLocaleString("fr-FR", { maximumFractionDigits: 2 });
@@ -151,7 +151,15 @@
     "France": [46.6, 2.4, 5], "Suisse": [46.8, 8.2, 7], "Belgique": [50.6, 4.6, 7], "Espagne": [40.2, -3.6, 5],
     "Portugal": [39.6, -8.0, 6], "Italie": [42.8, 12.5, 5], "Grèce": [38.6, 23.2, 6], "Allemagne": [51.1, 10.4, 5],
     "Autriche": [47.6, 14.1, 7], "Pays-Bas": [52.2, 5.3, 7], "Croatie": [44.6, 16.4, 6], "Maroc": [31.6, -7.0, 5],
-    "Tunisie": [34.0, 9.5, 6]
+    "Tunisie": [34.0, 9.5, 6], "Luxembourg": [49.8, 6.1, 9], "Royaume-Uni": [54.0, -2.5, 5], "Irlande": [53.3, -8.0, 6],
+    "États-Unis": [39.5, -98.4, 4], "Canada": [56.0, -96.0, 3], "Mexique": [23.6, -102.5, 5], "Argentine": [-38.4, -63.6, 4],
+    "Bahamas": [24.7, -77.8, 7], "Belize": [17.2, -88.5, 7], "Bolivie": [-16.3, -63.6, 5], "Brésil": [-14.2, -51.9, 4],
+    "Chili": [-35.7, -71.5, 4], "Colombie": [4.6, -74.1, 5], "Costa Rica": [9.7, -84.0, 7], "Cuba": [21.5, -79.0, 6],
+    "Équateur": [-1.8, -78.2, 6], "Guadeloupe": [16.2, -61.5, 9], "Guatemala": [15.8, -90.2, 7], "Guyane française": [4.0, -53.0, 7],
+    "Haïti": [19.0, -72.5, 8], "Honduras": [14.8, -86.6, 7], "Jamaïque": [18.1, -77.3, 8], "Martinique": [14.65, -61.0, 10],
+    "Nicaragua": [12.9, -85.2, 7], "Panama": [8.5, -80.0, 7], "Paraguay": [-23.4, -58.4, 6], "Pérou": [-9.2, -75.0, 5],
+    "Porto Rico": [18.2, -66.5, 8], "République dominicaine": [18.9, -70.2, 7], "Salvador": [13.8, -88.9, 8],
+    "Uruguay": [-32.5, -55.8, 6], "Venezuela": [7.1, -66.2, 5]
   };
   function placer(lat, lng, zoom) {
     if (!carte) return;
@@ -378,10 +386,15 @@
   form.querySelectorAll('input[name="banque_quand"]').forEach(function (r) {
     r.addEventListener("change", function () { $("bloc-banque").hidden = !banqueMaintenant(); });
   });
+  var AMERIQUE_BANQUE = { "Brésil": 1, "Argentine": 1, "Chili": 1, "Colombie": 1, "Pérou": 1, "Autre pays d'Amérique": 1 };
   function typeNumero() {
     var p = val("pays_banque");
     if (p === "Maroc") return { label: "RIB marocain (24 chiffres)", aide: "Les 24 chiffres de votre RIB, espaces acceptés.", ph: "011 780 0000123456789012 34" };
     if (p === "Tunisie") return { label: "RIB tunisien (20 chiffres)", aide: "Les 20 chiffres de votre RIB, espaces acceptés.", ph: "08 006 0123456789012 34" };
+    if (p === "États-Unis") return { label: "Numéro de routage (ABA) puis numéro de compte", aide: "Les 9 chiffres du numéro de routage, suivis du numéro de compte. Espaces acceptés.", ph: "021000021 000123456789" };
+    if (p === "Canada") return { label: "Numéro d'institution, de transit et de compte", aide: "Institution (3 chiffres), transit (5 chiffres), puis numéro de compte. Espaces acceptés.", ph: "003 12345 1234567" };
+    if (p === "Mexique") return { label: "CLABE (18 chiffres)", aide: "Les 18 chiffres de votre CLABE, espaces acceptés.", ph: "002 010 07777777777 1" };
+    if (AMERIQUE_BANQUE[p]) return { label: "Numéro de compte bancaire", aide: "Votre numéro de compte complet (avec le code de la banque et de l'agence s'il y en a un). Ajoutez aussi le code BIC / SWIFT de votre banque.", ph: "" };
     return { label: "IBAN", aide: "Les espaces sont acceptés.", ph: p === "Suisse" ? "CH93 0076 2011 6238 5295 7" : "FR76 3000 6000 0112 3456 7890 189" };
   }
   $("pays_banque").addEventListener("change", function () {
@@ -401,6 +414,8 @@
     if (!n) return "Indiquez votre " + typeNumero().label.split(" (")[0] + ".";
     if (p === "Maroc") return /^[0-9]{24}$/.test(n) ? "" : "Le RIB marocain doit contenir exactement 24 chiffres.";
     if (p === "Tunisie") return /^[0-9]{20}$/.test(n) ? "" : "Le RIB tunisien doit contenir exactement 20 chiffres.";
+    if (p === "Mexique") return /^[0-9]{18}$/.test(n) ? "" : "La CLABE doit contenir exactement 18 chiffres.";
+    if (p === "États-Unis" || p === "Canada" || AMERIQUE_BANQUE[p]) return /^[A-Z0-9]{10,34}$/.test(n) ? "" : "Ce numéro de compte ne semble pas complet. Vérifiez-le.";
     return ibanValide(n) ? "" : "Cet IBAN n'est pas valide. Vérifiez qu'il n'y a pas d'erreur de frappe.";
   }
 

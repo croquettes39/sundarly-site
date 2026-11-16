@@ -1,13 +1,17 @@
 // Sundarly — devise d'affichage selon le pays du visiteur
-// Euro par défaut ; dirham au Maroc ; franc suisse en Suisse.
+// Euro par défaut ; dirham au Maroc ; franc suisse en Suisse ; dollar, dollar canadien, peso mexicain et real en Amérique.
+// Le pays vient de assets/langue.js (pays d'où le visiteur se connecte), sinon du fuseau horaire.
 // Le visiteur peut changer de devise avec le sélecteur en haut de page.
 (function () {
   "use strict";
 
-  var TAUX = { EUR: 1, MAD: 10.9, CHF: 0.94 }; // pour 1 €, taux indicatifs
+  var TAUX = { EUR: 1, MAD: 10.9, CHF: 0.94, USD: 1.12, CAD: 1.57, MXN: 20.8, BRL: 6.2 }; // pour 1 €, taux indicatifs (nov. 2026)
+  var LIBELLES = { EUR: "€ EUR", MAD: "DH MAD", CHF: "CHF", USD: "$ USD", CAD: "$ CAD", MXN: "$ MXN", BRL: "R$ BRL" };
   var CLE = "sundarly-devise";
 
   function devineDevise() {
+    var p = window.SUNDARLY_PAYS ? window.SUNDARLY_PAYS() : "";
+    if (p && window.SUNDARLY_DEVISE_DU_PAYS) { var dp = window.SUNDARLY_DEVISE_DU_PAYS(p); if (TAUX[dp]) return dp; }
     var tz = "";
     try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
     var langues = (navigator.languages || [navigator.language || ""]).join(",");
@@ -26,6 +30,10 @@
     var n = montant.toLocaleString("fr-FR", { minimumFractionDigits: dec, maximumFractionDigits: dec });
     if (devise === "EUR") return n + " €";
     if (devise === "MAD") return n + " DH";
+    if (devise === "USD") return "$" + n;
+    if (devise === "CAD") return "CA$" + n;
+    if (devise === "MXN") return "MX$" + n;
+    if (devise === "BRL") return "R$ " + n;
     return "CHF " + n;
   }
 
@@ -53,9 +61,20 @@
   window.SUNDARLY_FORMATER = function (montant, dev, dec) { return formater(montant, dev || devise, dec || 0); };
 
   document.querySelectorAll("select[data-choix-devise]").forEach(function (s) {
+    s.setAttribute("translate", "no");
+    Object.keys(TAUX).forEach(function (d) {
+      if (s.querySelector('option[value="' + d + '"]')) return;
+      var o = document.createElement("option"); o.value = d; o.textContent = LIBELLES[d]; s.appendChild(o);
+    });
     s.addEventListener("change", function () {
       devise = s.value; ecrireChoix(devise); appliquer(devise);
     });
   });
   appliquer(devise);
+  // Le pays du visiteur arrive juste après (première visite) : on ajuste la devise s'il n'a rien choisi lui-même
+  document.addEventListener("sundarly:pays", function () {
+    if (lireChoix()) return;
+    var d = devineDevise();
+    if (d !== devise) { devise = d; appliquer(devise); }
+  });
 })();

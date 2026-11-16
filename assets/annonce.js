@@ -16,7 +16,7 @@
     });
   }
   function nl(s) { return esc(s).replace(/\n/g, "<br>"); }
-  var SYM = { EUR: "€", MAD: "DH", CHF: "CHF" };
+  var SYM = { EUR: "€", MAD: "DH", CHF: "CHF", USD: "US$", CAD: "CA$", MXN: "MX$", BRL: "R$" };
   function prix(n, dev) { return n == null ? "" : Number(n).toLocaleString("fr-FR", { maximumFractionDigits: 2 }) + " " + (SYM[dev] || dev); }
   function pluriel(n, un, plusieurs) { return n + " " + (n > 1 ? plusieurs : un); }
 
@@ -178,7 +178,7 @@
         return '<p class="gris">' + esc(t) + "</p>";
       },
       form: function (a) {
-        return '<label class="champ">Devise<select name="devise">' + ["EUR", "MAD", "CHF"].map(function (d) { return '<option value="' + d + '"' + (d === a.devise ? " selected" : "") + ">" + d + " (" + SYM[d] + ")</option>"; }).join("") + "</select></label>" +
+        return '<label class="champ">Devise<select name="devise">' + ["EUR", "MAD", "CHF", "USD", "CAD", "MXN", "BRL"].map(function (d) { return '<option value="' + d + '"' + (d === a.devise ? " selected" : "") + ">" + d + " (" + SYM[d] + ")</option>"; }).join("") + "</select></label>" +
           '<div class="champs">' +
           '<label class="champ">Prix par nuit<input type="number" name="prix_nuit" min="1" max="100000" step="1" required value="' + esc(a.prix_nuit) + '"></label>' +
           '<label class="champ">Frais de ménage <span class="facultatif">(facultatif)</span><input type="number" name="frais_menage" min="0" max="100000" step="1" value="' + esc(a.frais_menage == null ? "" : a.frais_menage) + '"></label>' +

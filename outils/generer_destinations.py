@@ -40,7 +40,7 @@ def pied():
     <div class="colonnes colonnes-4">
       <div>
         <a class="logo" href="/" style="font-size:22px"><span>sundarly</span></a>
-        <p>Locations de vacances entre particuliers en Europe, au Maroc et en Tunisie. Aucun frais de service pour les voyageurs.</p>
+        <p>Locations de vacances entre particuliers en Europe, en Amérique, au Maroc et en Tunisie. Aucun frais de service pour les voyageurs.</p>
         <a href="/publier">Devenir hôte</a>
         <a href="/logements">Tous les logements</a>
       </div>
@@ -58,6 +58,7 @@ def tete(titre, desc, url, jsonld, robots=""):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/assets/langue.js?v=20261116a"></script>
 <title>{e(titre)}</title>
 <meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{url}">
@@ -88,7 +89,7 @@ def tete(titre, desc, url, jsonld, robots=""):
 </head>'''
 
 SCRIPTS = '''<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="/assets/devise.js?v=20261108a"></script>
+<script src="/assets/devise.js?v=20261116a"></script>
 <script src="/assets/config.js?v=20261108a"></script>
 <script src="/assets/auth.js?v=20261109a"></script>
 <script src="/assets/app.js?v=20261109a"></script>
@@ -103,7 +104,7 @@ def faq(d):
     q.append((f"Dans quel quartier séjourner {a_la(d['nom'])} ?", f"Tout dépend de votre séjour : {qs}."))
     q.append((f"Quelle est la meilleure période pour partir {a_la(d['nom'])} ?", d["saison"]))
     q.append((f"Comment réserver un logement {a_la(d['nom'])} ?",
-              "Choisissez vos dates et le nombre de voyageurs, puis réservez directement sur Sundarly. Le paiement est sécurisé et les coordonnées de l'hôte vous sont transmises dès que la réservation est confirmée et payée. Les réservations ouvrent le 20 novembre 2026."))
+              "Choisissez vos dates et le nombre de voyageurs, puis réservez directement sur Sundarly. Le paiement est sécurisé et les coordonnées de l'hôte vous sont transmises dès que la réservation est confirmée et payée."))
     q.append((f"J'ai un logement {a_la(d['nom'])}, comment le proposer sur Sundarly ?",
               "L'inscription est gratuite. Créez votre compte hôte, publiez votre annonce en quelques minutes et ne payez que 10 % de commission sur le prix des nuits (0 % sur vos 3 premières réservations pendant le lancement). Le ménage vous revient en entier."))
     return q

@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="/assets/langue.js?v=20261116a"></script>
 <title>Publier mon logement – Sundarly</title>
 <meta name="description" content="Publiez votre logement de vacances sur Sundarly en quelques minutes : 10 % de commission seulement, sur le prix des nuits.">
 <meta name="robots" content="noindex">
@@ -91,7 +92,7 @@
         <label class="champ">Pays
           <select name="pays" id="pays" required>
             <option value="">Choisir…</option>
-            <option>France</option><option>Suisse</option><option>Belgique</option><option>Espagne</option><option>Portugal</option><option>Italie</option><option>Grèce</option><option>Allemagne</option><option>Autriche</option><option>Pays-Bas</option><option>Croatie</option><option>Maroc</option><option>Tunisie</option><option>Autre pays</option>
+            <optgroup label="Europe"><option>France</option><option>Suisse</option><option>Belgique</option><option>Luxembourg</option><option>Espagne</option><option>Portugal</option><option>Italie</option><option>Grèce</option><option>Allemagne</option><option>Autriche</option><option>Pays-Bas</option><option>Croatie</option><option>Royaume-Uni</option><option>Irlande</option></optgroup><optgroup label="Afrique du Nord"><option>Maroc</option><option>Tunisie</option></optgroup><optgroup label="Amérique du Nord"><option>États-Unis</option><option>Canada</option><option>Mexique</option></optgroup><optgroup label="Amérique latine et Caraïbes"><option>Argentine</option><option>Bahamas</option><option>Belize</option><option>Bolivie</option><option>Brésil</option><option>Chili</option><option>Colombie</option><option>Costa Rica</option><option>Cuba</option><option>Équateur</option><option>Guadeloupe</option><option>Guatemala</option><option>Guyane française</option><option>Haïti</option><option>Honduras</option><option>Jamaïque</option><option>Martinique</option><option>Nicaragua</option><option>Panama</option><option>Paraguay</option><option>Pérou</option><option>Porto Rico</option><option>République dominicaine</option><option>Salvador</option><option>Uruguay</option><option>Venezuela</option></optgroup><option>Autre pays</option>
           </select>
         </label>
         <label class="champ">Ville
@@ -219,11 +220,15 @@
     <!-- 7. Prix -->
     <section class="etape-form" data-etape="Prix" data-phase="3" hidden>
       <h1>À présent, fixez votre prix</h1>
-      <p class="aide">La devise est choisie selon votre pays (euro par défaut, dirham au Maroc, franc suisse en Suisse). Vous pouvez la changer ici.</p>
+      <p class="aide">La devise est choisie selon votre pays (euro par défaut). Vous pouvez la changer ici.</p>
       <div class="devises" role="radiogroup" aria-label="Devise">
         <label><input type="radio" name="devise" value="EUR" checked><span>€ Euro</span></label>
         <label><input type="radio" name="devise" value="MAD"><span>DH Dirham</span></label>
         <label><input type="radio" name="devise" value="CHF"><span>CHF</span></label>
+        <label><input type="radio" name="devise" value="USD"><span>$ Dollar US</span></label>
+        <label><input type="radio" name="devise" value="CAD"><span>$ Dollar canadien</span></label>
+        <label><input type="radio" name="devise" value="MXN"><span>$ Peso mexicain</span></label>
+        <label><input type="radio" name="devise" value="BRL"><span>R$ Real</span></label>
       </div>
       <label class="champ" style="max-width:340px">Prix par nuit
         <span class="prix-grand"><input type="number" name="prix_nuit" id="prix_nuit" required min="1" max="100000" step="1" inputmode="decimal" value="100"><b class="symbole">€</b></span>
@@ -298,7 +303,7 @@
           <label class="champ">Pays de la banque
             <select name="pays_banque" id="pays_banque">
               <option value="">Choisir…</option>
-              <option>France</option><option>Suisse</option><option>Belgique</option><option>Espagne</option><option>Portugal</option><option>Italie</option><option>Allemagne</option><option>Autre pays (IBAN)</option><option>Maroc</option><option>Tunisie</option>
+              <optgroup label="Europe (IBAN)"><option>France</option><option>Suisse</option><option>Belgique</option><option>Luxembourg</option><option>Espagne</option><option>Portugal</option><option>Italie</option><option>Grèce</option><option>Allemagne</option><option>Autriche</option><option>Pays-Bas</option><option>Croatie</option><option>Royaume-Uni</option><option>Irlande</option><option>Autre pays (IBAN)</option></optgroup><optgroup label="Afrique du Nord"><option>Maroc</option><option>Tunisie</option></optgroup><optgroup label="Amérique"><option>États-Unis</option><option>Canada</option><option>Mexique</option><option>Brésil</option><option>Argentine</option><option>Chili</option><option>Colombie</option><option>Pérou</option><option>Autre pays d'Amérique</option></optgroup>
             </select>
           </label>
           <label class="champ large"><span id="l-numero">IBAN</span>
@@ -348,9 +353,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-<script src="assets/devise.js?v=20261108a"></script>
+<script src="assets/devise.js?v=20261116a"></script>
 <script src="assets/config.js?v=20261108a"></script>
 <script src="assets/auth.js?v=20261109a"></script>
-<script src="assets/publier.js?v=20261108a"></script>
+<script src="assets/publier.js?v=20261116a"></script>
 </body>
 </html>

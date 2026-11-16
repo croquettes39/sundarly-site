@@ -1,6 +1,6 @@
 # Sundarly — fiche projet (à lire en premier)
 
-Plateforme de location courte durée type Airbnb pour l'**Europe, le Maroc et la Tunisie**, créée par Sandra (propriétaire, tutoiement, toujours écrire en **français**, au féminin quand on parle d'elle). Site : https://www.sundarly.com — couleur **rose #D81B60**. Son nom personnel ne doit **jamais** apparaître sur le site (infos de la société seulement en bas des mentions légales). Contact public : info@sundarly.com.
+Plateforme de location courte durée type Airbnb pour l'**Europe, l'Amérique (Nord, centrale, Sud, Caraïbes — ouverte le 16 nov. 2026), le Maroc et la Tunisie**, créée par Sandra (propriétaire, tutoiement, toujours écrire en **français**, au féminin quand on parle d'elle). Site : https://www.sundarly.com — couleur **rose #D81B60**. Son nom personnel ne doit **jamais** apparaître sur le site (infos de la société seulement en bas des mentions légales). Contact public : info@sundarly.com.
 
 ## Accès techniques
 - **Code** : GitHub `croquettes39/sundarly-site` (branche `main`). Chaque push sur `main` est mis en ligne automatiquement par Vercel.
@@ -13,7 +13,12 @@ Plateforme de location courte durée type Airbnb pour l'**Europe, le Maroc et la
 ## Architecture
 Site statique HTML/CSS/JS (pas de framework, pas de build) + fonctions serveur Vercel dans `api/` + Supabase (base, auth, stockage, pg_cron).
 - `assets/style.css` unique ; **chaque modification de CSS/JS doit changer le `?v=` dans les balises** (`style.css?v=20261108c`…) des pages HTML (et `outils/generer_destinations.py`), sinon les navigateurs gardent l'ancienne version. Cache CSS/JS réglé sur `max-age=0, must-revalidate` dans `vercel.json`.
-- `assets/voyageurs-commun.js` (`window.SundarlyVoyage`) : prix, devises (EUR par défaut, MAD au Maroc, CHF en Suisse), promotions, notes.
+- `assets/voyageurs-commun.js` (`window.SundarlyVoyage`) : prix, devises, promotions, notes.
+- **Devises** (`assets/devise.js`) : EUR, MAD, CHF, USD, CAD, MXN, BRL (aussi acceptées pour le prix d'une annonce : contrainte `annonces_devise_check`, `supabase/amerique.sql`). Devise d'affichage selon le pays du visiteur ; taux indicatifs dans `TAUX`, à rafraîchir de temps en temps.
+- **Langues** (`assets/langue.js`, chargé dans le `<head>` de toutes les pages sauf l'admin) : les pages restent écrites **en français** ; le script les traduit à l'affichage en **en, es, pt, de, it, nl** avec `assets/langues/<langue>.json` (`t` = texte français → traduction, les nombres remplacés par `#` ; `f` = morceaux utilisables dans les textes composés par le JS). Langue = choix du visiteur (sélecteur « globe » pays/langue dans l'en-tête, mémorisé) sinon **pays d'où il se connecte** (`api/pays.js`, en-tête Vercel) sinon langue du navigateur. La table pays → langue → devise est `PAYS` dans `langue.js` (Suisse, Belgique, Canada… : langue du navigateur parmi celles du pays). Grèce et Croatie : anglais pour l'instant.
+  - **Tout nouveau texte visible** (HTML ou JS) doit être ajouté dans les 6 fichiers `assets/langues/*.json` (clé = le texte français exact, espaces normalisés), sinon il reste en français. Puis changer `VERSION` dans `langue.js` **et** son `?v=` dans les pages.
+  - Les listes déroulantes sans `value` gardent leur valeur française (posée automatiquement) : la base reçoit toujours « États-Unis », « Maroc »…
+  - Pas encore traduits : pages légales (CGV, confidentialité, mentions), contrat de séjour, e-mails, textes des guides de villes (`locations-vacances/*`), textes écrits par les hôtes (titres, descriptions, avis), admin, application Android.
 - `assets/auth.js` (`window.SundarlyAuth`) : session, profil, `exiger()`.
 - Pages : accueil façon Airbnb (`index.html` + `assets/accueil.js` : recherche, rangées par ville, favoris locaux), `logements`, `logement` (fiche + réservation), `publier`, `annonce` (édition hôte), `espace-hote`, `verification`, `reservations`, `avis`, `contrat`, `admin`, pages SEO `locations-vacances/*` (générées par `outils/generer_destinations.py`).
 - **Adresses lisibles** : chaque annonce a un `slug` (créé automatiquement à l'insertion, stable, modifiable seulement par l'admin) → `/logement/<slug>` (réécriture dans `vercel.json`, résolu par `annonce_par_slug`). Les anciens liens `/logement?id=…` marchent toujours et affichent l'adresse lisible. `logement.html` utilise des chemins absolus (`/assets/…`) à cause de cette réécriture.
@@ -42,6 +47,7 @@ Site statique HTML/CSS/JS (pas de framework, pas de build) + fonctions serveur V
 1. **Envoi d'e-mails** (Resend + DNS chez LWS) : confirmation de réservation, copie du contrat aux 3 parties, relances d'identité, e-mails aux couleurs Sundarly (modèles dans `emails/`).
 2. **Remboursement automatique** des réservations annulées (aujourd'hui bouton manuel dans l'admin) + bouton admin « Annuler une réservation » (fonction `admin_annuler_reservation` déjà en base).
 3. Test complet d'un vrai paiement → contrat → signature → remboursement.
-4. Version anglaise du contrat ; relecture juridique conseillée (avocat au Maroc).
+4. Contrat, pages légales, e-mails et guides de villes à traduire (en, es, pt, de, it, nl) ; grec et croate à ajouter ; relecture juridique conseillée (avocat au Maroc, et selon les pays d'Amérique).
+7. Amérique : versements aux hôtes par virement manuel (routing/compte USA, CLABE Mexique…) ; vérifier que le compte Stripe encaisse bien en USD/CAD/MXN/BRL avant la première réservation dans ces devises ; l'application Android ne connaît pas encore ces devises ni les langues.
 5. Faire tourner la clé Stripe (elle a été collée dans une conversation) et la remettre dans Vercel.
 6. Favoris liés au compte ; messagerie avec traduction automatique (souhait de Sandra).
