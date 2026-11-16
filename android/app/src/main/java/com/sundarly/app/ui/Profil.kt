@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.sundarly.app.data.Api
 import com.sundarly.app.data.ErreurSundarly
+import com.sundarly.app.data.Langue
 import com.sundarly.app.data.Prix
 import com.sundarly.app.data.Reservation
 
@@ -219,7 +220,7 @@ fun OngletProfil(etat: Etat) {
 @Composable
 private fun Section(titre: String) {
     Box(Modifier.padding(top = 18.dp, bottom = 14.dp).fillMaxWidth().height(1.dp).background(Ligne))
-    Text(titre.uppercase(), style = MaterialTheme.typography.labelSmall, color = Gris, modifier = Modifier.padding(bottom = 4.dp))
+    Text(Langue.t(titre).uppercase(), style = MaterialTheme.typography.labelSmall, color = Gris, modifier = Modifier.padding(bottom = 4.dp))
 }
 
 @Composable
