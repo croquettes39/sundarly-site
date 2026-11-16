@@ -160,7 +160,7 @@ def page(d):
     <div class="conteneur">
       <h2>Logements {e(a_la(d["nom"]))}</h2>
       <div class="grille-logements grille-dest" id="grille-dest"></div>
-      <p class="intro" id="vide-dest">Les premiers logements {e(a_la(d["nom"]))} arrivent très bientôt. Vous pouvez déjà réserver de suite dans d'autres villes, et les hôtes profitent de 0 % de commission pendant les trois premières réservations. <a href="logements.html">Voir les logements</a>.</p>
+      <p class="intro" id="vide-dest">Les premiers logements {e(a_la(d["nom"]))} arrivent très bientôt. Vous pouvez déjà réserver de suite dans d'autres villes, et les hôtes profitent de 0 % de commission pendant les trois premières réservations. <a href="/logements">Voir les logements</a>.</p>
     </div>
   </section>
 
