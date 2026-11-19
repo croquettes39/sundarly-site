@@ -51,7 +51,7 @@ Site statique HTML/CSS/JS (pas de framework, pas de build) + fonctions serveur V
 `api/reserver.js` → `creer_reservation` (prix recalculé en base par `devis_sejour`, dispo, identité) → Stripe Checkout (devise de l'annonce, MAD possible) → retour `contrat.html?id=…&session=…` → `api/confirmer.js` relit la session chez Stripe → `serveur_confirmer_paiement`. Webhook en secours. Remboursement : `api/rembourser.js` (admin). Les fonctions `serveur_*` exigent `SUNDARLY_CLE_SERVEUR`.
 
 ## Base de données (principales tables)
-`profils` (statut_verification, numero_piece), `annonces`, `coordonnees_bancaires`, `reservations` (paiement, commission, contrat, remboursement, versement), `avis`, `visites`, `admins`, `reglages`, `cles_serveur`. Résumés des migrations dans `supabase/*.sql`. Tâches pg_cron : contrats expirés (chaque minute), réservations non payées libérées (30 min), séjours terminés.
+`profils` (statut_verification, numero_piece), `annonces`, `dates_bloquees` (dates réservées ailleurs, bloquées à la main par SQL ; fin = jour de départ ; vérifiées par `devis_sejour`, pas encore affichées dans un calendrier ni gérables depuis l'admin — `supabase/dates-bloquees.sql`), `coordonnees_bancaires`, `reservations` (paiement, commission, contrat, remboursement, versement), `avis`, `visites`, `admins`, `reglages`, `cles_serveur`. Résumés des migrations dans `supabase/*.sql`. Tâches pg_cron : contrats expirés (chaque minute), réservations non payées libérées (30 min), séjours terminés.
 
 ## Reste à faire (au 9 nov. 2026)
 1. **Envoi d'e-mails** (Resend + DNS chez LWS) : confirmation de réservation, copie du contrat aux 3 parties, relances d'identité, e-mails aux couleurs Sundarly (modèles dans `emails/`).
