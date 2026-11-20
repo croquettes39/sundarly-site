@@ -47,7 +47,10 @@
     var html = "";
     var promos = L.filter(function (a) { return V.badgePromo(a); });
     if (promos.length >= 3) html += rangee("En promotion en ce moment", "logements.html", promos);
-    ordre.forEach(function (v) { html += rangee("Logements à " + v, "logements.html?q=" + encodeURIComponent(v), villes[v]); });
+    // Seules les villes avec au moins 3 logements ont leur rangée (les autres restent trouvables par la recherche)
+    var MIN_RANGEE = 3;
+    var pleines = ordre.filter(function (v) { return villes[v].length >= MIN_RANGEE; });
+    (pleines.length ? pleines : ordre).forEach(function (v) { html += rangee("Logements à " + v, "logements.html?q=" + encodeURIComponent(v), villes[v]); });
     html += rangee("Nouveautés sur Sundarly", "logements.html", L.slice().sort(function (x, y) { return new Date(y.created_at) - new Date(x.created_at); }).slice(0, 12));
     zone.innerHTML = html;
     var dl = document.getElementById("br-villes");
