@@ -41,8 +41,20 @@
     var m = Math.max(a.reduction_semaine || 0, a.reduction_mois || 0, a.reduction_anticipee || 0, a.reduction_derniere_minute || 0);
     return m ? "Jusqu'à -" + m + " %" : "";
   }
+  // Prix par saison : prix_saisons = [{debut, fin (dernière nuit incluse), prix}] ; sinon prix_nuit
+  function prixNuit(a, jour) {
+    var s = (a.prix_saisons || []).filter(function (x) { return jour >= x.debut && jour <= x.fin; })
+      .sort(function (x, y) { return x.debut < y.debut ? 1 : -1; })[0];
+    return Number(s ? s.prix : a.prix_nuit);
+  }
+  function montantNuits(a, n, arrivee) {
+    if (!arrivee || !(a.prix_saisons || []).length) return Number(a.prix_nuit) * n;
+    var t = 0, d = new Date(arrivee + "T12:00:00Z");
+    for (var i = 0; i < n; i++) { t += prixNuit(a, d.toISOString().slice(0, 10)); d.setUTCDate(d.getUTCDate() + 1); }
+    return t;
+  }
   function calculSejour(a, n, arrivee, animal) {
-    var base = Number(a.prix_nuit) * n, best = promotions(a, n, arrivee);
+    var base = montantNuits(a, n, arrivee), best = promotions(a, n, arrivee);
     var red = best ? base * best[0] / 100 : 0;
     var menage = Number(a.frais_menage || 0);
     var fraisAnimaux = animal && a.animaux ? Number(a.frais_animaux || 0) : 0;
@@ -67,6 +79,6 @@
 
   window.SundarlyVoyage = {
     client: client, esc: esc, pluriel: pluriel, devise: devise, prix: prix, valeur: valeur,
-    nuits: nuits, calculSejour: calculSejour, promotions: promotions, badgePromo: badgePromo, note: note, acces: acces, TYPES_ESPACE: TYPES_ESPACE
+    nuits: nuits, calculSejour: calculSejour, prixNuit: prixNuit, montantNuits: montantNuits, promotions: promotions, badgePromo: badgePromo, note: note, acces: acces, TYPES_ESPACE: TYPES_ESPACE
   };
 })();

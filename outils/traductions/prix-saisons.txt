@@ -1,0 +1,3 @@
+K:Prix selon les dates ¦ Prices by date ¦ Precios según las fechas ¦ Preços conforme as datas ¦ Preise je nach Datum ¦ Prezzi in base alle date ¦ Prijzen per periode
+F:# nuit ¦ # night ¦ # noche ¦ # noite ¦ # Nacht ¦ # notte ¦ # nacht
+F:# nuits ¦ # nights ¦ # noches ¦ # noites ¦ # Nächte ¦ # notti ¦ # nachten

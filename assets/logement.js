@@ -154,6 +154,16 @@
 
   // ---------- Réservation (calcul du prix) ----------
   var SEJ = { arrivee: params.get("arrivee") || "", depart: params.get("depart") || "", voyageurs: parseInt(params.get("voyageurs"), 10) || 1 };
+  // Prix selon les dates (saisons fixées par l'hôte), seulement les périodes pas encore passées
+  function saisons() {
+    var auj = new Date().toISOString().slice(0, 10);
+    var l = (A.prix_saisons || []).filter(function (x) { return x.fin >= auj; }).sort(function (x, y) { return x.debut < y.debut ? -1 : 1; });
+    if (!l.length) return "";
+    function jm(d) { return d.slice(8, 10) + "/" + d.slice(5, 7); }
+    return '<div class="fr-saisons"><strong>Prix selon les dates</strong><ul>' + l.map(function (x) {
+      return "<li><span>" + esc(jm(x.debut) + " – " + jm(x.fin)) + "</span> <strong>" + esc(V.prix(x.prix, A.devise)) + "</strong> <span>par nuit</span></li>";
+    }).join("") + "</ul></div>";
+  }
   function rendreReservation() {
     var z = $("reservation"), n = V.nuits(SEJ.arrivee, SEJ.depart);
     var c = n ? V.calculSejour(A, n, SEJ.arrivee, SEJ.animal) : null;
@@ -175,7 +185,7 @@
     // Réservations ouvertes dès que le site est ouvert (l'administratrice peut toujours tester)
     var ouvert = ACCES.ouvert || ACCES.admin;
     z.innerHTML =
-      '<p class="fr-prix"><strong>' + esc(V.prix(A.prix_nuit, A.devise)) + "</strong> par nuit</p>" +
+      '<p class="fr-prix"><strong>' + esc(V.prix(A.prix_nuit, A.devise)) + "</strong> par nuit</p>" + saisons() +
       (promos.length ? '<div class="fr-promos"><strong>🎁 Promotions</strong><ul>' + promos.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul><small>La meilleure s'applique automatiquement.</small></div>" : "") +
       '<div class="fr-champs"><label><span>Arrivée</span><input type="date" name="arrivee" min="' + min + '" value="' + esc(SEJ.arrivee) + '"></label>' +
       '<label><span>Départ</span><input type="date" name="depart" min="' + esc(SEJ.arrivee || min) + '" value="' + esc(SEJ.depart) + '"></label>' +
@@ -185,7 +195,7 @@
       (erreur ? '<p class="fr-erreur">' + esc(erreur) + "</p>" : "") +
       '<p class="mention-verif">🔒 Identité vérifiée obligatoire pour réserver</p>' +
       (c && !erreur ? '<p class="fr-note">Vous ne payez rien pour le moment</p><dl class="fr-detail">' +
-        "<div><dt>" + esc(V.prix(A.prix_nuit, A.devise)) + " × " + V.pluriel(n, "nuit", "nuits") + "</dt><dd>" + esc(V.prix(c.base, A.devise)) + "</dd></div>" +
+        "<div><dt>" + (c.base === Number(A.prix_nuit) * n ? esc(V.prix(A.prix_nuit, A.devise)) + " × " : "") + V.pluriel(n, "nuit", "nuits") + "</dt><dd>" + esc(V.prix(c.base, A.devise)) + "</dd></div>" +
         (c.reduction ? '<div class="fr-reduc"><dt>' + esc(c.libelleReduction) + "</dt><dd>-" + esc(V.prix(c.reduction, A.devise)) + "</dd></div>" : "") +
         (c.menage ? "<div><dt>Frais de ménage</dt><dd>" + esc(V.prix(c.menage, A.devise)) + "</dd></div>" : "") +
         (c.animaux ? "<div><dt>Frais pour l'animal</dt><dd>" + esc(V.prix(c.animaux, A.devise)) + "</dd></div>" : "") +

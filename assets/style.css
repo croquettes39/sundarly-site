@@ -774,6 +774,10 @@ html,body{overflow-x:clip}
 .fr-promos{background:var(--rose-pale);border:1px solid #F5C2D6;border-radius:14px;padding:12px 14px;margin:0 0 14px;font-size:14px}
 .fr-promos ul{margin:6px 0 4px;padding-left:18px}
 .fr-promos small{color:var(--gris-texte)}
+.fr-saisons{border:1px solid var(--bordure,#e5e5e5);border-radius:14px;padding:12px 14px;margin:0 0 14px;font-size:14px}
+.fr-saisons ul{list-style:none;margin:6px 0 0;padding:0}
+.fr-saisons li{display:flex;gap:6px;align-items:baseline;padding:3px 0}
+.fr-saisons li span:first-child{flex:1;color:var(--gris-texte)}
 .promo-bloc{border:2px solid var(--rose);border-radius:16px;padding:6px 14px;margin-bottom:10px;background:var(--rose-pale)}
 .promo-publier{display:flex;gap:12px;align-items:flex-start;margin-top:18px;padding:16px;border:2px solid var(--rose);border-radius:16px;background:var(--rose-pale);cursor:pointer;max-width:620px}
 .promo-publier input{width:22px;height:22px;flex:0 0 auto;margin-top:2px;accent-color:var(--rose)}

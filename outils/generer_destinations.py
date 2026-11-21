@@ -80,7 +80,7 @@ def tete(titre, desc, url, jsonld, robots=""):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="/assets/langue.js?v=20261116c"></script>
+<script src="/assets/langue.js?v=20261121a"></script>
 <title>{e(titre)}</title>
 <meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{url}">
@@ -106,7 +106,7 @@ def tete(titre, desc, url, jsonld, robots=""):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css?v=20261112g">
+<link rel="stylesheet" href="/assets/style.css?v=20261121a">
 <script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False)}</script>
 <script>window.va=window.va||function(){{(window.vaq=window.vaq||[]).push(arguments)}};</script>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -118,7 +118,7 @@ SCRIPTS = '''<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.4
 <script src="/assets/config.js?v=20261108a"></script>
 <script src="/assets/auth.js?v=20261109a"></script>
 <script src="/assets/app.js?v=20261109a"></script>
-<script src="/assets/voyageurs-commun.js?v=20261108a"></script>
+<script src="/assets/voyageurs-commun.js?v=20261121a"></script>
 <script src="/assets/destination.js?v=20261109a"></script>'''
 
 def faq(d):

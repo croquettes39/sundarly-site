@@ -3,7 +3,7 @@
 // Les pages sont écrites en français ; ce script les traduit à l'affichage avec assets/langues/<langue>.json.
 (function () {
   "use strict";
-  var VERSION = "20261116c";
+  var VERSION = "20261121a";
   var LANGUES = { fr: "Français", en: "English", es: "Español", pt: "Português", de: "Deutsch", it: "Italiano", nl: "Nederlands" };
   // code pays : [nom affiché, langues (la première est celle du pays), devise, groupe]
   var PAYS = {
