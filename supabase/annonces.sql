@@ -77,3 +77,7 @@ on conflict (id) do nothing;
 drop policy if exists "envoi photos annonces" on storage.objects;
 create policy "envoi photos annonces" on storage.objects
   for insert to anon with check (bucket_id = 'photos-annonces');
+
+-- 26 nov. 2026 : limite portée à 30 photos par annonce (décision de Sandra)
+alter table public.annonces drop constraint if exists annonces_photos_check;
+alter table public.annonces add constraint annonces_photos_check check (array_length(photos, 1) between 5 and 30);

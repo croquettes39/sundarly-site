@@ -318,9 +318,9 @@
   function ajouterFichiers(liste) {
     var fichiers = Array.prototype.slice.call(liste).filter(function (f) { return /^image\/(jpeg|png|webp)$/.test(f.type); });
     if (!fichiers.length) { erreur("Formats acceptés : JPG, PNG ou WebP."); return; }
-    var place = 20 - photos.length;
-    if (place <= 0) { erreur("20 photos maximum."); return; }
-    if (fichiers.length > place) erreur("20 photos maximum : seules les " + place + " premières ont été ajoutées.");
+    var place = 30 - photos.length;
+    if (place <= 0) { erreur("30 photos maximum."); return; }
+    if (fichiers.length > place) erreur("30 photos maximum : seules les " + place + " premières ont été ajoutées.");
     else erreur("");
     fichiers.slice(0, place).reduce(function (p, f) {
       return p.then(function () { return compresser(f); }).then(function (b) {
@@ -341,7 +341,7 @@
       z.appendChild(d);
     });
     var n = photos.length;
-    $("photos-compte").textContent = n + (n > 1 ? " photos" : " photo") + (n < 5 ? " sur 5 minimum" : " · parfait") + " (20 maximum)";
+    $("photos-compte").textContent = n + (n > 1 ? " photos" : " photo") + (n < 5 ? " sur 5 minimum" : " · parfait") + " (30 maximum)";
   }
   inputPhotos.addEventListener("change", function () { ajouterFichiers(inputPhotos.files); inputPhotos.value = ""; });
   ["dragenter", "dragover"].forEach(function (t) { depot.addEventListener(t, function (e) { e.preventDefault(); depot.classList.add("survol"); }); });

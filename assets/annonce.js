@@ -482,7 +482,7 @@
     });
   }
 
-  // Photos : réordonner, supprimer, ajouter (5 à 20)
+  // Photos : réordonner, supprimer, ajouter (5 à 30)
   function cheminDepuisUrl(u) { var i = u.indexOf("/photos-annonces/"); return i < 0 ? null : decodeURIComponent(u.slice(i + 17).split("?")[0]); }
   function compresser(fichier) {
     return new Promise(function (ok) {
@@ -502,7 +502,7 @@
   function ouvrirPhotos() {
     var liste = (ANN.photos || []).map(function (u) { return { url: u }; });
     var supprimees = [];
-    montrerPanneau("Photos", '<p class="aide-champ">De 5 à 20 photos. La première est la photo de couverture. Utilisez les flèches pour changer l\'ordre.</p><div class="grille-photos" id="grille-photos"></div>' +
+    montrerPanneau("Photos", '<p class="aide-champ">De 5 à 30 photos. La première est la photo de couverture. Utilisez les flèches pour changer l\'ordre.</p><div class="grille-photos" id="grille-photos"></div>' +
       '<label class="btn btn-contour ajout-photos"><input type="file" accept="image/*" multiple class="sr" id="ajout-photos">+ Ajouter des photos</label>');
     var grille = $("grille-photos");
     function dessiner() {
@@ -519,10 +519,10 @@
         d.querySelector("[data-x]").onclick = function () { var x = liste.splice(i, 1)[0]; if (x.url) supprimees.push(x.url); dessiner(); };
         grille.appendChild(d);
       });
-      $("ajout-photos").parentElement.hidden = liste.length >= 20;
+      $("ajout-photos").parentElement.hidden = liste.length >= 30;
     }
     $("ajout-photos").addEventListener("change", function () {
-      var f = Array.prototype.slice.call(this.files, 0, 20 - liste.length); this.value = "";
+      var f = Array.prototype.slice.call(this.files, 0, 30 - liste.length); this.value = "";
       Promise.all(f.map(compresser)).then(function (blobs) {
         blobs.forEach(function (b) { if (b) liste.push({ blob: b, apercu: URL.createObjectURL(b) }); });
         dessiner();
